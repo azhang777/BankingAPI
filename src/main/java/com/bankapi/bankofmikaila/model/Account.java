@@ -22,7 +22,7 @@ public class Account {
     private Integer rewards;
     @Column(name = "balance")
     private Double balance;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id")
     @Column(name = "customer")
     private Customer customer;
