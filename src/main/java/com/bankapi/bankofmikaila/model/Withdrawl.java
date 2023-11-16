@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "withdrawl")
+@Table(name = "withdrawls")
 public class Withdrawl {
 
     @Id
@@ -30,6 +30,7 @@ public class Withdrawl {
     @NotEmpty(message = "Need to input a payee id")
     private Long payee_id;
 
+
     @Column(name="MEDIUM")
     @NotEmpty(message = "Need to input a medium (balance/rewards)")
     private String medium;
@@ -41,6 +42,9 @@ public class Withdrawl {
     @Column(name="DESCRIPTION")
     @Value(" ")
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account account;
 
 
     public Long getId() {
