@@ -1,5 +1,6 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.dto.AccountType;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +12,35 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     public Iterable<Account> getAllAccounts() {
-        return null;
+        return accountRepository.findAll();
     }
 
     public Account getAccountById(Long accountId) {
-        return null;
-    }
-
-    public Account getAllCustomerAccounts(Long customerId) {
-        return null;
-    }
-
-    public Account createAnAccount(Long customerId, Account newAccount) {
-        return null;
+        return accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("ERROR ಠ_ಠ ERROR"));
     }
 
     public Account updateAccount(Long accountId, Account updatedAccount) {
-        return null;
+        Account existingAccount = getAccountById(accountId);
+        if (updatedAccount.getType().equals(AccountType.SAVINGS) || updatedAccount.getType().equals(AccountType.CHECKING) || updatedAccount.getType().equals(AccountType.CREDIT)) {
+            existingAccount.setType(updatedAccount.getType());
+        }
+        if (updatedAccount.getNickname() != null) {
+            existingAccount.setNickname(updatedAccount.getNickname());
+        }
+        if (updatedAccount.getRewards() != null) {
+            existingAccount.setRewards(updatedAccount.getRewards());
+        }
+        if (updatedAccount.getBalance() != null) {
+            existingAccount.setBalance(updatedAccount.getBalance());
+        }
+        //what can we update?
+        accountRepository.save(existingAccount);
+
+        return existingAccount;
     }
 
-    public Account deleteAccount(Long accountId) {
-        return null;
+    public void deleteAccount(Long accountId) {
+        Account accountToDelete = getAccountById(accountId);
+        accountRepository.delete(accountToDelete);
     }
 }

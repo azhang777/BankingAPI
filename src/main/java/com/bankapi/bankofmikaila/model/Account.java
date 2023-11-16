@@ -23,8 +23,7 @@ public class Account {
     @Column(name = "balance")
     private Double balance;
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    @Column(name = "customer")
+    @JoinColumn(name = "customer_id")// This is the join column in the Account table
     private Customer customer;
 
     public Account() {

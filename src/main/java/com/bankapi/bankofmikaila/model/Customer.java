@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -21,8 +20,7 @@ public class Customer {
     private String address;
     @Column(name = "contact_number")
     private String contactNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Account> accounts;
 
     public Customer() {
@@ -94,3 +92,5 @@ public class Customer {
         this.accounts = accounts;
     }
 }
+
+
