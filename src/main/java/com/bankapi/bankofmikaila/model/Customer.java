@@ -17,7 +17,7 @@ public class Customer {
     public String lastName;
     @OneToMany
     @Column(name = "Address")
-    public Set<> address;
+    public Set address;
 
     public Customer(Long id, String firstName, String lastName, Set address) {
         this.id = id;

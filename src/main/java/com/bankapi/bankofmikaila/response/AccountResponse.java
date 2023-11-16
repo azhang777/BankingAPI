@@ -19,6 +19,7 @@ public class AccountResponse {
         detail.setData(accountService.getAllAccounts());
         detail.setCode(HttpStatus.OK.value());
         detail.setMessage("Success - All accounts retrieved.");
+
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
@@ -27,6 +28,7 @@ public class AccountResponse {
         detail.setData(accountService.getAccountById(accountId));
         detail.setCode(HttpStatus.OK.value());
         detail.setMessage("Success - Account " + accountId + " retrieved.");
+
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
@@ -35,6 +37,7 @@ public class AccountResponse {
         accountService.updateAccount(accountId,updatedAccount);
         detail.setCode(HttpStatus.OK.value());
         detail.setMessage("Success - Account " + accountId + " updated.");
+
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
@@ -43,6 +46,7 @@ public class AccountResponse {
         accountService.deleteAccount(accountId);
         detail.setCode(HttpStatus.ACCEPTED.value());
         detail.setMessage("Success - Account " + accountId + " deleted.");
+
         return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
     }
 

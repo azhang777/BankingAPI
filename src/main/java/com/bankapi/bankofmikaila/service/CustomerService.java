@@ -1,22 +1,17 @@
 package com.bankapi.bankofmikaila.service;
-
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RestController
-    @RequestMapping("/customers")
-    public class CustomerService {
+public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository; // Injecting CustomerRepository using @Autowired
@@ -40,11 +35,56 @@ import java.util.Optional;
             return ResponseEntity.notFound().build();
         }
 
-    
+    }
+    // Handles HTTP POST requests to create a new customer
+    @PostMapping
+    public ResponseEntity<String> createCustomer(@RequestBody Customer newCustomer) {
+        // Validate input data
+        if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
+            // If the provided customer data is invalid, return a bad request response
+            return ResponseEntity.badRequest().body("Invalid customer data");
+        }
 
+        // Save the new customer to the repository
+        Customer savedCustomer = customerRepository.save(newCustomer);
+
+        // Return a success response with the new customer's ID and a status of 201 (Created)
+        return ResponseEntity.created(URI.create("/customers/" + savedCustomer.getId()))
+                .body("Customer created with ID: " + savedCustomer.getId());
+    }
+    // Handles HTTP PUT requests to update a specific existing customer by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+        // Find the existing customer by ID in the repository
+        Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
+
+        // Check if the customer with the given ID exists
+        if (existingCustomerOptional.isPresent()) {
+            // If the customer exists, retrieve it from the optional
+            Customer existingCustomer = existingCustomerOptional.get();
+
+            // Update the existing customer's details with the provided data
+            existingCustomer.setFirstName(updatedCustomer.getFirstName());
+            existingCustomer.setLastName(updatedCustomer.getLastName());
+
+            // Save the updated customer to the repository
+            customerRepository.save(existingCustomer);
+
+            // Return a success response with a status of 200 (OK) and a message
+            return ResponseEntity.ok("Customer with ID " + id + " updated successfully");
+        } else {
+            // If the customer with the given ID is not found, return a not found response with a status of 404
+            return ResponseEntity.notFound().build();
+        }
     }
 
+
 }
+
+
+
+
+
 
 
 
