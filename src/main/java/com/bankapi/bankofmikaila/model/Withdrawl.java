@@ -26,8 +26,10 @@ public class Withdrawl {
     @NotEmpty(message = "Need to input a status")
     private String status;
 
-    @Column(name="PAYEE_ID")
+    @Column
+    @JoinColumn(name = "account_id")
     @NotEmpty(message = "Need to input a payee id")
+    @ManyToOne
     private Long payee_id;
 
 
@@ -43,8 +45,7 @@ public class Withdrawl {
     @Value(" ")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Account account;
+
 
 
     public Long getId() {
@@ -111,11 +112,5 @@ public class Withdrawl {
         this.description = description;
     }
 
-    public Account getAccount() {
-        return account;
-    }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }
