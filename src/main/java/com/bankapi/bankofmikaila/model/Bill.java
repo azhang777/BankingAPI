@@ -102,5 +102,30 @@ public class Bill {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", payee='" + payee + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", creationDate='" + creationDate + '\'' +
+                ", paymentDate='" + paymentDate + '\'' +
+                ", recurringDate=" + recurringDate +
+                ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
+                ", paymentAmount=" + paymentAmount +
+                ", accountId='" + accountId + '\'' +
+                '}';
+    }
+}
+// - id: Long
+//- status: String
+//- payee: String
+//- nickname: String
+//- creation_date: String
+//- payment_date: String
+//- recurring_date: Integer
+//- upcoming_payment_date: String
+//- payment_amount: Double
+//- account_id: String

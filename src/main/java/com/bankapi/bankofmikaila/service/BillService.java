@@ -11,32 +11,32 @@ import java.util.Map;
 @Service
 public class BillService {
 
-    private static final Map<Long, Bill> billData = new HashMap<>();
-    private static long nextBillId = 1;
+    private static final Map<Long, Bill> billRepository = new HashMap<>();
+    private static long nextBillId;
 
     // Get all bills
     public List<Bill> getAllBills() {
-        return new ArrayList<>(billData.values());
+        return new ArrayList<>(billRepository.values());
     }
 
     // Get a specific bill by ID
     public Bill getBillById(Long id) {
-        return billData.get(id);
+        return billRepository.get(id);
     }
 
     // Create a new bill
     public Bill createBill(Bill bill) {
         long newBillId = nextBillId++;
         bill.setId(newBillId);
-        billData.put(newBillId, bill);
+        billRepository.put(newBillId, bill);
         return bill;
     }
 
     // Update an existing bill
     public Bill updateBill(Long id, Bill updatedBill) {
-        if (billData.containsKey(id)) {
+        if (billRepository.containsKey(id)) {
             updatedBill.setId(id);
-            billData.put(id, updatedBill);
+            billRepository.put(id, updatedBill);
             return updatedBill;
         } else {
             return null;
@@ -45,8 +45,8 @@ public class BillService {
 
     // Delete a bill
     public boolean deleteBill(Long id) {
-        if (billData.containsKey(id)) {
-            billData.remove(id);
+        if (billRepository.containsKey(id)) {
+            billRepository.remove(id);
             return true;
         } else {
             return false;
