@@ -2,10 +2,10 @@ package com.bankapi.bankofmikaila.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -20,21 +20,20 @@ public class Customer {
     private String address;
     @Column(name = "contact_number")
     private String contactNumber;
-    @OneToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Account> accounts;
 
     public Customer() {
     }
 
-    public Customer(Long id, String firstname, String lastname, Date dob, String address, String contactNumber, Account account) {
+    public Customer(Long id, String firstname, String lastname, Date dob, String address, String contactNumber, Set<Account> accounts) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.dob = dob;
         this.address = address;
         this.contactNumber = contactNumber;
-        this.account = account;
+        this.accounts = accounts;
     }
 
     public Long getId() {
@@ -85,11 +84,13 @@ public class Customer {
         this.contactNumber = contactNumber;
     }
 
-    public Account getAccount() {
-        return account;
+    public Set<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 }
+
+
