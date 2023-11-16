@@ -1,22 +1,46 @@
 package com.bankapi.bankofmikaila.service;
 
 import com.bankapi.bankofmikaila.dto.AccountType;
+import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.SingleAccountNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
+import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
+import com.bankapi.bankofmikaila.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    public Account createAccount(Long customerId, Account newAccount) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->new RuntimeException("Error"));
+        newAccount.setCustomer(customer);
+        return accountRepository.save(newAccount);
+    }
 
     public Iterable<Account> getAllAccounts() {
+        List<Account> accounts = accountRepository.findAll();
+        if (accounts.isEmpty()) {
+            throw new AccountsNotFoundException();
+        }
         return accountRepository.findAll();
     }
 
+    public Iterable<Account> getAllCustomerAccounts(Long customerId) {
+        return accountRepository.findByCustomer_Id(customerId);
+        //what if customer does not exist?
+        //what if accounts do not exist?
+    }
+
     public Account getAccountById(Long accountId) {
-        return accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("ERROR ಠ_ಠ ERROR"));
+        return accountRepository.findById(accountId).orElseThrow(() -> new SingleAccountNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
     }
 
     public Account updateAccount(Long accountId, Account updatedAccount) {
@@ -33,6 +57,7 @@ public class AccountService {
         if (updatedAccount.getBalance() != null) {
             existingAccount.setBalance(updatedAccount.getBalance());
         }
+        //do we need to update the id or keep it
         //what can we update?
         accountRepository.save(existingAccount);
 
