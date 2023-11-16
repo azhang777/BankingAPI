@@ -9,15 +9,15 @@ import java.util.Set;
 @Entity
 public class Customer {
     @Id
-    @Column(name = "customer id")
+    @Column(name = "customer_id")
     public Long id;
-    @Column(name = "First name")
+    @Column(name = "First_name")
     public String firstName;
-    @Column(name = "Last name")
+    @Column(name = "Last_name")
     public String lastName;
     @OneToMany
     @Column(name = "Address")
-    public Set<> address;
+    public Set <Address> address;
 
     public Customer(Long id, String firstName, String lastName, Set address) {
         this.id = id;
