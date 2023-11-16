@@ -15,9 +15,9 @@ public class WithdrawlResponse
     private WithdrawlService withdrawlService;
 
 
-    public ResponseEntity<?> getAllWithdrawls(Long accountId){
-
-
-    }
+//    public ResponseEntity<?> getAllWithdrawls(Long accountId){
+//
+//
+//    }
 
 }
