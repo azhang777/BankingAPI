@@ -11,11 +11,11 @@ public class Withdrawl {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="DEPOSIT_ID")
+    @Column(name="WITHDRAWL_ID")
     private Long id;
 
-    @Column(name="DEPOSIT_TYPE")
-    @NotEmpty(message = "Need to input a deposit type")
+    @Column(name="WITHDRAWL_TYPE")
+    @NotEmpty(message = "Need to input a withdrawl type")
     private String type;
 
     @Column(name="TRANSACTION_DATE")
@@ -109,5 +109,13 @@ public class Withdrawl {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
