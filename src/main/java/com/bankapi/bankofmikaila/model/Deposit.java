@@ -1,6 +1,7 @@
 package com.bankapi.bankofmikaila.model;
 
 import com.bankapi.bankofmikaila.dto.TransactionMedium;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name="Deposit")
 public class Deposit {
 
     @Id
@@ -16,32 +18,30 @@ public class Deposit {
     private Long id;
 
     @Column(name="DEPOSIT_TYPE")
-    @NotEmpty(message = "Need to input a deposit type")
     private String type;
 
     @Column(name="TRANSACTION_DATE")
-    @NotEmpty(message = "Need to input a transaction date")
     private String transaction_date;
 
     @Column(name="STATUS")
-    @NotEmpty(message = "Need to input a status")
     private String status;
 
     @Column(name="PAYEE_ID")
-    @NotEmpty(message = "Need to input a payee id")
     private Long payee_id;
 
     @Column(name="MEDIUM")
-    @NotEmpty(message = "Need to input a medium (balance/rewards)")
     private String medium;
 
     @Column(name="AMOUNT")
-    @NotEmpty(message = "Need to input an amount")
     private Double amount;
 
     @Column(name="DESCRIPTION")
-    @Value(" ")
     private String description;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="account_id")
+    private Account account;
 
     public Long getId() {
         return id;
@@ -107,6 +107,14 @@ public class Deposit {
         this.description = description;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public String toString() {
         return "Deposit{" +
@@ -118,6 +126,7 @@ public class Deposit {
                 ", medium='" + medium + '\'' +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
+                ", account=" + account +
                 '}';
     }
 }
