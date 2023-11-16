@@ -24,4 +24,12 @@ public class WithdrawlService {
     }
 
 
+
+
+    public void deleteWithdrawals(Long id) {
+        withdrawRepo.deleteById(id);
+
+    }
+
+
 }
