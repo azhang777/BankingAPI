@@ -1,39 +1,29 @@
 package com.bankapi.bankofmikaila.model;
 
-import javax.persistence.*;
-import java.util.Date;
+import org.apache.tomcat.jni.Address;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Set;
 
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private Long id;
-    @Column(name = "first_name")
-    private String firstname;
-    @Column(name = "last_name")
-    private String lastname;
-    @Column(name ="date_of_birth")
-    private Date dob;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "contact_number")
-    private String contactNumber;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<Account> accounts;
+    @Column(name = "customer id")
+    public Long id;
+    @Column(name = "First name")
+    public String firstName;
+    @Column(name = "Last name")
+    public String lastName;
+    @Column(name = "Address")
+    public Set<Address> address;
 
-    public Customer() {
-    }
-
-    public Customer(Long id, String firstname, String lastname, Date dob, String address, String contactNumber, Set<Account> accounts) {
+    public Customer(Long id, String firstName, String lastName, Set address) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.dob = dob;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.address = address;
-        this.contactNumber = contactNumber;
-        this.accounts = accounts;
     }
 
     public Long getId() {
@@ -44,53 +34,30 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public String getAddress() {
+    public Set<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Set<Address> address) {
         this.address = address;
     }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public Set<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
-    }
 }
+
 
 
