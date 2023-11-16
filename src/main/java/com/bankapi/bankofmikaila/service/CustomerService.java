@@ -44,6 +44,16 @@ import java.util.Optional;
 
     }
 
+
+
+
+//    public Account createAccount(Long customerId, Account newAccount) {
+//        //update their set of accounts
+//        Customer customer = customerRepository.getReferenceById(customerId);
+//        customer.getAccounts().add(newAccount);
+//        return newAccount;
+//    }
+
 }
 
 
