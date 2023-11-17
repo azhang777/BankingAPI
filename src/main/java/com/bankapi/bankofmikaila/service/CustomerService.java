@@ -18,7 +18,7 @@ public class CustomerService {
 
     // Handles the GET requests to retrieve all customers
     @GetMapping
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers(Customer customer) {
         return customerRepository.findAll(); // Retrieve and return all customers from the repository
     }
 
@@ -77,7 +77,6 @@ public class CustomerService {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 }
 
