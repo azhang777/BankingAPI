@@ -28,19 +28,19 @@ public class DepositController {
 
     }
 
-    @PostMapping("/accounts/{accountId}/deposits")
-    public ResponseEntity<?> createDeposit(@RequestBody Deposit deposit, @PathVariable Long accountId){
-
-//        depositResponse.createDeposit(deposit);
-
-        depositService.createDeposit(deposit);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newDepositURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{depositId}").buildAndExpand(deposit.getId()).toUri();
-        responseHeaders.setLocation(newDepositURI);
-
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
-    }
+//    @PostMapping("/accounts/{accountId}/deposits")
+//    public ResponseEntity<?> createDeposit(@RequestBody Deposit deposit, @PathVariable Long accountId){
+//
+////        depositResponse.createDeposit(deposit);
+//
+//        depositService.createDeposit(deposit);
+//
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        URI newDepositURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{depositId}").buildAndExpand(deposit.getId()).toUri();
+//        responseHeaders.setLocation(newDepositURI);
+//
+//        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+//    }
 
     @PutMapping("/deposits/{depositId}")
     public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposit, @PathVariable Long depositId){

@@ -26,11 +26,10 @@ public class Withdrawl {
     @NotEmpty(message = "Need to input a status")
     private String status;
 
-    @Column
-    @JoinColumn(name = "account_id")
-    @NotEmpty(message = "Need to input a payee id")
+    //@NotEmpty(message = "Need to input a payee id")
     @ManyToOne
-    private Long payee_id;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 
     @Column(name="MEDIUM")
@@ -80,12 +79,12 @@ public class Withdrawl {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getMedium() {

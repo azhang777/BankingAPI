@@ -42,9 +42,9 @@ public class WithdrawlService {
         }
     }
 
-    public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
-      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
-    }
+//    public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
+//      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
+//    }
 
     public Withdrawl getWithdrawlById(Long withdrawlId){
         return withdrawRepo.findById(withdrawlId).get();
@@ -63,7 +63,7 @@ public class WithdrawlService {
     xWithdrawal.setAmount(withdrawl.getAmount());
     xWithdrawal.setMedium(withdrawl.getMedium());
     xWithdrawal.setDescription(withdrawl.getDescription());
-    xWithdrawal.setPayee_id(withdrawl.getPayee_id());
+    xWithdrawal.setAccount(withdrawl.getAccount());
     xWithdrawal.setTransaction_date(withdrawl.getTransaction_date());
     xWithdrawal.setStatus(withdrawl.getStatus());
     xWithdrawal.setType(withdrawl.getType());
