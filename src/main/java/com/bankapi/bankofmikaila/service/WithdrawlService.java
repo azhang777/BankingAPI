@@ -42,19 +42,27 @@ public class WithdrawlService {
         }
     }
 
+
+    public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
+        verifyAccountId(accountId);
+      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
+    }
+
 //    public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
 //      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
 //    }
 
+
     public Withdrawl getWithdrawlById(Long withdrawlId){
+        verifyWithdrawlId(withdrawlId);
         return withdrawRepo.findById(withdrawlId).get();
     }
 
 
-    public void createWithdrawl(Withdrawl withdrawl, Long accountId){
+    public Withdrawl createWithdrawl(Withdrawl withdrawl, Long accountId){
     //checking if the account exisits
        verifyAccountId(accountId);
-    withdrawRepo.save(withdrawl);
+    return withdrawRepo.save(withdrawl);
     }
 
   public void updateWithdrawl(Withdrawl withdrawl, Long withdrawlId){
@@ -75,6 +83,7 @@ public class WithdrawlService {
   }
 
     public void deleteWithdrawals(Long id) {
+        verifyWithdrawlId(id);
         withdrawRepo.deleteById(id);
 
     }
