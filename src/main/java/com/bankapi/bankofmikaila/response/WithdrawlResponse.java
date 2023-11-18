@@ -1,6 +1,6 @@
 package com.bankapi.bankofmikaila.response;
 
-import com.bankapi.bankofmikaila.body.Detail;
+import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.model.Withdrawl;
 import com.bankapi.bankofmikaila.service.WithdrawlService;
 import org.springframework.beans.factory.annotation.Autowired;

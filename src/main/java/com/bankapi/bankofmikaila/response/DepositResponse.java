@@ -1,9 +1,8 @@
 package com.bankapi.bankofmikaila.response;
 
-import com.bankapi.bankofmikaila.body.Detail;
+import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.model.Deposit;
 import com.bankapi.bankofmikaila.service.DepositService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
