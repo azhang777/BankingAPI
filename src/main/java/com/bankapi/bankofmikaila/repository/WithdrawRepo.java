@@ -11,6 +11,6 @@ import java.util.Set;
 @Repository
 public interface WithdrawRepo extends JpaRepository<Withdrawl, Long> {
 
-//    @Query("SELECT w FROM withdrawls w JOIN w.account a WHERE a.id = ?1")
-//    Set<Withdrawl> findWithdrawlsByAccountId(Long accountId);
+    @Query(value = "SELECT w FROM withdrawls w JOIN w.account a WHERE a.id = ?1", nativeQuery = true)
+    Set<Withdrawl> findWithdrawlsByAccountId(Long accountId);
 }
