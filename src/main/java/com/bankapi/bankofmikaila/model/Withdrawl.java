@@ -27,9 +27,15 @@ public class Withdrawl {
     private String status;
 
 
+
     @JoinColumn(name = "account_id")
     @NotEmpty(message = "Need to input a payee id")
     @ManyToOne
+
+    //@NotEmpty(message = "Need to input a payee id")
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+
     private Account account;
 
 
@@ -80,6 +86,16 @@ public class Withdrawl {
         this.status = status;
     }
 
+
+
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
 
     public String getMedium() {

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BankofMikailaApplication {
+public class BankofmikailaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BankofMikailaApplication.class, args);
+		SpringApplication.run(BankofmikailaApplication.class, args);
 	}
 
 }

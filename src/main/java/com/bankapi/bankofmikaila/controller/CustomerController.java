@@ -25,8 +25,6 @@ public class CustomerController {
 
     @Autowired
     private CustomerResponse customerResponse;
-@Autowired
-private CustomerService customerService;
 
     @GetMapping("/{customerId}/accounts")
     public ResponseEntity<?> getAllCustomerAccounts(@PathVariable Long customerId) {
@@ -37,23 +35,25 @@ private CustomerService customerService;
     public ResponseEntity<?> createAccount(@PathVariable Long customerId, @RequestBody Account newAccount) {
         return customerResponse.createAccount(customerId, newAccount);
     }
-@PostMapping("")
-public ResponseEntity<?> createCustomer(@RequestBody Customer newCustomer){
+    @PostMapping("")
+    public ResponseEntity<?> createCustomer(@RequestBody Customer newCustomer){
         return customerResponse.createCustomer(newCustomer);
-}
-@PostMapping("")
+    }
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer){
         return customerResponse.updateCustomer(customer, customerId);
-}
-@GetMapping("")
+    }
+    @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById (@PathVariable Long customerId, @RequestBody Customer customer){
         return customerResponse.getCustomerById(customerId);
-}
+    }
 
-@PostMapping("")
+    @GetMapping("")
     public ResponseEntity<?> getAllCustomers (@RequestBody Customer customer){
         return customerResponse.getAllCustomers(customer);
-}
+    }
+
+//still need get customer that owns the specified account
 }
 
 

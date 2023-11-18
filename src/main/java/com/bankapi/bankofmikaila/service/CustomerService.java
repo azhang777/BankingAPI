@@ -17,13 +17,13 @@ public class CustomerService {
     private CustomerRepository customerRepository; // Injecting CustomerRepository using @Autowired
 
     // Handles the GET requests to retrieve all customers
-    @GetMapping
+    //@GetMapping
     public List<Customer> getAllCustomers(Customer customer) {
         return customerRepository.findAll(); // Retrieve and return all customers from the repository
     }
 
     // Handles GET requests to retrieve a customer by ID
-    @GetMapping("/{id}")
+    //@GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         Optional<Customer> customer = customerRepository.findById(id); // Find a customer by ID
 
@@ -37,7 +37,7 @@ public class CustomerService {
 
     }
     // Handles HTTP POST requests to create a new customer
-    @PostMapping
+    //@PostMapping
     public ResponseEntity<String> createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
@@ -53,7 +53,7 @@ public class CustomerService {
                 .body("Customer created with ID: " + savedCustomer.getId());
     }
     // Handles HTTP PUT requests to update a specific existing customer by ID
-    @PutMapping("/{id}")
+    //@PutMapping("/{id}")
     public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         // Find the existing customer by ID in the repository
         Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
