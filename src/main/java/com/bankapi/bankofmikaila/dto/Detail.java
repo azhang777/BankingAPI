@@ -1,4 +1,4 @@
-package com.bankapi.bankofmikaila.body;
+package com.bankapi.bankofmikaila.dto;
 
 
 public class Detail {
