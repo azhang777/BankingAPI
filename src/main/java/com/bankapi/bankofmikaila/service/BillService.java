@@ -1,6 +1,7 @@
 package com.bankapi.bankofmikaila.service;
 
 import com.bankapi.bankofmikaila.model.Bill;
+import com.bankapi.bankofmikaila.repository.BillRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,17 +15,13 @@ public class BillService {
     private static final Map<Long, Bill> billRepository = new HashMap<>();
     private static long nextBillId;
 
-    // Get all bills
     public List<Bill> getAllBills() {
         return new ArrayList<>(billRepository.values());
     }
-
-    // Get a specific bill by ID
     public Bill getBillById(Long id) {
         return billRepository.get(id);
     }
 
-    // Create a new bill
     public Bill createBill(Bill bill) {
         long newBillId = nextBillId++;
         bill.setId(newBillId);
@@ -32,7 +29,6 @@ public class BillService {
         return bill;
     }
 
-    // Update an existing bill
     public Bill updateBill(Long id, Bill updatedBill) {
         if (billRepository.containsKey(id)) {
             updatedBill.setId(id);
@@ -43,7 +39,6 @@ public class BillService {
         }
     }
 
-    // Delete a bill
     public boolean deleteBill(Long id) {
         if (billRepository.containsKey(id)) {
             billRepository.remove(id);
