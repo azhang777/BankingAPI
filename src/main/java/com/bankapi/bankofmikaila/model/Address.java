@@ -8,17 +8,17 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public  Long id;
 
-
-
-    // must have a column annotation for line 11 through 15 @Column(name = "name of ivar")
+    @Column(name = "street_number")
     public String street_number;
+    @Column(name = "street_name")
     public String street_name;
+    @Column(name = "city")
     public String city;
+    @Column(name = "state")
     public String state;
+    @Column(name = "zip")
     public String zip;
 
-//
-//    must have an association with a customer
 
     /**
      * @ManyToOne - This annotation is used to define a many-to-one relationship between entities.
@@ -42,10 +42,6 @@ public class Address {
     private Customer customer;
 
 
-//    Generate Getters & Setters for Customer ivar
-
-
-    // regenerate toString method
     public Long getId() {
         return id;
     }
@@ -94,20 +90,24 @@ public class Address {
         this.zip = zip;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-
-
-
-//    @Override
-//    public String toString() {
-//        return "Address{" +
-//                "id=" + id +
-//                ", street_number='" + street_number + '\'' +
-//                ", street_name='" + street_name + '\'' +
-//                ", city='" + city + '\'' +
-//                ", state='" + state + '\'' +
-//                ", zip='" + zip + '\'' +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street_number='" + street_number + '\'' +
+                ", street_name='" + street_name + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", customer=" + customer +
+                '}';
+    }
 }
