@@ -6,6 +6,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+/**
+ * @CLASS - Bill
+ *
+ * @Review - You need the following annotations
+ * for line 30 through 40
+ *
+ *     @Column(name = "bill_id")
+ *     @Column(name = "status")
+ *     @Column(name = "payee")
+ *     @Column(name = "nickname")
+ *     @Column(name = "creationDate")
+ *     @Column(name = "paymentDate")
+ *     @Column(name = "recurringDate")
+ *     @Column(name = "upcomingPaymentDate")
+ *     @Column(name = "paymentAmount")
+ *     @Column(name = "paymentAmount")
+ *
+ *
+ * @Review - You need two annotations above 52
+ * that looks like this
+ *
+ * @JoinColumn(name = "account_id")
+ *
+ * @ManyToOne
+ */
+
 @Entity
 public class Bill {
 
@@ -20,8 +46,19 @@ public class Bill {
     private Integer recurringDate;
     private String upcomingPaymentDate;
     private Double paymentAmount;
+
+    //also change this to private Account account;
+    //the generate getters and setters
     private Long accountId;
 
+    /**
+     * @Review - You another constructor that needs to be nullary
+     * looks like this
+     *
+     * @Example public Bill(){}
+     *
+     *
+     */
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
         this.status = status;
