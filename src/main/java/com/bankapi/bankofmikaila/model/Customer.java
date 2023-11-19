@@ -6,8 +6,7 @@ import java.util.Set;
 @Entity
 public class Customer {
     @Id
-    // must remove strategy to avoid error
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     public Long id;
     @Column(name = "First_name")
@@ -27,12 +26,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     public Set <Address> address;
 
+    public Customer(){
 
-    //needs a nullary constructor to avoid errors
-
-//    public Customer(){
-//
-//    }
+    }
 
     public Customer(Long id, String firstName, String lastName, Set address) {
         this.id = id;
