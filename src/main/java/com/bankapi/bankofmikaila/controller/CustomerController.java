@@ -25,35 +25,73 @@ public class CustomerController {
 
     @Autowired
     private CustomerResponse customerResponse;
+    /**
+     * @Method getAllCustomerAccounts()
+     *
+     * @Tested - NOT YET TESTED
+     */
 
     @GetMapping("/{customerId}/accounts")
     public ResponseEntity<?> getAllCustomerAccounts(@PathVariable Long customerId) {
         return customerResponse.getAllCustomerAccounts(customerId);
     }
 
+    /**
+     * @Method createAccount()
+     *
+     * @Tested - NOT YET TESTED
+     */
+
     @PostMapping("/{customerId}/accounts")
     public ResponseEntity<?> createAccount(@PathVariable Long customerId, @RequestBody Account newAccount) {
         return customerResponse.createAccount(customerId, newAccount);
     }
+    /**
+     * @Method createCustomer()
+     *
+     * @Tested - PASSED!
+     */
     @PostMapping("")
     public ResponseEntity<?> createCustomer(@RequestBody Customer newCustomer){
         return customerResponse.createCustomer(newCustomer);
     }
+
+    /**
+     * @Method updateCustomer()
+     * I renamed parameter from customerId to id to avoid error
+     *
+     * @Tested - PASSED!
+     */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer){
-        return customerResponse.updateCustomer(customer, customerId);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomerById (@PathVariable Long customerId, @RequestBody Customer customer){
-        return customerResponse.getCustomerById(customerId);
+    public ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        return customerResponse.updateCustomer(customer, id);
     }
 
+    /**
+     * @Method getCustomerById()
+     * I renamed parameter from customerId to id to avoid error
+     *
+     * @Tested - PASSED!
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCustomerById (@PathVariable Long id){
+        return customerResponse.getCustomerById(id);
+    }
+    /**
+     * @Method getAllCustomers()
+     * I removed unnecessary parameters
+     *
+     * @Tested - PASSED!
+     */
     @GetMapping("")
-    public ResponseEntity<?> getAllCustomers (@RequestBody Customer customer){
-        return customerResponse.getAllCustomers(customer);
+    public ResponseEntity<?> getAllCustomers (){
+        return new ResponseEntity<>(customerResponse.getAllCustomers(), HttpStatus.OK);
     }
 
 //still need get customer that owns the specified account
+
+    // -Jordy : ^^ there are methods here already made by andy
+    //(DELETE WHEN YOU READ THIS)
 }
 
 

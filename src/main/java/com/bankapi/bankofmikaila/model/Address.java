@@ -1,20 +1,46 @@
 package com.bankapi.bankofmikaila.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String street_number;
-    private String street_name;
-    private String city;
-    private String state;
-    private String zip;
+    public  Long id;
+
+    @Column(name = "street_number")
+    public String street_number;
+    @Column(name = "street_name")
+    public String street_name;
+    @Column(name = "city")
+    public String city;
+    @Column(name = "state")
+    public String state;
+    @Column(name = "zip")
+    public String zip;
+
+
+    /**
+     * @ManyToOne - This annotation is used to define a many-to-one relationship between entities.
+     * It indicates that many instances of the annotated class (in this case, Address) can be associated
+     * with a single instance of another class (in this case, Customer).
+     *
+     *
+     * @JoinColumn - This annotation is used to specify the foreign key column in the Address table that is used
+     * to join with the primary key column of the Customer table.
+     * In this case, the foreign key column is named customer_id.
+     *
+     *
+     *
+     * mappedBy = "customer": This attribute specifies the field in the Address entity that owns the relationship. In this case,
+     * the Address entity should have a field named customer that maps back to the owning side of the relationship.
+     * This helps avoid the creation of an additional database join table for the relationship.
+     */
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
 
     public Long getId() {
         return id;
@@ -64,6 +90,14 @@ public class Address {
         this.zip = zip;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -73,6 +107,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
+                ", customer=" + customer +
                 '}';
     }
 }

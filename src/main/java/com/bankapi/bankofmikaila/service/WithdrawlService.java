@@ -48,9 +48,6 @@ public class WithdrawlService {
       return   withdrawRepo.findWithdrawlsByAccountId(accountId);
     }
 
-//    public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
-//      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
-//    }
 
 
     public Withdrawl getWithdrawlById(Long withdrawlId){
