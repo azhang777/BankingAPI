@@ -1,21 +1,51 @@
 package com.bankapi.bankofmikaila.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String street_number;
-    private String street_name;
-    private String city;
-    private String state;
-    private String zip;
+    public  Long id;
 
+
+
+    // must have a column annotation for line 11 through 15 @Column(name = "name of ivar")
+    public String street_number;
+    public String street_name;
+    public String city;
+    public String state;
+    public String zip;
+
+//
+//    must have an association with a customer
+
+    /**
+     * @ManyToOne - This annotation is used to define a many-to-one relationship between entities.
+     * It indicates that many instances of the annotated class (in this case, Address) can be associated
+     * with a single instance of another class (in this case, Customer).
+     *
+     *
+     * @JoinColumn - This annotation is used to specify the foreign key column in the Address table that is used
+     * to join with the primary key column of the Customer table.
+     * In this case, the foreign key column is named customer_id.
+     *
+     *
+     *
+     * mappedBy = "customer": This attribute specifies the field in the Address entity that owns the relationship. In this case,
+     * the Address entity should have a field named customer that maps back to the owning side of the relationship.
+     * This helps avoid the creation of an additional database join table for the relationship.
+     */
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+
+//    Generate Getters & Setters for Customer ivar
+
+
+    // regenerate toString method
     public Long getId() {
         return id;
     }
@@ -64,15 +94,20 @@ public class Address {
         this.zip = zip;
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", street_number='" + street_number + '\'' +
-                ", street_name='" + street_name + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
-    }
+
+
+
+
+
+//    @Override
+//    public String toString() {
+//        return "Address{" +
+//                "id=" + id +
+//                ", street_number='" + street_number + '\'' +
+//                ", street_name='" + street_name + '\'' +
+//                ", city='" + city + '\'' +
+//                ", state='" + state + '\'' +
+//                ", zip='" + zip + '\'' +
+//                '}';
+//    }
 }

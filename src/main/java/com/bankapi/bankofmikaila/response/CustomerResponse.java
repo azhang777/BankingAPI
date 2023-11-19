@@ -17,6 +17,11 @@ public class CustomerResponse {
     @Autowired
     private AccountService accountService;
 
+    /**
+     * @Method createAccount()
+     *
+     * @Tested - NOT YET TESTED
+     */
     public ResponseEntity<?> createAccount(Long customerId, Account newAccount) {
         Detail detail = new Detail();
         detail.setData(accountService.createAccount(customerId, newAccount));
@@ -26,6 +31,11 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
 
+    /**
+     * @Method getAllCustomerAccounts()
+     *
+     * @Tested - NOT YET TESTED
+     */
     public ResponseEntity<?> getAllCustomerAccounts(Long customerId) {
         Detail detail = new Detail();
         detail.setData(accountService.getAllCustomerAccounts(customerId));
@@ -35,6 +45,12 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
+
+    /**
+     * @Method createCustomer()
+     *
+     * @Tested - PASSED!
+     */
     public ResponseEntity<?> createCustomer(Customer newCustomer) {
         Detail detail = new Detail();
         detail.setData(customerService.createCustomer(newCustomer));
@@ -44,6 +60,14 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
 
+
+
+    /**
+     * @Method updateCustomer()
+     * I renamed parameter from customerId to id to avoid error
+     *
+     * @Tested - PASSED!
+     */
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId) {
         Detail detail = new Detail();
         detail.setData(customerService.updateCustomer(customerId, customer));
@@ -53,6 +77,13 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
 
+
+    /**
+     * @Method getCustomerById()
+     * I renamed parameter from customerId to id to avoid error
+     *
+     * @Tested - PASSED!
+     */
     public ResponseEntity<?> getCustomerById(Long customerId) {
         Detail detail = new Detail();
         detail.setData(customerService.getCustomerById(customerId));
@@ -62,11 +93,17 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getAllCustomers(Customer customer) {
+    /**
+     * @Method getAllCustomers()
+     * I removed unnecessary parameters
+     *
+     * @Tested - PASSED!
+     */
+    public ResponseEntity<?> getAllCustomers() {
         Detail detail = new Detail();
-        detail.setData(customerService.getAllCustomers(customer));
+        detail.setData(customerService.getAllCustomers());
         detail.setCode(HttpStatus.OK.value());
-        detail.setMessage("All Customers received " + customer);
+        detail.setMessage("All Customers received ");
 
         return  new ResponseEntity<>(detail, HttpStatus.OK);
     }

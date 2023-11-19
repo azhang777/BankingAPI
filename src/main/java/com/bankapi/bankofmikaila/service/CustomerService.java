@@ -10,6 +10,17 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @Class CustomerService
+ *
+ * @Review - Customer service needs a the following methods
+ *
+ * @createAccount
+ * @getAllCustomerAccounts
+ *
+ *
+ */
+
 @Service
 public class CustomerService {
 
@@ -18,12 +29,27 @@ public class CustomerService {
 
     // Handles the GET requests to retrieve all customers
     //@GetMapping
-    public List<Customer> getAllCustomers(Customer customer) {
+
+
+    /**
+     * @Method getAllCustomers()
+     * I removed unnecessary parameters
+     *
+     * @Tested - PASSED!
+     */
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll(); // Retrieve and return all customers from the repository
     }
 
     // Handles GET requests to retrieve a customer by ID
     //@GetMapping("/{id}")
+
+    /**
+     * @Method getCustomerById()
+     *
+     *
+     * @Tested - PASSED!
+     */
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         Optional<Customer> customer = customerRepository.findById(id); // Find a customer by ID
 
@@ -38,6 +64,16 @@ public class CustomerService {
     }
     // Handles HTTP POST requests to create a new customer
     //@PostMapping
+
+
+
+    /**
+     * @Method createCustomer()
+     *
+     *
+     * @Tested - PASSED!
+     */
+
     public ResponseEntity<String> createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
@@ -54,6 +90,14 @@ public class CustomerService {
     }
     // Handles HTTP PUT requests to update a specific existing customer by ID
     //@PutMapping("/{id}")
+
+    /**
+     * @Method updateCustomer()
+     *
+     *
+     * @Tested - PASSED!
+     */
+
     public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         // Find the existing customer by ID in the repository
         Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
