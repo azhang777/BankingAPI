@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Set;
+
 @Component
 public class CustomerResponse {
     @Autowired
@@ -101,7 +104,9 @@ public class CustomerResponse {
      */
     public ResponseEntity<?> getAllCustomers() {
         Detail detail = new Detail();
-        detail.setData(customerService.getAllCustomers());
+        List<Customer> customerSet = customerService.getAllCustomers();
+        customerSet.forEach(customer -> customer.getAddress().size());
+        detail.setData(customerSet);
         detail.setCode(HttpStatus.OK.value());
         detail.setMessage("All Customers received ");
 

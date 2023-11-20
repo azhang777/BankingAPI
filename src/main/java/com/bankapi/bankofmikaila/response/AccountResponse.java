@@ -44,10 +44,10 @@ public class AccountResponse {
     public ResponseEntity<?> deleteAccount(Long accountId) {
         Detail detail = new Detail();
         accountService.deleteAccount(accountId);
-        detail.setCode(HttpStatus.ACCEPTED.value());
+        detail.setCode(HttpStatus.NO_CONTENT.value());
         detail.setMessage("Success - Account " + accountId + " deleted.");
 
-        return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(detail, HttpStatus.NO_CONTENT);
     }
 
 
