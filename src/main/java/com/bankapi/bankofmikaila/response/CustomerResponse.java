@@ -108,11 +108,5 @@ public class CustomerResponse {
         return  new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
-//    public ResponseEntity<?> createAccount(Long customerId, Account newAccount) {
-//        Detail detail = new Detail();
-//        detail.setData(customerService.createAccount(customerId, newAccount));
-//        detail.setCode(HttpStatus.CREATED.value());
-//        detail.setMessage("Success - Account created");
-//        return new ResponseEntity<>(detail, HttpStatus.CREATED);
-//    }
+
 }

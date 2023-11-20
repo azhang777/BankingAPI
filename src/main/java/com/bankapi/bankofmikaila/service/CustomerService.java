@@ -1,7 +1,10 @@
 package com.bankapi.bankofmikaila.service;
+import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
+import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,8 @@ import java.util.Optional;
 public class CustomerService {
 
     @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
     private CustomerRepository customerRepository; // Injecting CustomerRepository using @Autowired
 
     // Handles the GET requests to retrieve all customers
@@ -36,7 +41,6 @@ public class CustomerService {
     /**
      * @Method getAllCustomers()
      * I removed unnecessary parameters
-     *
      * @Tested - PASSED!
      */
     public List<Customer> getAllCustomers() {
@@ -48,19 +52,18 @@ public class CustomerService {
 
     /**
      * @Method getCustomerById()
-     *
-     *
      * @Tested - PASSED!
      */
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Optional<Customer> customer = customerRepository.findById(id); // Find a customer by ID
+    public Customer getCustomerById(@PathVariable Long id) {
+        Optional<Customer> customerOptional = customerRepository.findById(id); // Find a customer by ID
 
-        if (customer.isPresent()) {
+        if (customerOptional.isPresent()) {
             // If the customer is found, return it with a status of 200 (OK)
-            return ResponseEntity.ok(customer.get());
+            Customer customer = customerOptional.get();
+            return customer;
         } else {
             // If the customer is not found, return a response with a status of 404 (Not Found)
-            return ResponseEntity.notFound().build();
+            return null;
         }
 
     }
@@ -68,42 +71,34 @@ public class CustomerService {
     //@PostMapping
 
 
-
     /**
      * @Method createCustomer()
-     *
-     *
      * @Tested - PASSED!
      */
 
     /*
     Needs fixing
      */
-    public ResponseEntity<String> createCustomer(@RequestBody Customer newCustomer) {
+    public Customer createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
             // If the provided customer data is invalid, return a bad request response
-            return ResponseEntity.badRequest().body("Invalid customer data");
+            return null;
         }
-
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
-
         // Return a success response with the new customer's ID and a status of 201 (Created)
-        return ResponseEntity.created(URI.create("/customers/" + savedCustomer.getId()))
-                .body("Customer created with ID: " + savedCustomer.getId());
+        return savedCustomer;
     }
     // Handles HTTP PUT requests to update a specific existing customer by ID
     //@PutMapping("/{id}")
 
     /**
      * @Method updateCustomer()
-     *
-     *
      * @Tested - PASSED!
      */
 
-    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         // Find the existing customer by ID in the repository
         Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
 
@@ -120,16 +115,23 @@ public class CustomerService {
             customerRepository.save(existingCustomer);
 
             // Return a success response with a status of 200 (OK) and a message
-            return ResponseEntity.ok("Customer with ID " + id + " updated successfully");
+            return existingCustomer;
         } else {
             // If the customer with the given ID is not found, return a not found response with a status of 404
-            return ResponseEntity.notFound().build();
+            return null;
         }
     }
 
+    public Customer getCustomerByAccountId(@PathVariable Long accountId) {
+        Optional<Account> accountOptional = accountRepository.findById(accountId);
+        if (accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+            return account.getCustomer();
+        } else {
+            return null;
+        }
+    }
 }
-
-
 
 
 
