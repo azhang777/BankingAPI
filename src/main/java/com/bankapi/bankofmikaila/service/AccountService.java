@@ -11,7 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * @Class AccountService
+ *
+ * @Review - Customer service needs the following methods
+ *
+ * @createAccount
+ * @getAllCustomerAccounts
+ *
+ * @IMPORTANT - We can create an account for a customer that does not exist, fix that shit, may need an exception
+ * @IMPORTANT - Can retrieve accounts from customers that do not exist.
+ * @IMPORTANT - Update Account works, but body still has data pop up even though it should be null. Resolved
+ */
 @Service
 public class AccountService {
     @Autowired

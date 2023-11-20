@@ -1,6 +1,7 @@
 package com.bankapi.bankofmikaila.model;
 
 import com.bankapi.bankofmikaila.dto.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -23,9 +24,11 @@ public class Account {
     @Column(name = "balance")
     private Double balance;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id")// This is the join column in the Account table
     private Customer customer;
-
+    @Column(name = "customer_id", insertable = false, updatable = false)
+    private Long customer_id;
     public Account() {
     }
 
@@ -84,5 +87,16 @@ public class Account {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        if (customer != null) {
+            this.customer_id = customer.getId();
+        }
+    }
+
+    public Long getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(Long customer_id) {
+        this.customer_id = customer_id;
     }
 }

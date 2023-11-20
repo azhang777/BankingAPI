@@ -18,7 +18,9 @@ import java.util.Optional;
  * @createAccount
  * @getAllCustomerAccounts
  *
- *
+ * @IMPORTANT - CustomerService should not be returning ResponseBody, it should just return Customer or void
+ * @IMPORTANT - Address is not getting returned back when we get all customers, is it saved?
+ * @IMPORTANT - Exceptions not done
  */
 
 @Service
@@ -74,6 +76,9 @@ public class CustomerService {
      * @Tested - PASSED!
      */
 
+    /*
+    Needs fixing
+     */
     public ResponseEntity<String> createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
