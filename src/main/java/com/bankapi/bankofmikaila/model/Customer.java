@@ -1,9 +1,12 @@
 package com.bankapi.bankofmikaila.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,8 @@ public class Customer {
      * In this case, the Address entity should have a field named customer that maps back to the owning side of the relationship.
      * This helps avoid the creation of an additional database join table for the relationship.
      */
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
     public Set <Address> address;
 
     public Customer(){

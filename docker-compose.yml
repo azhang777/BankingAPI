@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  world_y:
+    image: azhang77/andysql
+    environment:
+      MYSQL_DATABASE: 'banking_db'
+      MYSQL_ROOT_PASSWORD: '@Ndy021003'
+      MYSQL_INITDB_DIR: '/docker-entrypoint-initdb.d'
+    ports:
+      - "3333:3306"
+    expose:
+      - '3333'
+    volumes:
+      - poll-data:/app/data
+      - ./src/main/resources:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+volumes:
+  poll-data:

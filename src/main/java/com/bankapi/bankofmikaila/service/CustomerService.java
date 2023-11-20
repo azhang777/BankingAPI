@@ -65,7 +65,6 @@ public class CustomerService {
             // If the customer is not found, return a response with a status of 404 (Not Found)
             return null;
         }
-
     }
     // Handles HTTP POST requests to create a new customer
     //@PostMapping
@@ -87,6 +86,7 @@ public class CustomerService {
         }
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
+        savedCustomer.setAddress(newCustomer.getAddress());
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
     }
