@@ -1,5 +1,7 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
+import com.bankapi.bankofmikaila.exceptions.WithdrawlsByAccountNotFound;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Withdrawl;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
@@ -23,47 +25,46 @@ public class WithdrawlService {
 
 
 
-    protected void verifyWithdrawlId(Long withdrawlId) throws EntityNotFoundException{
+    protected void verifyAccount(Long aid) throws WithdrawlsByAccountNotFound {
+        Optional<Account> account = accountRepository.findById(aid);
 
-        var withdrawl = withdrawRepo.findById(withdrawlId);
-
-        if(withdrawl.isEmpty()){
-            throw new EntityNotFoundException("Withdrawal with Id: " + withdrawlId + " not found.");
-
+        if(account == null){
+            throw new WithdrawlsByAccountNotFound("Account not found");
         }
+    } protected void verifyWithdrawal(Long wid) throws WithdrawalByIdNotFound {
+        Optional<Withdrawl> withdrawal = withdrawRepo.findById(wid);
 
-    }
-
-    protected void verifyAccountId(Long accountId) throws EntityNotFoundException{
-        var account = accountRepository.findById(accountId);
-
-        if(account.isEmpty()){
-            throw new EntityNotFoundException("Account with Id: " + accountId + " not found.");
+        if(withdrawal == null){
+            throw new WithdrawalByIdNotFound("error fetching withdrawal with id: " + wid );
         }
     }
-
 
     public Iterable<Withdrawl> getAllWithdrawlsByAID(Long accountId){
-        verifyAccountId(accountId);
+        verifyAccount(accountId);
       return   withdrawRepo.findWithdrawlsByAccountId(accountId);
     }
 
 
 
     public Withdrawl getWithdrawlById(Long withdrawlId){
-        verifyWithdrawlId(withdrawlId);
+        verifyWithdrawal(withdrawlId);
         return withdrawRepo.findById(withdrawlId).get();
     }
 
 
     public Withdrawl createWithdrawl(Withdrawl withdrawl, Long accountId){
-    //checking if the account exisits
-       verifyAccountId(accountId);
+        var account = accountRepository.findById(accountId);
+
+        if(account.isEmpty()){
+            throw  new WithdrawlsByAccountNotFound("Error creating withdrawal: Account not found");
+        }
     return withdrawRepo.save(withdrawl);
     }
 
   public void updateWithdrawl(Withdrawl withdrawl, Long withdrawlId){
-    verifyWithdrawlId(withdrawlId);
+      if(withdrawlId == null){
+          throw new WithdrawalByIdNotFound("Withdrawal ID does not exist");
+      }
     var xWithdrawal = withdrawRepo.findById(withdrawlId).get();
     xWithdrawal.setAmount(withdrawl.getAmount());
     xWithdrawal.setMedium(withdrawl.getMedium());
@@ -80,7 +81,9 @@ public class WithdrawlService {
   }
 
     public void deleteWithdrawals(Long id) {
-        verifyWithdrawlId(id);
+        if(id == null){
+            throw new WithdrawalByIdNotFound("This id does not exist in withdrawals");
+        }
         withdrawRepo.deleteById(id);
 
     }
