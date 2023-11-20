@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 public class Withdrawl {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name="WITHDRAWL_ID")
     private Long id;
 

@@ -86,7 +86,7 @@ public class CustomerService {
         }
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
-        savedCustomer.setAddress(newCustomer.getAddress());
+        //savedCustomer.setAddress(newCustomer.getAddress());
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
     }
