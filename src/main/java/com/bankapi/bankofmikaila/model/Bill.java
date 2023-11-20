@@ -10,7 +10,7 @@ import java.util.Objects;
  * @CLASS - Bill
  *
  * @Review - You need the following annotations
- * for line 30 through 40
+ * for line 40 through 48
  *
  *     @Column(name = "bill_id")
  *     @Column(name = "status")
