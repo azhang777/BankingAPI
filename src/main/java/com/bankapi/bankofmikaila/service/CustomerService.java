@@ -1,16 +1,13 @@
 package com.bankapi.bankofmikaila.service;
-import com.bankapi.bankofmikaila.exceptions.CustomerNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +61,7 @@ public class CustomerService {
             return customerOptional.get();
         } else {
             // If the customer is not found, return a response with a status of 404 (Not Found)
-            throw new CustomerNotFoundException("Customer with ID " + id + " not found");
+            throw new CustomersNotFoundException("Customer with ID " + id + " not found");
         }
 
         }
@@ -77,6 +74,7 @@ public class CustomerService {
      * @Method createCustomer()
      * @Tested - PASSED!
      */
+
 
     /*
     Needs fixing

@@ -4,8 +4,7 @@ import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
 import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.CustomerNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.SingleAccountNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -76,7 +74,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
-    public ResponseEntity<?> handleCustomerNotFoundException(CustomerNotFoundException cnfe) {
+    public ResponseEntity<?> handleCustomerNotFoundException(CustomersNotFoundException cnfe) {
         Detail detail = new Detail();
         detail.setCode(HttpStatus.NOT_FOUND.value());
         detail.setMessage(cnfe.getMessage());

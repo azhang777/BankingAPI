@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.persistence.EntityNotFoundException;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class CustomerNotFoundException extends EntityNotFoundException {
+public class CustomersNotFoundException extends EntityNotFoundException {
 
-    public CustomerNotFoundException(String message) {
+    public CustomersNotFoundException(String message) {
         super (message);
     }
 
