@@ -1,64 +1,47 @@
 package com.bankapi.bankofmikaila.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
-
-/**
- * @CLASS - Bill
- *
- * @Review - You need the following annotations
- * for line 40 through 48
- *
- *     @Column(name = "bill_id")
- *     @Column(name = "status")
- *     @Column(name = "payee")
- *     @Column(name = "nickname")
- *     @Column(name = "creationDate")
- *     @Column(name = "paymentDate")
- *     @Column(name = "recurringDate")
- *     @Column(name = "upcomingPaymentDate")
- *     @Column(name = "paymentAmount")
- *     @Column(name = "paymentAmount")
- *
- *
- * @Review - You need two annotations above 52
- * that looks like this
- *
- * @JoinColumn(name = "account_id")
- *
- * @ManyToOne
- */
 
 @Entity
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
     private Long id;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "payee")
     private String payee;
+
+    @Column(name = "nickname")
     private String nickname;
+
+    @Column(name = "creationDate")
     private String creationDate;
+
+    @Column(name = "paymentDate")
     private String paymentDate;
+
+    @Column(name = "recurringDate")
     private Integer recurringDate;
+
+    @Column(name = "upcomingPaymentDate")
     private String upcomingPaymentDate;
+
+    @Column(name = "paymentAmount")
     private Double paymentAmount;
 
-    //also change this to private Account account;
-    //the generate getters and setters
-    private Long accountId;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
-    /**
-     * @Review - You another constructor that needs to be nullary
-     * looks like this
-     *
-     * @Example public Bill(){}
-     *
-     *
-     */
+    public Bill() {
+    }
+
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
         this.status = status;
@@ -69,8 +52,9 @@ public class Bill {
         this.recurringDate = recurringDate;
         this.upcomingPaymentDate = upcomingPaymentDate;
         this.paymentAmount = paymentAmount;
-        this.accountId = accountId;
+        this.account = account;
     }
+
 
 
     public Long getId() {
@@ -145,13 +129,15 @@ public class Bill {
         this.paymentAmount = paymentAmount;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+
+
 
     @Override
     public String toString() {
@@ -165,17 +151,16 @@ public class Bill {
                 ", recurringDate=" + recurringDate +
                 ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
                 ", paymentAmount=" + paymentAmount +
-                ", accountId='" + accountId + '\'' +
+                ", account='" + account + '\'' +
                 '}';
     }
+
+    public enum BillStatus {
+        PENDING,
+        CANCELLED,
+        COMPLETED,
+        RECURRING
+    }
+
 }
-// - id: Long
-//- status: String
-//- payee: String
-//- nickname: String
-//- creation_date: String
-//- payment_date: String
-//- recurring_date: Integer
-//- upcoming_payment_date: String
-//- payment_amount: Double
-//- account_id: Long
+

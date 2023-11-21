@@ -50,7 +50,7 @@ public class AccountService {
         //what if accounts do not exist?
     }
 
-    public Account getAccountById(Long accountId) {
+    public static Account getAccountById(Long accountId) {
         return accountRepository.findById(accountId).orElseThrow(() -> new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
     }
 
