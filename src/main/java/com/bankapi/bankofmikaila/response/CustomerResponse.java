@@ -122,17 +122,15 @@ public class CustomerResponse {
     public ResponseEntity<?> getAllCustomers() {
         // Create a new Detail object to structure the response.
         Detail detail = new Detail();
-<<<<<<< HEAD
+
 
         // Set the data field in Detail to the result of getting all customers.
         detail.setData(customerService.getAllCustomers());
 
         // Set the HTTP status code in Detail to OK (200).
-=======
         List<Customer> customerSet = customerService.getAllCustomers();
         customerSet.forEach(customer -> customer.getAddress().size());
         detail.setData(customerSet);
->>>>>>> Development
         detail.setCode(HttpStatus.OK.value());
 
         // Set the message in Detail to indicate the successful retrieval of all customers.
