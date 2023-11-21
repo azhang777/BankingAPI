@@ -87,11 +87,10 @@ public class CustomerController {
     public ResponseEntity<?> getAllCustomers (){
         return new ResponseEntity<>(customerResponse.getAllCustomers(), HttpStatus.OK);
     }
-
-//still need get customer that owns the specified account
-
-    // -Jordy : ^^ there are methods here already made by andy
-    //(DELETE WHEN YOU READ THIS)
+@GetMapping("Accounts/{accountId}/customer")
+    public ResponseEntity<?> getCustomerByAccountId (@PathVariable Long id){
+        return customerResponse.getCustomerByAccountId(id);
+}
 }
 
 
