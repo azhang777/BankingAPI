@@ -90,8 +90,6 @@ public class CustomerService {
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
     }
-    // Handles HTTP PUT requests to update a specific existing customer by ID
-    //@PutMapping("/{id}")
 
     /**
      * @Method updateCustomer()
@@ -123,16 +121,22 @@ public class CustomerService {
     }
 
     public Customer getCustomerByAccountId(@PathVariable Long accountId) {
+        // Attempt to find an Account using the account ID in the repository.
         Optional<Account> accountOptional = accountRepository.findById(accountId);
+
+        // Check if the Optional contains a non-null value (i.e., if the account is found).
         if (accountOptional.isPresent()) {
+            // Extract the Account object from the Optional.
             Account account = accountOptional.get();
+
+            // Return the Customer associated with the found Account.
             return account.getCustomer();
         } else {
+            // If the Optional is empty (account not found), return null.
             return null;
         }
     }
 }
-
 
 
 
