@@ -1,13 +1,10 @@
 package com.bankapi.bankofmikaila.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * @CLASS - Bill
+
+/* @CLASS - Bill
  *
  * @Review - You need the following annotations
  * for line 40 through 48
@@ -33,32 +30,33 @@ import java.util.Objects;
  */
 
 @Entity
+@Table(name= "Bill")
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
     private Long id;
+    @Column(name = "status")
     private String status;
+    @Column(name = "payee")
     private String payee;
+    @Column(name = "nickname")
     private String nickname;
+    @Column(name = "creationDate")
     private String creationDate;
+    @Column(name = "paymentDate")
     private String paymentDate;
+    @Column(name = "recurringDate")
     private Integer recurringDate;
+    @Column(name = "upcomingPaymentDate")
     private String upcomingPaymentDate;
+    @Column(name = "paymentAmount")
     private Double paymentAmount;
-
-    //also change this to private Account account;
-    //the generate getters and setters
+    @Column(name = "accountId")
     private Long accountId;
 
-    /**
-     * @Review - You another constructor that needs to be nullary
-     * looks like this
-     *
-     * @Example public Bill(){}
-     *
-     *
-     */
+
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
         this.status = status;
