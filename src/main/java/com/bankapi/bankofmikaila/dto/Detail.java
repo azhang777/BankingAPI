@@ -7,7 +7,6 @@ public class Detail {
     private int code;
     private String message;
     private Object data;
-    //return customer's id, not customer
 
     public Detail() {
     }

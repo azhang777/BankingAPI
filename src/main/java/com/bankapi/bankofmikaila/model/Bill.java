@@ -3,13 +3,42 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+
+
+/* @CLASS - Bill
+ *
+ * @Review - You need the following annotations
+ * for line 40 through 48
+ *
+ *     @Column(name = "bill_id")
+ *     @Column(name = "status")
+ *     @Column(name = "payee")
+ *     @Column(name = "nickname")
+ *     @Column(name = "creationDate")
+ *     @Column(name = "paymentDate")
+ *     @Column(name = "recurringDate")
+ *     @Column(name = "upcomingPaymentDate")
+ *     @Column(name = "paymentAmount")
+ *     @Column(name = "paymentAmount")
+ *
+ *
+ * @Review - You need two annotations above 52
+ * that looks like this
+ *
+ * @JoinColumn(name = "account_id")
+ *
+ * @ManyToOne
+ */
+
 @Entity
+@Table(name= "Bill")
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long id;
+
 
     @Column(name = "status")
     private String status;
@@ -41,6 +70,26 @@ public class Bill {
 
     public Bill() {
     }
+
+    @Column(name = "status")
+    private String status;
+    @Column(name = "payee")
+    private String payee;
+    @Column(name = "nickname")
+    private String nickname;
+    @Column(name = "creationDate")
+    private String creationDate;
+    @Column(name = "paymentDate")
+    private String paymentDate;
+    @Column(name = "recurringDate")
+    private Integer recurringDate;
+    @Column(name = "upcomingPaymentDate")
+    private String upcomingPaymentDate;
+    @Column(name = "paymentAmount")
+    private Double paymentAmount;
+    @Column(name = "accountId")
+    private Long accountId;
+
 
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
