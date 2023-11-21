@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
@@ -36,11 +37,11 @@ public class WithdrawlResponse
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
-
+@Transactional
     public ResponseEntity<?> createWithdrawal(Withdrawl withdrawl, Long accountId){
-        accountId = withdrawl.getAccount().getId();
+
         Detail detail = new Detail();
-        detail.setData(withdrawlService.createWithdrawl(withdrawl, accountId ));
+        detail.setData(withdrawlService.createWithdrawl(accountId, withdrawl.getStatus(), withdrawl.getMedium(), withdrawl.getAmount(), withdrawl.getDescription()));
         detail.setCode(HttpStatus.OK.value());
         return  new ResponseEntity<>(detail, HttpStatus.CREATED);
     }

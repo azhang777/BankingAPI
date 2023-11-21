@@ -53,8 +53,8 @@ public class DepositService {
             existingDeposit.setAmount(deposit.getAmount());
             existingDeposit.setMedium(deposit.getMedium());
             existingDeposit.setDescription(deposit.getDescription());
-            existingDeposit.setPayee_id(deposit.getPayee_id());
-            existingDeposit.setTransaction_date(deposit.getTransaction_date());
+            existingDeposit.setAccount(deposit.getAccount());
+            existingDeposit.setTransactionDate(deposit.getTransactionDate());
             existingDeposit.setStatus(deposit.getStatus());
             existingDeposit.setType(deposit.getType());
 

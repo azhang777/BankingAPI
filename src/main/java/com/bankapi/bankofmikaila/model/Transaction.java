@@ -8,11 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
+    @GeneratedValue
+        @Column(name = "transaction_id")
     private Long id;
 
 

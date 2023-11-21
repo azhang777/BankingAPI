@@ -32,7 +32,7 @@ public class Account {
     private Long customer_id;
 
     @OneToMany
-    @JoinColumn(name = "transaction_id")
+    @JoinColumn(name = "account_id")
     private List<Transaction> transactions;
     public Account() {
     }
