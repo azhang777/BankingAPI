@@ -4,6 +4,7 @@ import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
 import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.CustomerNotFoundException;
 import com.bankapi.bankofmikaila.exceptions.SingleAccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -74,5 +75,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             validationErrorsList.add(validationError); //add it to the arrayList, which is stored in the hashmap errorDetail.errors
         }
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
+    }
+    public ResponseEntity<?> handleCustomerNotFoundException(CustomerNotFoundException cnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(cnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
     }
 }
