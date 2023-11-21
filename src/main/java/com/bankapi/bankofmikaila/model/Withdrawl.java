@@ -6,16 +6,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "withdrawls")
+@Table(name = "withdrawals")
 public class Withdrawl {
 
     @Id
     @GeneratedValue
-    @Column(name="WITHDRAWL_ID")
+    @Column(name="WITHDRAWAL_ID")
     private Long id;
 
-    @Column(name="WITHDRAWL_TYPE")
-    @NotEmpty(message = "Need to input a withdrawl type")
+    @Column(name="WITHDRAWAL_TYPE")
+    @NotEmpty(message = "Need to input a withdrawal type")
     private String type;
 
     @Column(name="TRANSACTION_DATE")
@@ -31,7 +31,6 @@ public class Withdrawl {
     @JoinColumn(name = "account_id")
     @NotEmpty(message = "Need to input a payee id")
     @ManyToOne
-
     private Account account;
 
 
