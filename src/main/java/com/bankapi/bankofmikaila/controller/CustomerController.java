@@ -87,10 +87,6 @@ public class CustomerController {
     public ResponseEntity<?> getAllCustomers (){
         return new ResponseEntity<>(customerResponse.getAllCustomers(), HttpStatus.OK);
     }
-@GetMapping("accounts/{accountId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId (@PathVariable Long accountId){
-        return customerResponse.getCustomerByAccountId(accountId);
-}
 }
 
 

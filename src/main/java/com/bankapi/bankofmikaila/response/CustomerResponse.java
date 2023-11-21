@@ -140,9 +140,9 @@ public class CustomerResponse {
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getCustomerByAccountId(Long customerId){
+    public ResponseEntity<?> getCustomerByAccountId(Long accountId){
         Detail detail = new Detail();
-        detail.setData(customerService.getCustomerByAccountId(customerId));
+        detail.setData(customerService.getCustomerByAccountId(accountId));
         detail.setCode(HttpStatus.OK.value());
         detail.setMessage("Success");
         return new ResponseEntity<>(detail, HttpStatus.OK);

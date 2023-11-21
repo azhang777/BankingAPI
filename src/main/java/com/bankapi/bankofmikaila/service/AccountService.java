@@ -39,7 +39,7 @@ public class AccountService {
     public Iterable<Account> getAllAccounts() {
         List<Account> accounts = accountRepository.findAll();
         if (accounts.isEmpty()) {
-            throw new AccountsNotFoundException();
+            throw new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching accounts");
         }
         return accountRepository.findAll();
     }
@@ -51,7 +51,7 @@ public class AccountService {
     }
 
     public Account getAccountById(Long accountId) {
-        return accountRepository.findById(accountId).orElseThrow(() -> new SingleAccountNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
+        return accountRepository.findById(accountId).orElseThrow(() -> new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
     }
 
     public Account updateAccount(Long accountId, Account updatedAccount) {
