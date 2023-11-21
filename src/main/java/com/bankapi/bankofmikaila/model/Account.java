@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -30,6 +31,10 @@ public class Account {
     private Customer customer;
     @Column(name = "customer_id", insertable = false, updatable = false)
     private Long customer_id;
+
+    @OneToMany
+    @JoinColumn(name = "transaction_id")
+    private List<Transaction> transactions;
     public Account() {
     }
 
