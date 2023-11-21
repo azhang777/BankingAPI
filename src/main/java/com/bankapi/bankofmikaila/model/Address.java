@@ -1,5 +1,7 @@
 package com.bankapi.bankofmikaila.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,7 @@ public class Address {
     @Id
     @GeneratedValue
     @Column(name = "address_id")
+    @JsonIgnore
     public Long id;
     @Column(name = "street_number")
     public String street_number;
