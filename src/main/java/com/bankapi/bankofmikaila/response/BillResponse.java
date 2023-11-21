@@ -14,6 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @REVIEW - Delete the billrepository and replace the @RestController with
+ *
+ * @Component
+ *
+ *  also delete the mappings on all the methods below
+ */
 @RestController
 public class BillResponse {
 
