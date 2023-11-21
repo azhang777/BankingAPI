@@ -5,16 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
 @Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "account_id")
     private Long id;
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private AccountType type;
     @Column(name = "nickname")
     private String nickname;
@@ -29,6 +31,10 @@ public class Account {
     private Customer customer;
     @Column(name = "customer_id", insertable = false, updatable = false)
     private Long customer_id;
+
+    @OneToMany
+    @JoinColumn(name = "transaction_id")
+    private List<Transaction> transactions;
     public Account() {
     }
 

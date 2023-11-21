@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 public class Deposit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name="DEPOSIT_ID")
     private Long id;
 
