@@ -5,6 +5,8 @@ import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
 import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.InvalidTypeException;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +36,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         detail.setMessage(anfe.getMessage());
 
         return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidTypeException.class)
+    public ResponseEntity<?> handleInvalidTypeException(InvalidTypeException ite) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_ACCEPTABLE.value());
+        detail.setMessage(ite.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Override
@@ -72,8 +83,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             validationError.setMessage(messageSource.getMessage(fe, null)); //"message": "must not be empty"  *build the validation error from the current fieldError*
             validationErrorsList.add(validationError); //add it to the arrayList, which is stored in the hashmap errorDetail.errors
         }
+
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
+    @ExceptionHandler(CustomersNotFoundException.class)
     public ResponseEntity<?> handleCustomerNotFoundException(CustomersNotFoundException cnfe) {
         Detail detail = new Detail();
         detail.setCode(HttpStatus.NOT_FOUND.value());

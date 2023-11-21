@@ -74,7 +74,7 @@ public class CustomerController {
      * @Tested - PASSED!
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomerById (@PathVariable Long id){
+    public ResponseEntity<?> getCustomerById(@PathVariable Long id){
         return customerResponse.getCustomerById(id);
     }
     /**
