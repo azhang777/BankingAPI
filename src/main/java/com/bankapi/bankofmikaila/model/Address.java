@@ -3,11 +3,12 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public  Long id;
-
+    @GeneratedValue
+    @Column(name = "address_id")
+    public Long id;
     @Column(name = "street_number")
     public String street_number;
     @Column(name = "street_name")
@@ -18,7 +19,6 @@ public class Address {
     public String state;
     @Column(name = "zip")
     public String zip;
-
 
     /**
      * @ManyToOne - This annotation is used to define a many-to-one relationship between entities.
@@ -36,11 +36,6 @@ public class Address {
      * the Address entity should have a field named customer that maps back to the owning side of the relationship.
      * This helps avoid the creation of an additional database join table for the relationship.
      */
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
 
     public Long getId() {
         return id;
@@ -90,14 +85,6 @@ public class Address {
         this.zip = zip;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     @Override
     public String toString() {
         return "Address{" +
@@ -106,8 +93,6 @@ public class Address {
                 ", street_name='" + street_name + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                ", customer=" + customer +
-                '}';
+                ", zip='" + zip + '\'';
     }
 }

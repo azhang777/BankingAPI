@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Set;
+
 @Component
 public class CustomerResponse {
     @Autowired
@@ -119,11 +122,17 @@ public class CustomerResponse {
     public ResponseEntity<?> getAllCustomers() {
         // Create a new Detail object to structure the response.
         Detail detail = new Detail();
+<<<<<<< HEAD
 
         // Set the data field in Detail to the result of getting all customers.
         detail.setData(customerService.getAllCustomers());
 
         // Set the HTTP status code in Detail to OK (200).
+=======
+        List<Customer> customerSet = customerService.getAllCustomers();
+        customerSet.forEach(customer -> customer.getAddress().size());
+        detail.setData(customerSet);
+>>>>>>> Development
         detail.setCode(HttpStatus.OK.value());
 
         // Set the message in Detail to indicate the successful retrieval of all customers.
