@@ -15,7 +15,7 @@ public class Account {
     @Column(name = "account_id")
     private Long id;
     @Column(name = "type")
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     private AccountType type;
     @Column(name = "nickname")
     private String nickname;

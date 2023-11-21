@@ -6,7 +6,6 @@ public enum AccountType {
     AccountType(String description) {
         this.description = description;
     }
-
     public String getDescription() {
         return description;
     }

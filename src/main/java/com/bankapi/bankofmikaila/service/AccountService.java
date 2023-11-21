@@ -2,7 +2,8 @@ package com.bankapi.bankofmikaila.service;
 
 import com.bankapi.bankofmikaila.dto.AccountType;
 import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.SingleAccountNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.InvalidTypeException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 /**
  * @Class AccountService
  *
@@ -31,7 +33,13 @@ public class AccountService {
     private CustomerRepository customerRepository;
 
     public Account createAccount(Long customerId, Account newAccount) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->new RuntimeException("Error"));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: error fetching customers account"));
+        if (newAccount.getType() != AccountType.CHECKING &&
+                newAccount.getType() != AccountType.CREDIT &&
+                newAccount.getType() != AccountType.SAVINGS) {
+            System.out.println("HAO HAO");
+            throw new InvalidTypeException("ERROR ಠ_ಠ ERROR: must be SAVINGS, CHECKING, CREDIT");
+        }
         newAccount.setCustomer(customer);
         return accountRepository.save(newAccount);
     }
@@ -45,9 +53,8 @@ public class AccountService {
     }
 
     public Iterable<Account> getAllCustomerAccounts(Long customerId) {
+        customerRepository.findById(customerId).orElseThrow(() -> new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: error fetching customers accounts"));
         return accountRepository.findByCustomer_Id(customerId);
-        //what if customer does not exist?
-        //what if accounts do not exist?
     }
 
     public Account getAccountById(Long accountId) {
