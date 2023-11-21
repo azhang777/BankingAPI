@@ -22,9 +22,9 @@ public class DepositController {
     DepositService depositService;
 
     @GetMapping("accounts/{accountId}/deposits")
-    public ResponseEntity<?> getAllDeposits(){
+    public ResponseEntity<?> getAllDeposits(@PathVariable Long accountId){
 
-        return depositResponse.getAllDeposits();
+        return depositResponse.getAllDeposits(accountId);
 
     }
 

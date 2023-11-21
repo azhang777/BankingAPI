@@ -38,9 +38,9 @@ public class Deposit {
     @Column(name="DESCRIPTION")
     private String description;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="account_id")
+    @JsonIgnore
     private Account account;
 
     public Long getId() {
