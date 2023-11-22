@@ -55,10 +55,12 @@ public class Bill {
      * @Review - You another constructor that needs to be nullary
      * looks like this
      *
-     * @Example public Bill(){}
+     * @Example
      *
      *
      */
+
+    public Bill(){}
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
         this.status = status;

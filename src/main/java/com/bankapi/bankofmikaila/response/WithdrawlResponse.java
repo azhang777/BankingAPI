@@ -1,6 +1,7 @@
 package com.bankapi.bankofmikaila.response;
 
 import com.bankapi.bankofmikaila.dto.Detail;
+import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
 import com.bankapi.bankofmikaila.model.Withdrawl;
 import com.bankapi.bankofmikaila.service.WithdrawlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,30 +42,40 @@ public class WithdrawlResponse
     public ResponseEntity<?> createWithdrawal(Withdrawl withdrawl, Long accountId){
 
         Detail detail = new Detail();
-        detail.setData(withdrawlService.createWithdrawl(accountId, withdrawl.getStatus(), withdrawl.getMedium(), withdrawl.getAmount(), withdrawl.getDescription()));
+        detail.setData(withdrawlService.createWithdrawal(accountId, withdrawl.getStatus(), withdrawl.getMedium(), withdrawl.getAmount(), withdrawl.getDescription()));
         detail.setCode(HttpStatus.OK.value());
         return  new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateWithdrawal(Withdrawl withdrawl, Long withdrawalId)
-
-        {
-            withdrawalId = withdrawl.getId();
+    public ResponseEntity<?> updateWithdrawal(Withdrawl withdrawl) {
+        Long withdrawalId = withdrawl.getId();  // Assuming Withdrawl has a getId() method
 
         Detail detail = new Detail();
-        withdrawlService.updateWithdrawl(withdrawl, withdrawalId);
-        detail.setMessage("Accepted withdrawal modification");
-        detail.setCode(HttpStatus.ACCEPTED.value());
 
-        return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
-
+        try {
+            withdrawlService.updateWithdrawal(withdrawl, withdrawalId);
+            detail.setMessage("Accepted withdrawal modification");
+            detail.setCode(HttpStatus.ACCEPTED.value());
+            return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
+        } catch (WithdrawalByIdNotFound e) {
+            detail.setMessage("Withdrawal ID not found");
+            detail.setCode(HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+        }
     }
 
 
-    public ResponseEntity<?> deleteWithdrawal(Withdrawl withdrawl){
-    withdrawlService.deleteWithdrawals(withdrawl.getId());
-    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> deleteWithdrawal(Long id) {
+        try {
+            withdrawlService.deleteWithdrawal(id);
+            return ResponseEntity.ok("Withdrawal deleted successfully");
+        } catch (WithdrawalByIdNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
     }
+
 
 
 

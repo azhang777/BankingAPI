@@ -3,6 +3,8 @@ package com.bankapi.bankofmikaila.model;
 import com.bankapi.bankofmikaila.dto.TransactionMedium;
 import com.bankapi.bankofmikaila.dto.TransactionStatus;
 import com.bankapi.bankofmikaila.dto.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -37,14 +39,28 @@ public abstract class Transaction {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // Adjust CascadeType based on your needs
     @JoinColumn(name = "account_id")
-    private Account account;
+    @JsonIgnoreProperties("transactions")
+    private Account account = new Account();
 
+    @Column(name = "previous_balance")
+    private Double previousBalance;
 
     public Transaction(){
 
     }
+
+    public Double getPreviousBalance() {
+        return previousBalance;
+    }
+
+    public void setPreviousBalance(Double previousBalance) {
+        this.previousBalance = previousBalance;
+    }
+
+
+
 
 
     public Long getId() {

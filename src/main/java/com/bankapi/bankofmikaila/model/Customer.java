@@ -3,6 +3,7 @@ package com.bankapi.bankofmikaila.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,6 +31,8 @@ public class Customer {
     @JoinColumn(name = "customer_id")
     public Set <Address> address;
 
+    @OneToMany(mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<Account> accounts;
     public Customer(){
 
     }
@@ -39,6 +42,14 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public Long getId() {

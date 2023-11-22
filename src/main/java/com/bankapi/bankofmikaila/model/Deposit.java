@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="Deposit")
 @DiscriminatorValue("DEPOSIT")
 public class Deposit extends Transaction{
 
