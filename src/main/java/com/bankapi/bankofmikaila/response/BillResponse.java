@@ -8,58 +8,40 @@ import com.bankapi.bankofmikaila.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @REVIEW - Delete the billrepository and replace the @RestController with
- *
- * @Component
- *
- *  also delete the mappings on all the methods below
- */
-@RestController
+@Component
 public class BillResponse {
 
     @Autowired
     private BillService billService;
-    @Autowired
-    private BillRepository billRepository;
 
-    @GetMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<List<Bill>> getAllBillsForAccount(@PathVariable String accountId) {
+    public List<Bill> getAllBillsForAccount(String accountId) {
         List<Bill> bills = billService.getAllBills();
-        return new ResponseEntity<>(bills, HttpStatus.OK);
+        return bills;
     }
 
-    @GetMapping("/bills/{billId}")
-    public ResponseEntity<Bill> getBillById(@PathVariable Long billId) {
+    public Bill getBillById(Long billId) {
         Optional<Bill> bill = billService.getBillById(billId);
-        return bill.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return bill.orElse(null);
     }
 
-    @GetMapping("/customers/{customerId}/bills")
-    public ResponseEntity<List<Bill>> getAllBillsForCustomer(@PathVariable String customerId) {
+    public List<Bill> getAllBillsForCustomer(String customerId) {
         List<Bill> bills = billService.getAllBills();
-        return new ResponseEntity<>(bills, HttpStatus.OK);
+        return bills;
     }
 
-    @PostMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<Bill> createBillForAccount(@PathVariable String accountId, @RequestBody Bill bill) {
-
-
+    public Bill createBillForAccount(String accountId, Bill bill) {
         Bill createdBill = billService.createBillForAccount(accountId, bill);
-
-        return new ResponseEntity<>(createdBill, HttpStatus.CREATED);
+        return createdBill;
     }
 
-
-    @PutMapping("/bills/{billId}")
-    public ResponseEntity<Bill> updateBill(@PathVariable Long billId, @RequestBody Bill updatedBill) {
+    public ResponseEntity<Bill> updateBill(Long billId, Bill updatedBill) {
         Optional<Bill> existingBill = billService.updateBill(billId, updatedBill);
 
         if (existingBill.isPresent()) {
@@ -70,9 +52,7 @@ public class BillResponse {
         }
     }
 
-
-    @DeleteMapping("/bills/{billId}")
-    public ResponseEntity<String> deleteBill(@PathVariable Long billId) {
+    public ResponseEntity<String> deleteBill(Long billId) {
         boolean deleted = billService.deleteBill(billId);
         if (deleted) {
             return new ResponseEntity<>("Bill deleted successfully", HttpStatus.NO_CONTENT);
