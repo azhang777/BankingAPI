@@ -1,7 +1,17 @@
 package com.bankapi.bankofmikaila.dto;
 
 public enum TransactionType {
-    P2P,
-    DEPOSIT,
-    WITHDRAWAL;
+    P2P("P2P"),
+    DEPOSIT("DEPOSIT"),
+    WITHDRAWAL("WITHDRAWAL");
+
+    private final String description;
+
+    TransactionType(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

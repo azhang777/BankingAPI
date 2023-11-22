@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 public class Deposit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name="DEPOSIT_ID")
     private Long id;
 
@@ -38,9 +38,9 @@ public class Deposit {
     @Column(name="DESCRIPTION")
     private String description;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="account_id")
+    @JsonIgnore
     private Account account;
 
     public Long getId() {

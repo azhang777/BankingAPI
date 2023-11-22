@@ -2,15 +2,19 @@ package com.bankapi.bankofmikaila.service;
 
 import com.bankapi.bankofmikaila.dto.AccountType;
 import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.SingleAccountNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exceptions.InvalidTypeException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 /**
  * @Class AccountService
  *
@@ -29,29 +33,46 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private CustomerRepository customerRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
     public Account createAccount(Long customerId, Account newAccount) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->new RuntimeException("Error"));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> {
+            logger.error("Customer not found with ID: " + customerId);
+            return new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: Customer not found");
+        });
+
+        if (newAccount.getType() != AccountType.CHECKING &&
+                newAccount.getType() != AccountType.CREDIT &&
+                newAccount.getType() != AccountType.SAVINGS) {
+            logger.error("Error with creating account.");
+            throw new InvalidTypeException("ERROR ಠ_ಠ ERROR: must be SAVINGS, CHECKING, CREDIT");
+        }
+
         newAccount.setCustomer(customer);
+        logger.info("Account created successfully.");
         return accountRepository.save(newAccount);
     }
 
     public Iterable<Account> getAllAccounts() {
         List<Account> accounts = accountRepository.findAll();
         if (accounts.isEmpty()) {
-            throw new AccountsNotFoundException();
+            logger.error("No available accounts.");
+            throw new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching accounts");
         }
+        logger.info("All accounts retrieved successfully.");
         return accountRepository.findAll();
     }
 
     public Iterable<Account> getAllCustomerAccounts(Long customerId) {
+        customerRepository.findById(customerId).orElseThrow(() -> {
+            logger.error("Customer not found with ID: " + customerId);
+            return new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: error fetching customers accounts");
+        });
+        logger.info("All accounts for Customer: " + customerId + " retrieved successfully.");
         return accountRepository.findByCustomer_Id(customerId);
-        //what if customer does not exist?
-        //what if accounts do not exist?
     }
 
     public Account getAccountById(Long accountId) {
-        return accountRepository.findById(accountId).orElseThrow(() -> new SingleAccountNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
+        return accountRepository.findById(accountId).orElseThrow(() -> new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
     }
 
     public Account updateAccount(Long accountId, Account updatedAccount) {

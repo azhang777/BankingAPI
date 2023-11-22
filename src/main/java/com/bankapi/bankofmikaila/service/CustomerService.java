@@ -1,15 +1,13 @@
 package com.bankapi.bankofmikaila.service;
+import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +19,8 @@ import java.util.Optional;
  * @createAccount
  * @getAllCustomerAccounts
  *
- * @IMPORTANT - CustomerService should not be returning ResponseBody, it should just return Customer or void
- * @IMPORTANT - Address is not getting returned back when we get all customers, is it saved?
+ *
+ *
  * @IMPORTANT - Exceptions not done
  */
 
@@ -60,13 +58,14 @@ public class CustomerService {
         if (customerOptional.isPresent()) {
             // If the customer is found, return it with a status of 200 (OK)
             Customer customer = customerOptional.get();
-            return customer;
+            return customerOptional.get();
         } else {
             // If the customer is not found, return a response with a status of 404 (Not Found)
-            return null;
+            throw new CustomersNotFoundException("Customer with ID " + id + " not found");
         }
 
-    }
+        }
+
     // Handles HTTP POST requests to create a new customer
     //@PostMapping
 
@@ -75,6 +74,7 @@ public class CustomerService {
      * @Method createCustomer()
      * @Tested - PASSED!
      */
+
 
     /*
     Needs fixing
@@ -87,11 +87,10 @@ public class CustomerService {
         }
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
+        //savedCustomer.setAddress(newCustomer.getAddress());
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
     }
-    // Handles HTTP PUT requests to update a specific existing customer by ID
-    //@PutMapping("/{id}")
 
     /**
      * @Method updateCustomer()
@@ -123,16 +122,22 @@ public class CustomerService {
     }
 
     public Customer getCustomerByAccountId(@PathVariable Long accountId) {
+        // Attempt to find an Account using the account ID in the repository.
         Optional<Account> accountOptional = accountRepository.findById(accountId);
+
+        // Check if the Optional contains a non-null value (i.e., if the account is found).
         if (accountOptional.isPresent()) {
+            // Extract the Account object from the Optional.
             Account account = accountOptional.get();
+
+            // Return the Customer associated with the found Account.
             return account.getCustomer();
         } else {
+            // If the Optional is empty (account not found), return null.
             return null;
         }
     }
 }
-
 
 
 
