@@ -1,12 +1,11 @@
-package com.bankapi.bankofmikaila.handlers;
+package com.bankapi.bankofmikaila.handler;
 
 import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
-import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.InvalidTypeException;
-import org.apache.coyote.Response;
+import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
+import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exception.InvalidTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +28,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ExceptionHandler(CustomersNotFoundException.class)
+    public ResponseEntity<?> handleCustomerNotFoundException(CustomersNotFoundException cnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(cnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(AccountsNotFoundException.class)
     public ResponseEntity<?> handleAccountsNotFoundException(AccountsNotFoundException anfe) {
         Detail detail = new Detail();
@@ -85,13 +92,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
-    }
-    @ExceptionHandler(CustomersNotFoundException.class)
-    public ResponseEntity<?> handleCustomerNotFoundException(CustomersNotFoundException cnfe) {
-        Detail detail = new Detail();
-        detail.setCode(HttpStatus.NOT_FOUND.value());
-        detail.setMessage(cnfe.getMessage());
-
-        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
     }
 }

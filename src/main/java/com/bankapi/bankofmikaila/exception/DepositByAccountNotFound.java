@@ -1,4 +1,4 @@
-package com.bankapi.bankofmikaila.exceptions;
+package com.bankapi.bankofmikaila.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.persistence.EntityNotFoundException;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class AccountsNotFoundException extends EntityNotFoundException {
-    public AccountsNotFoundException() {
+public class DepositByAccountNotFound extends EntityNotFoundException {
 
+    public DepositByAccountNotFound() {
     }
 
-    public AccountsNotFoundException(String message) {
+    public DepositByAccountNotFound(String message) {
         super(message);
     }
 }

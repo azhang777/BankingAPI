@@ -16,7 +16,6 @@ public class Account {
     @Column(name = "account_id")
     private Long id;
     @Column(name = "type")
-//    @Enumerated(EnumType.STRING)
     private AccountType type;
     @Column(name = "nickname")
     private String nickname;
@@ -104,5 +103,17 @@ public class Account {
 
     public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Account {" +
+                "id=" + id +
+                ", type=" + type +
+                ", nickname='" + nickname + '\'' +
+                ", rewards=" + rewards +
+                ", balance=" + balance +
+                ", customer_id=" + customer_id +
+                '}';
     }
 }
