@@ -1,4 +1,4 @@
-package com.bankapi.bankofmikaila.exceptions;
+package com.bankapi.bankofmikaila.exception;
 
 
 import org.springframework.http.HttpStatus;

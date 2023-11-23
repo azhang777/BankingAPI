@@ -3,12 +3,10 @@ package com.bankapi.bankofmikaila.service;
 import com.bankapi.bankofmikaila.dto.TransactionMedium;
 import com.bankapi.bankofmikaila.dto.TransactionStatus;
 import com.bankapi.bankofmikaila.dto.TransactionType;
-import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
-import com.bankapi.bankofmikaila.exceptions.WithdrawlsByAccountNotFound;
+import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Transaction;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
-import com.bankapi.bankofmikaila.repository.DepositRepository;
 import com.bankapi.bankofmikaila.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
-
 
     @Autowired
     private DepositService depositService;

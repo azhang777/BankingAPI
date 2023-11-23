@@ -1,5 +1,5 @@
 package com.bankapi.bankofmikaila.service;
-import com.bankapi.bankofmikaila.exceptions.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;

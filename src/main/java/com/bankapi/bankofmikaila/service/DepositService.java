@@ -1,18 +1,14 @@
 package com.bankapi.bankofmikaila.service;
 
-import com.bankapi.bankofmikaila.exceptions.DepositByAccountNotFound;
-import com.bankapi.bankofmikaila.exceptions.DepositByIdNotFound;
-import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
-import com.bankapi.bankofmikaila.exceptions.WithdrawlsByAccountNotFound;
+import com.bankapi.bankofmikaila.exception.DepositByAccountNotFound;
+import com.bankapi.bankofmikaila.exception.DepositByIdNotFound;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Deposit;
-import com.bankapi.bankofmikaila.model.Withdrawl;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service

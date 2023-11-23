@@ -128,6 +128,9 @@ public class CustomerResponse {
         detail.setData(customerService.getAllCustomers());
 
         // Set the HTTP status code in Detail to OK (200).
+        /*
+        lines 134 - 136 may not be needed - andy
+         */
         List<Customer> customerSet = customerService.getAllCustomers();
         customerSet.forEach(customer -> customer.getAddress().size());
         detail.setData(customerSet);
