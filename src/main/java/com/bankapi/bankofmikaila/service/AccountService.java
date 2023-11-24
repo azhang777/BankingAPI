@@ -71,11 +71,11 @@ public class AccountService {
 
     public Account getAccountById(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() ->{
-          //  logger.error("Customer with ID:" + accountId + " not found.");
+          //logger.error("Customer with ID:" + accountId + " not found.");
             return new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account");
         });
 
-      //  logger.info("Account retrieved successfully.");
+        //logger.info("Account retrieved successfully.");
         return account;
     }
 
@@ -98,7 +98,7 @@ public class AccountService {
         }
         //do we need to update the id or keep it
         //what can we update?
-      //  logger.info("Account updated successfully.");
+       //logger.info("Account updated successfully.");
         accountRepository.save(existingAccount);
 
         return existingAccount;

@@ -125,7 +125,6 @@ public class CustomerResponse {
 
 
         // Set the data field in Detail to the result of getting all customers.
-        detail.setData(customerService.getAllCustomers());
 
         // Set the HTTP status code in Detail to OK (200).
         /*
