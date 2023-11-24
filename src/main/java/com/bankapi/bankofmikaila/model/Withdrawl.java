@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "withdrawals")
@@ -29,7 +30,6 @@ public class Withdrawl {
 
 
     @JoinColumn(name = "account_id")
-    @NotEmpty(message = "Need to input a payee id")
     @ManyToOne
     private Account account;
 
@@ -39,7 +39,7 @@ public class Withdrawl {
     private String medium;
 
     @Column(name="AMOUNT")
-    @NotEmpty(message = "Need to input an amount")
+    @NotNull(message = "Amount must not be null")
     private Double amount;
 
     @Column(name="DESCRIPTION")
