@@ -67,43 +67,50 @@ public class WithdrawlService {
     }
 
     @Transactional
-    public Transaction createWithdrawal(Long accountId, TransactionStatus status, TransactionMedium medium,
-                                        Double amount, String description) {
-        var accountOptional = accountRepository.findById(accountId);
+    public Transaction createWithdrawal(Withdrawl withdrawl, Long accountId) {
 
-        if (accountOptional.isEmpty()) {
+        var account = accountRepository.findById(accountId);
+
+        if (account.isEmpty()) {
             throw new WithdrawlsByAccountNotFound("Error creating withdrawal: Account not found");
         }
-
-        Account account = accountOptional.get();
-
-        // Save the current state of the account before making changes
-        Double previousBalance = account.getBalance();
-
-        Withdrawl withdrawl = new Withdrawl();
-        withdrawl.setAccount(account);
-        withdrawl.setStatus(status);
-        withdrawl.setMedium(medium);
-        withdrawl.setAmount(amount);
-        withdrawl.setDescription(description);
-
-        // Update the account balance
-        account.setBalance(previousBalance - amount);
-        accountRepository.save(account);
-
-        // Create the transaction using the factory
-        Transaction transaction = transactionFactory.createTransaction(account, TransactionType.WITHDRAWAL, status, medium, amount, description);
-        transaction.setPreviousBalance(previousBalance); // Set the previous balance on the transaction
-
-        // Update the Withdrawal entity with the transaction details
-        withdrawl.setId(transaction.getId());
-        withdrawl.setType(transaction.getType());
-        withdrawl.setTransactionDate(transaction.getTransactionDate());
-
-        // Save the transaction and return it
-        transactionRepository.save(transaction);
-
-        return transaction;
+        withdrawl.setAccount(account.get());
+    return transactionRepository.save(withdrawl);
+//        var accountOptional = accountRepository.findById(accountId);
+//
+//        if (accountOptional.isEmpty()) {
+//            throw new WithdrawlsByAccountNotFound("Error creating withdrawal: Account not found");
+//        }
+//
+//        Account account = accountOptional.get();
+//
+//        // Save the current state of the account before making changes
+//        Double previousBalance = account.getBalance();
+//
+//        Withdrawl withdrawl = new Withdrawl();
+//        withdrawl.setAccount(account);
+//        withdrawl.setStatus(status);
+//        withdrawl.setMedium(medium);
+//        withdrawl.setAmount(amount);
+//        withdrawl.setDescription(description);
+//
+//        // Update the account balance
+//        account.setBalance(previousBalance - amount);
+//        accountRepository.save(account);
+//
+//        // Create the transaction using the factory
+//        Transaction transaction = transactionFactory.createTransaction(account, TransactionType.WITHDRAWAL, status, medium, amount, description);
+//        transaction.setPreviousBalance(previousBalance); // Set the previous balance on the transaction
+//
+//        // Update the Withdrawal entity with the transaction details
+//        withdrawl.setId(transaction.getId());
+//        withdrawl.setType(transaction.getType());
+//        withdrawl.setTransactionDate(transaction.getTransactionDate());
+//
+//        // Save the transaction and return it
+//        transactionRepository.save(transaction);
+//
+//        return transaction;
     }
     @Transactional
     public void updateWithdrawal(Withdrawl existingWithdrawal, Long withdrawalId) {
@@ -147,36 +154,36 @@ public class WithdrawlService {
         existing.setType(newTransaction.getType());
     }
 
-    @Transactional
-    public ResponseEntity<String> deleteWithdrawal(Long id) {
-        try {
-            log.info("Deleting withdrawal with ID: {}", id);
-
-            Optional<Transaction> recordOptional = transactionRepository.findById(id);
-
-            if (recordOptional.isEmpty() || !(recordOptional.get() instanceof Withdrawl)) {
-                log.warn("Withdrawal not found with ID: {}", id);
-                throw new WithdrawalByIdNotFound("Withdrawal not found with ID: " + id);
-            }
-
-            Withdrawl withdrawal = (Withdrawl) recordOptional.get();
-            Account account = withdrawal.getAccount();
-
-            // Remove the association between the withdrawal and the account
-            account.getTransactions().remove(withdrawal);
-
-            // Delete the withdrawal
-            transactionRepository.delete(withdrawal);
-
-            log.info("Withdrawal deleted successfully");
-            return ResponseEntity.ok("Withdrawal deleted successfully");
-        } catch (WithdrawalByIdNotFound e) {
-            log.error("WithdrawalByIdNotFound: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Exception during withdrawal deletion", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
-    }
+//    @Transactional
+//    public ResponseEntity<String> deleteWithdrawal(Long id) {
+//        try {
+//            log.info("Deleting withdrawal with ID: {}", id);
+//
+//            Optional<Transaction> recordOptional = transactionRepository.findById(id);
+//
+//            if (recordOptional.isEmpty() || !(recordOptional.get() instanceof Withdrawl)) {
+//                log.warn("Withdrawal not found with ID: {}", id);
+//                throw new WithdrawalByIdNotFound("Withdrawal not found with ID: " + id);
+//            }
+//
+//            Withdrawl withdrawal = (Withdrawl) recordOptional.get();
+//            Account account = withdrawal.getAccount();
+//
+//            // Remove the association between the withdrawal and the account
+//            account.getTransactions().remove(withdrawal);
+//
+//            // Delete the withdrawal
+//            transactionRepository.delete(withdrawal);
+//
+//            log.info("Withdrawal deleted successfully");
+//            return ResponseEntity.ok("Withdrawal deleted successfully");
+//        } catch (WithdrawalByIdNotFound e) {
+//            log.error("WithdrawalByIdNotFound: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            log.error("Exception during withdrawal deletion", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+//        }
+//    }
 
 }

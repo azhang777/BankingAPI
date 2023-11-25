@@ -66,11 +66,11 @@ public class WithdrawalController {
             return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId){
-
-        return withdrawlResponse.deleteWithdrawal(withdrawalId);
-    }
+//    @DeleteMapping("/withdrawals/{withdrawalId}")
+//    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId){
+//
+//        return withdrawlResponse.deleteWithdrawal(withdrawalId);
+//    }
 
 
 }

@@ -42,7 +42,7 @@ public class WithdrawlResponse
     public ResponseEntity<?> createWithdrawal(Withdrawl withdrawl, Long accountId){
 
         Detail detail = new Detail();
-        detail.setData(withdrawlService.createWithdrawal(accountId, withdrawl.getStatus(), withdrawl.getMedium(), withdrawl.getAmount(), withdrawl.getDescription()));
+        detail.setData(withdrawlService.createWithdrawal(withdrawl, accountId));
         detail.setCode(HttpStatus.OK.value());
         return  new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
@@ -65,16 +65,16 @@ public class WithdrawlResponse
     }
 
 
-    public ResponseEntity<String> deleteWithdrawal(Long id) {
-        try {
-            withdrawlService.deleteWithdrawal(id);
-            return ResponseEntity.ok("Withdrawal deleted successfully");
-        } catch (WithdrawalByIdNotFound e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
-    }
+//    public ResponseEntity<String> deleteWithdrawal(Long id) {
+//        try {
+//            withdrawlService.deleteWithdrawal(id);
+//            return ResponseEntity.ok("Withdrawal deleted successfully");
+//        } catch (WithdrawalByIdNotFound e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+//        }
+//    }
 
 
 

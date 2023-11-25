@@ -14,8 +14,5 @@ import javax.validation.constraints.NotEmpty;
 public class Withdrawl extends Transaction{
 
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "account_id", nullable = false)
-    @JsonBackReference
-    private Account account;
+
 }
