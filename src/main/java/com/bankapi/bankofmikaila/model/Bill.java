@@ -1,7 +1,6 @@
 package com.bankapi.bankofmikaila.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 
 
@@ -182,7 +181,7 @@ public class Bill {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 

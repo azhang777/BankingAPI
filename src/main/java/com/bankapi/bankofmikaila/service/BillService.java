@@ -53,7 +53,6 @@ public class BillService {
 
         bill.setAccount(account);
 
-        // Use your BillRepository to save the bill
         return billRepository.save(bill);
     }
 
