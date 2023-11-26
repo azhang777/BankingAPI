@@ -85,6 +85,7 @@ public class CustomerController {
      */
     @GetMapping("")
     public ResponseEntity<?> getAllCustomers (){
+        //returning a response entity witthin another response entity. just return the customerReponse.getAllCustomers
         return new ResponseEntity<>(customerResponse.getAllCustomers(), HttpStatus.OK);
     }
 }

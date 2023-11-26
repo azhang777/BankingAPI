@@ -39,6 +39,7 @@ public class Transaction {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    //Maybe one side the relationship?
 
     public Transaction(){
 
