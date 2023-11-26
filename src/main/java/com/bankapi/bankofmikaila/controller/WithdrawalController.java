@@ -1,10 +1,10 @@
 package com.bankapi.bankofmikaila.controller;
 
-import com.bankapi.bankofmikaila.model.Withdrawl;
+import com.bankapi.bankofmikaila.model.Withdrawal;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.WithdrawRepo;
-import com.bankapi.bankofmikaila.response.WithdrawlResponse;
-import com.bankapi.bankofmikaila.service.WithdrawlService;
+import com.bankapi.bankofmikaila.response.WithdrawalResponse;
+import com.bankapi.bankofmikaila.service.WithdrawalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class WithdrawalController {
 
     @Autowired
-    private WithdrawlResponse withdrawlResponse;
+    private WithdrawalResponse withdrawlResponse;
 
     @Autowired
-    private WithdrawlService withdrawlService;
+    private WithdrawalService withdrawalService;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -36,14 +36,14 @@ public class WithdrawalController {
 
 
     @PostMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<?> createWithdrawal(@RequestBody Withdrawl withdrawal, @PathVariable Long accountId){
+    public ResponseEntity<?> createWithdrawal(@RequestBody Withdrawal withdrawal, @PathVariable Long accountId){
 
 
     return   withdrawlResponse.createWithdrawal(withdrawal, accountId);
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawl withdrawl, @PathVariable Long withdrawalId){
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal withdrawl, @PathVariable Long withdrawalId){
 
         withdrawalId = withdrawl.getId();
        return withdrawlResponse.updateWithdrawal(withdrawl, withdrawalId );
@@ -51,9 +51,9 @@ public class WithdrawalController {
 
     }
     @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@RequestBody Withdrawl withdrawl){
+    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId){
 
-        return withdrawlResponse.deleteWithdrawal(withdrawl);
+        return withdrawlResponse.deleteWithdrawal(withdrawalId);
     }
 
 

@@ -7,7 +7,9 @@ import com.bankapi.bankofmikaila.dto.TransactionType;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "transactions")
+@Table(name = "transaction")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.STRING)
 public class Transaction {
 
     @Id
@@ -17,7 +19,7 @@ public class Transaction {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "transaction_type",  insertable = false, updatable = false)
     private TransactionType type;  // P2P, DEPOSIT, WITHDRAWAL
 
     @Column(name = "transaction_date")
@@ -36,15 +38,24 @@ public class Transaction {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "transaction_account_id")
     private Account account;
 
-    //Maybe one side the relationship?
 
     public Transaction(){
 
     }
 
+    public Transaction(Long id, TransactionType type, String transactionDate, TransactionStatus status, TransactionMedium medium, Double amount, String description, Account account) {
+        this.id = id;
+        this.type = type;
+        this.transactionDate = transactionDate;
+        this.status = status;
+        this.medium = medium;
+        this.amount = amount;
+        this.description = description;
+        this.account = account;
+    }
 
     public Long getId() {
         return id;
