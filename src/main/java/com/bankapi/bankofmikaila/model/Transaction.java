@@ -3,19 +3,16 @@ package com.bankapi.bankofmikaila.model;
 import com.bankapi.bankofmikaila.dto.TransactionMedium;
 import com.bankapi.bankofmikaila.dto.TransactionStatus;
 import com.bankapi.bankofmikaila.dto.TransactionType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transactions")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transaction {
 
     @Id
-    @GeneratedValue
-        @Column(name = "transaction_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id")
     private Long id;
 
 
@@ -38,28 +35,14 @@ public class Transaction {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL) // Adjust CascadeType based on your needs
+    @ManyToOne
     @JoinColumn(name = "account_id")
-    @JsonIgnoreProperties("transactions")
-    private Account account = new Account();
+    private Account account;
 
-    @Column(name = "previous_balance")
-    private Double previousBalance;
 
     public Transaction(){
 
     }
-
-    public Double getPreviousBalance() {
-        return previousBalance;
-    }
-
-    public void setPreviousBalance(Double previousBalance) {
-        this.previousBalance = previousBalance;
-    }
-
-
-
 
 
     public Long getId() {
