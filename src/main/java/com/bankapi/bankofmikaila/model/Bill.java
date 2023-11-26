@@ -1,7 +1,7 @@
 package com.bankapi.bankofmikaila.model;
 
 import javax.persistence.*;
-import java.util.Objects;
+
 
 
 @Entity
@@ -12,24 +12,55 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long id;
+
+
     @Column(name = "status")
     private String status;
+
     @Column(name = "payee")
     private String payee;
+
     @Column(name = "nickname")
     private String nickname;
+
     @Column(name = "creationDate")
     private String creationDate;
+
     @Column(name = "paymentDate")
     private String paymentDate;
+
     @Column(name = "recurringDate")
     private Integer recurringDate;
+
     @Column(name = "upcomingPaymentDate")
     private String upcomingPaymentDate;
+
     @Column(name = "paymentAmount")
     private Double paymentAmount;
+
+
+    /**
+     *
+     *
+     * @Todo - add two more things in here and generate getters and setters for them
+     *
+     * @JoinColumn(name = "account_id")
+     * @ManyToOne
+     * private Account account;
+     *
+     *   @JoinColumn(name = "customer_id")
+     *     @ManyToOne
+     * private Customer customer
+     */
+
+    /**
+     * @Delete
+     */
     @Column(name = "accountId")
     private Long accountId;
+
+    //@TODO - Make this a nullable constructor.
+
 
 
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
@@ -43,112 +74,117 @@ public class Bill {
         this.upcomingPaymentDate = upcomingPaymentDate;
         this.paymentAmount = paymentAmount;
         this.accountId = accountId;
-    }
 
 
-    public Long getId() {
-        return id;
-    }
+        @ManyToOne
+        @JoinColumn(name = "account_id")
+        private Account account;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+        public Long getId () {
+            return id;
+        }
 
-    public String getPayee() {
-        return payee;
-    }
+        public void setId (Long id){
+            this.id = id;
+        }
 
-    public void setPayee(String payee) {
-        this.payee = payee;
-    }
+        public String getStatus () {
+            return status;
+        }
 
-    public String getNickname() {
-        return nickname;
-    }
+        public void setStatus (String status){
+            this.status = status;
+        }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+        public String getPayee () {
+            return payee;
+        }
 
-    public String getCreationDate() {
-        return creationDate;
-    }
+        public void setPayee (String payee){
+            this.payee = payee;
+        }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
+        public String getNickname () {
+            return nickname;
+        }
 
-    public String getPaymentDate() {
-        return paymentDate;
-    }
+        public void setNickname (String nickname){
+            this.nickname = nickname;
+        }
 
-    public void setPaymentDate(String paymentDate) {
-        this.paymentDate = paymentDate;
-    }
+        public String getCreationDate () {
+            return creationDate;
+        }
 
-    public Integer getRecurringDate() {
-        return recurringDate;
-    }
+        public void setCreationDate (String creationDate){
+            this.creationDate = creationDate;
+        }
 
-    public void setRecurringDate(Integer recurringDate) {
-        this.recurringDate = recurringDate;
-    }
+        public String getPaymentDate () {
+            return paymentDate;
+        }
 
-    public String getUpcomingPaymentDate() {
-        return upcomingPaymentDate;
-    }
+        public void setPaymentDate (String paymentDate){
+            this.paymentDate = paymentDate;
+        }
 
-    public void setUpcomingPaymentDate(String upcomingPaymentDate) {
-        this.upcomingPaymentDate = upcomingPaymentDate;
-    }
+        public Integer getRecurringDate () {
+            return recurringDate;
+        }
 
-    public Double getPaymentAmount() {
-        return paymentAmount;
-    }
+        public void setRecurringDate (Integer recurringDate){
+            this.recurringDate = recurringDate;
+        }
 
-    public void setPaymentAmount(Double paymentAmount) {
-        this.paymentAmount = paymentAmount;
-    }
+        public String getUpcomingPaymentDate () {
+            return upcomingPaymentDate;
+        }
 
-    public Long getAccountId() {
-        return accountId;
-    }
+        public void setUpcomingPaymentDate (String upcomingPaymentDate){
+            this.upcomingPaymentDate = upcomingPaymentDate;
+        }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
+        public Double getPaymentAmount () {
+            return paymentAmount;
+        }
 
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", payee='" + payee + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", creationDate='" + creationDate + '\'' +
-                ", paymentDate='" + paymentDate + '\'' +
-                ", recurringDate=" + recurringDate +
-                ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
-                ", paymentAmount=" + paymentAmount +
-                ", accountId='" + accountId + '\'' +
-                '}';
+        public void setPaymentAmount (Double paymentAmount){
+            this.paymentAmount = paymentAmount;
+        }
+
+        public Account getAccount () {
+            return account;
+        }
+
+        public void setAccount (Account account){
+            this.account = account;
+        }
+
+    public
+        Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId)
+        {
+            this.id = id;
+            this.status = status;
+            this.payee = payee;
+            this.nickname = nickname;
+            this.creationDate = creationDate;
+            this.paymentDate = paymentDate;
+            this.recurringDate = recurringDate;
+            this.upcomingPaymentDate = upcomingPaymentDate;
+            this.paymentAmount = paymentAmount;
+            this.account = account;
+        }
+
+
+        public enum BillStatus {
+            PENDING,
+            CANCELLED,
+            COMPLETED,
+            RECURRING
+        }
+
     }
 }
-// - id: Long
-//- status: String
-//- payee: String
-//- nickname: String
-//- creation_date: String
-//- payment_date: String
-//- recurring_date: Integer
-//- upcoming_payment_date: String
-//- payment_amount: Double
-//- account_id: Long
+
