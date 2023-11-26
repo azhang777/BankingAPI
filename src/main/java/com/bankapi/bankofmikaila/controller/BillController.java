@@ -1,6 +1,7 @@
 package com.bankapi.bankofmikaila.controller;
 
 import com.bankapi.bankofmikaila.model.Bill;
+import com.bankapi.bankofmikaila.response.BillResponse;
 import com.bankapi.bankofmikaila.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,52 +12,38 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bills")
 public class BillController {
 
-//    @Autowired
-//    private final BillService billService;
-//
-//
-//    /**
-//     *
-//     * @Delete
-//     */
-//    @Autowired
-//    public BillController(BillService billService) {
-//        this.billService = billService;
-//    }
-//
-//    //T
-//    @GetMapping
-//    public ResponseEntity<List<Bill>> getAllBills() {
-//        List<Bill> bills = billService.getAllBills();
-//        return new ResponseEntity<>(bills, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/{billId}")
-//    public ResponseEntity<Bill> getBillById(@PathVariable Long billId) {
-//        Optional<Bill> bill = billService.getBillById(billId);
-//        return bill.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Bill> createBill(@RequestBody Bill bill) {
-//        Bill createdBill = billService.createBill(bill);
-//        return new ResponseEntity<>(createdBill, HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/{billId}")
-//    public ResponseEntity<Bill> updateBill(@PathVariable Long billId, @RequestBody Bill updatedBill) {
-//        Optional<Bill> updated = billService.updateBill(billId, updatedBill);
-//        return updated.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
-//
-//    @DeleteMapping("/{billId}")
-//    public ResponseEntity<Void> deleteBill(@PathVariable Long billId) {
-//        boolean deleted = billService.deleteBill(billId);
-//        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-//    }
+    @Autowired
+    private BillResponse billResponse;
+
+    @GetMapping("/accounts/{accountId}/bills")
+    public ResponseEntity<?> getAllBillsByAccountId(@PathVariable Long accountId) {
+        return billResponse.getAllBills(accountId);
+    }
+
+    @GetMapping("/bills/{billId}")
+    public ResponseEntity<?> getBillById(@PathVariable Long billId) {
+        return billResponse.getBillById(billId);
+    }
+
+    @PostMapping("/accounts/{accountId}/bills")
+    public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable Long accountId) {
+        return billResponse.createBill(bill, accountId);
+    }
+
+    @PutMapping("/bills/{billId}")
+    public ResponseEntity<?> updateBill(@PathVariable Long billId, @RequestBody Bill bill) {
+        return billResponse.updateBill(billId, bill);
+    }
+
+    @DeleteMapping("/bills/{billId}")
+    public ResponseEntity<?> deleteBill(@PathVariable Long billId) {
+        return billResponse.deleteBill(billId);
+    }
+
+    @GetMapping("/customers/{customerId}/bills")
+    public ResponseEntity<?> getBillByCustomerId(@PathVariable Long billId) {
+        return billResponse.getBillsByCID(billId);
+    }
 }

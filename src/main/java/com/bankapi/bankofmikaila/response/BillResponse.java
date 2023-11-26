@@ -123,8 +123,9 @@ public class BillResponse {
          return new ResponseEntity<>(detail, HttpStatus.OK);
      }
 
-     public ResponseEntity<?> updateBill(){
+     public ResponseEntity<?> updateBill(Long id, Bill bill){
      Detail detail = new Detail();
+     billService.updateBill(id, bill);
      detail.setMessage("Accepted bill modification");
      return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
      }
