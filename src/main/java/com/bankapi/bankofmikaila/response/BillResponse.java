@@ -36,7 +36,7 @@ public class BillResponse {
         return bills;
     }
 
-    public Bill createBillForAccount(String accountId, Bill bill) {
+    public Bill createBillForAccount(Account accountId, Bill bill) {
         Bill createdBill = billService.createBillForAccount(accountId, bill);
         return createdBill;
     }

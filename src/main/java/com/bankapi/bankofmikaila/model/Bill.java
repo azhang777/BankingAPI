@@ -70,40 +70,6 @@ public class Bill {
     public Bill() {
     }
 
-    @Column(name = "status")
-    private String status;
-    @Column(name = "payee")
-    private String payee;
-    @Column(name = "nickname")
-    private String nickname;
-    @Column(name = "creationDate")
-    private String creationDate;
-    @Column(name = "paymentDate")
-    private String paymentDate;
-    @Column(name = "recurringDate")
-    private Integer recurringDate;
-    @Column(name = "upcomingPaymentDate")
-    private String upcomingPaymentDate;
-    @Column(name = "paymentAmount")
-    private Double paymentAmount;
-    @Column(name = "accountId")
-    private Long accountId;
-
-
-    public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
-        this.id = id;
-        this.status = status;
-        this.payee = payee;
-        this.nickname = nickname;
-        this.creationDate = creationDate;
-        this.paymentDate = paymentDate;
-        this.recurringDate = recurringDate;
-        this.upcomingPaymentDate = upcomingPaymentDate;
-        this.paymentAmount = paymentAmount;
-        this.account = account;
-    }
-
-
 
     public Long getId() {
         return id;
@@ -181,27 +147,23 @@ public class Bill {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", payee='" + payee + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", creationDate='" + creationDate + '\'' +
-                ", paymentDate='" + paymentDate + '\'' +
-                ", recurringDate=" + recurringDate +
-                ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
-                ", paymentAmount=" + paymentAmount +
-                ", account='" + account + '\'' +
-                '}';
+    public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
+        this.id = id;
+        this.status = status;
+        this.payee = payee;
+        this.nickname = nickname;
+        this.creationDate = creationDate;
+        this.paymentDate = paymentDate;
+        this.recurringDate = recurringDate;
+        this.upcomingPaymentDate = upcomingPaymentDate;
+        this.paymentAmount = paymentAmount;
+        this.account = account;
     }
+
 
     public enum BillStatus {
         PENDING,

@@ -1,5 +1,6 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Bill;
 import com.bankapi.bankofmikaila.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class BillService {
     }
 
     // Custom method to associate a bill with an account
-    public Bill createBillForAccount(String account, Bill bill) {
+    public Bill createBillForAccount(Account account, Bill bill) {
 
         bill.setAccount(account);
 
