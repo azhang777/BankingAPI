@@ -107,4 +107,16 @@ public class Account {
     public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }
+
+    @Override
+    public String toString() {
+        return "Account {" +
+                "id=" + id +
+                ", type=" + type +
+                ", nickname='" + nickname + '\'' +
+                ", rewards=" + rewards +
+                ", balance=" + balance +
+                ", customer_id=" + customer_id +
+                '}';
+    }
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.bankapi.bankofmikaila")
+//@ComponentScan(basePackages = "com.bankapi.bankofmikaila")
 public class BankofmikailaApplication {
 
 	public static void main(String[] args) {

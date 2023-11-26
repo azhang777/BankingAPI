@@ -1,8 +1,8 @@
-package com.bankapi.bankofmikaila.handlers;
+package com.bankapi.bankofmikaila.handler;
 
 import com.bankapi.bankofmikaila.dto.ErrorDetail;
-import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
-import com.bankapi.bankofmikaila.exceptions.WithdrawlsByAccountNotFound;
+import com.bankapi.bankofmikaila.exception.WithdrawalByIdNotFound;
+import com.bankapi.bankofmikaila.exception.WithdrawlsByAccountNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +14,7 @@ public class WithdrawalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
 
- @ExceptionHandler(WithdrawlsByAccountNotFound.class)
+    @ExceptionHandler(WithdrawlsByAccountNotFound.class)
     public ResponseEntity<?> handleWithdrawalByAidNotFound(WithdrawlsByAccountNotFound withdrawlsByAccountNotFound){
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
@@ -22,6 +22,7 @@ public class WithdrawalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(WithdrawalByIdNotFound.class)
     public ResponseEntity<?> handleWithdrawalByIdNotFound(WithdrawalByIdNotFound withdrawalByIdNotFound){
         ErrorDetail errorDetail = new ErrorDetail();

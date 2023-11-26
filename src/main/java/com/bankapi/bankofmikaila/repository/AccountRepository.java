@@ -14,18 +14,13 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Account a SET a.balance = :newBalance WHERE a.account_id = :accountId", nativeQuery = true)
-    void updateBalance(Long accountId, Double newBalance);
+    @Query(value = "UPDATE account SET balance = balance - :amount WHERE id = :payerAccount_id", nativeQuery = true)
+    void deductBalance(@Param("payerAccount_id") Long senderAccount_id, @Param("amount") Double amount);
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "UPDATE account SET balance = balance - :amount WHERE account_id = :payerAccount_id", nativeQuery = true)
-//    void deductBalance(@Param("payerAccount_id") Long senderAccount_id, @Param("amount") Double amount);
-//
-//
-//    @Transactional
-//    @Modifying
-//    @Query(value = "UPDATE account SET balance = balance + :amount WHERE account_id = :payeeAccount_id", nativeQuery = true)
-//    void addBalance(@Param("payeeAccount_id") Long receiverAccount_id, @Param("amount") Double amount);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE account SET balance = balance + :amount WHERE id = :payeeAccount_id", nativeQuery = true)
+    void addBalance(@Param("payeeAccount_id") Long receiverAccount_id, @Param("amount") Double amount);
 
 }

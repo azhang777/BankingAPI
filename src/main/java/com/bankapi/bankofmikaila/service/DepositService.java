@@ -1,12 +1,14 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.exception.DepositByAccountNotFound;
+import com.bankapi.bankofmikaila.exception.DepositByIdNotFound;
+import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Deposit;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -17,13 +19,32 @@ public class DepositService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Iterable<Deposit> getAllDeposits(){
 
-        return depositRepository.findAll();
+    protected void verifyAccount(Long accountId) throws DepositByAccountNotFound {
+
+        accountRepository.findById(accountId).orElseThrow(()->
+                new DepositByAccountNotFound("Account not found."));
+
+    }
+
+    protected void verifyDeposit(Long depositId) throws DepositByIdNotFound {
+
+        depositRepository.findById(depositId).orElseThrow(()->
+                new DepositByIdNotFound("Error fetching deposit with id."));
+    }
+
+
+    public Iterable<Deposit> getAllDeposits(Long accountId){
+
+        verifyAccount(accountId);
+
+        return depositRepository.findDepositsByAccountId(accountId);
 
     }
 
     public Optional<Deposit> getDeposit(Long depositId){
+
+        verifyDeposit(depositId);
 
         return depositRepository.findById(depositId);
 
@@ -32,9 +53,9 @@ public class DepositService {
     public void createDeposit(Deposit deposit, Long accountId) {
 
         //uses lambda expression to check if account exists (by id), if not throw exception
-        accountRepository.findById(accountId).orElseThrow(()->
-                new EntityNotFoundException("Account with Id: " + accountId + " not found."));
-
+        Account account = accountRepository.findById(accountId).orElseThrow(()->
+                new DepositByAccountNotFound("Error creating deposit: account not found."));
+        deposit.setAccount(account);
         //Save deposit once null check passes
         depositRepository.save(deposit);
 
@@ -60,14 +81,20 @@ public class DepositService {
 
             depositRepository.save(existingDeposit);
         } else {
-            throw new EntityNotFoundException("Deposit with Id: " + depositId + " not found.");
+            throw new DepositByIdNotFound("Deposit ID does not exist.");
         }
 
     }
 
     public void deleteDeposit(Long depositId){
 
-        depositRepository.deleteById(depositId);
+        Optional<Deposit> existingDepositOptional = depositRepository.findById(depositId);
+
+        if(existingDepositOptional.isPresent()) {
+            depositRepository.deleteById(depositId);
+        } else {
+            throw new DepositByIdNotFound("This id does not exist in deposits");
+        }
 
     }
 
