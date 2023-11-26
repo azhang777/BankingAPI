@@ -4,11 +4,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 
-/* @CLASS - Bill
- *
- * @ManyToOne
- */
-
 @Entity
 @Table(name= "Bill")
 public class Bill {
