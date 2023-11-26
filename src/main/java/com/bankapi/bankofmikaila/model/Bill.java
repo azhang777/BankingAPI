@@ -61,34 +61,16 @@ public class Bill {
      * private Customer customer
      */
 
-    /**
-     * @Delete
-     */
-    @Column(name = "accountId")
-    private Long accountId;
 
-    //@TODO - Make this a nullary constructor.
-
-
-
-    public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
-        this.id = id;
-        this.status = status;
-        this.payee = payee;
-        this.nickname = nickname;
-        this.creationDate = creationDate;
-        this.paymentDate = paymentDate;
-        this.recurringDate = recurringDate;
-        this.upcomingPaymentDate = upcomingPaymentDate;
-        this.paymentAmount = paymentAmount;
-        this.accountId = accountId;
 
 
         @ManyToOne
         @JoinColumn(name = "account_id")
         private Account account;
 
-
+   @JoinColumn(name = "customer_id")
+    @ManyToOne
+    private Customer customer;
 
         public Long getId () {
             return id;
@@ -170,23 +152,15 @@ public class Bill {
             this.account = account;
         }
 
-    public
-        Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId)
-        {
-            this.id = id;
-            this.status = status;
-            this.payee = payee;
-            this.nickname = nickname;
-            this.creationDate = creationDate;
-            this.paymentDate = paymentDate;
-            this.recurringDate = recurringDate;
-            this.upcomingPaymentDate = upcomingPaymentDate;
-            this.paymentAmount = paymentAmount;
-            this.account = account;
-        }
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-        public enum BillStatus {
+    public enum BillStatus {
             PENDING,
             CANCELLED,
             COMPLETED,
@@ -194,5 +168,5 @@ public class Bill {
         }
 
     }
-}
+
 

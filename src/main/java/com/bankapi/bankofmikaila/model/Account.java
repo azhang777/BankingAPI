@@ -1,10 +1,12 @@
 package com.bankapi.bankofmikaila.model;
 
 import com.bankapi.bankofmikaila.dto.AccountType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,11 +33,12 @@ public class Account {
     @Column(name = "customer_id", insertable = false, updatable = false)
     private Long customer_id;
 
-    @OneToMany
-    @JoinColumn(name = "transaction_id")
-    private List<Transaction> transactions;
+
+
     public Account() {
     }
+
+
 
     public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer) {
         this.id = id;

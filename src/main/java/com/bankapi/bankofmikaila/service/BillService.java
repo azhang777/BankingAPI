@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
+
 
 @Service
 public class BillService {
@@ -49,7 +49,7 @@ private BillRepository billRepository;
     public Bill getBillById(Long id) {
         var bill = billRepository.findById(id);
         if (bill.isEmpty()){
-            throw new BillsByAccountIdNotFoundException("error fetching bill with id + " id);
+            throw new BillsByAccountIdNotFoundException("error fetching bill with id " + id);
         }
         return   bill.get();
 
@@ -68,58 +68,61 @@ private BillRepository billRepository;
 
        public Bill createBill(Bill bill, Long accountId){
         Optional<Account> account = accountRepository.findById(accountId);
-           {
-
-      if( account.isEmpty()){
-     throw new BillsByAccountIdNotFoundException("Error creating bill: Account not found");
-     }
-      bill.setAccount(account.get());
-     return billRepository.save(bill);
-}
 
 
-    public Bill createBill(Bill bill) {
+               if (account.isEmpty()) {
+                   throw new BillsByAccountIdNotFoundException("Error creating bill: Account not found");
+               }
+               bill.setAccount(account.get());
+               return billRepository.save(bill);
+           }
+
+
+
+
+
+    public void updateBill(Long id, Bill updatedBill) {
+        Optional<Bill> existingBill = billRepository.findById(id);
+        if (existingBill.isPresent()) {
+            Bill newBill = existingBill.get();
+            newBill.setId(updatedBill.getId());
+            newBill.setStatus(updatedBill.getStatus());
+            newBill.setPayee(updatedBill.getPayee());
+            newBill.setNickname(updatedBill.getNickname());
+            newBill.setCreationDate(updatedBill.getCreationDate());
+            newBill.setPaymentDate(updatedBill.getPaymentDate());
+            newBill.setRecurringDate(updatedBill.getRecurringDate());
+            newBill.setUpcomingPaymentDate(updatedBill.getUpcomingPaymentDate());
+            newBill.setPaymentAmount(updatedBill.getPaymentAmount());
+            newBill.setAccount(updatedBill.getAccount());
+            newBill.setCustomer(updatedBill.getCustomer());
+            billRepository.save(newBill);
+        } else {
+            throw new BillByIdNotFound("Bill ID does not exist");
+        }
+
+    }
+
+
+    public void deleteBill (Long id){
+        if (id == null){
+            throw new BillsByAccountIdNotFoundException("This does not exist in bills");
+        }
+        billRepository.deleteById(id);
+
+    }
+
+    // Custom method to associate a bill with an account
+    public Bill createBillForAccount (Account account, Bill bill){
+
+        bill.setAccount(account);
 
         return billRepository.save(bill);
     }
 
+}
 
-    public Bill updateBill(Long id, Bill updatedBill) {
-        Optional<Bill> existingBill = billRepository.findById(id);
-               if(existingBill.isPresent()){
-                   Bill newBill = existingBill.get();
-                   newBill.setId(updatedBill.getId());
-                   newBill.setStatus(updatedBill.getStatus());
-                   newBill.setPayee(updatedBill.getPayee());
-                   newBill.setNickname(updatedBill.getNickname());
-                   newBill.setCreationDate(updatedBill.getCreationDate());
-                   newBill.setPaymentDate(updatedBill.getPaymentDate());
-                   newBill.setRecurringDate(updatedBill.getRecurringDate());
-                   newBill.setUpcomingPaymentDate(updatedBill.getUpcomingPaymentDate());
-                   newBill.setPaymentAmount(updatedBill.getPaymentAmount());
-                   newBill.setAccount(updatedBill.getAccount());
-                   newBill.setCustomer(updatedBill.getCustomer());
-     billRepository.save(newBill);
-     }else {
-     throw new BillByIdNotFound("Bill ID does not exist");
-     }
-           }
-    }
-           public void deleteBill (Long id){
-                if (id == null){
-                    throw new BillsByAccountIdNotFoundException("This does not exist in bills");
-                }
-                billRepository.deleteById(id);
 
-            }
 
-            // Custom method to associate a bill with an account
-            public Bill createBillForAccount (Account account, Bill bill){
 
-                bill.setAccount(account);
-
-                return billRepository.save(bill);
-            }
-
-        }
 
