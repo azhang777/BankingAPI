@@ -71,7 +71,7 @@ public class WithdrawlService {
           xWithdrawal.setMedium(withdrawl.getMedium());
           xWithdrawal.setDescription(withdrawl.getDescription());
           xWithdrawal.setAccount(withdrawl.getAccount());
-          xWithdrawal.setTransaction_date(withdrawl.getTransaction_date());
+          xWithdrawal.setTransactionDate(withdrawl.getTransactionDate());
           xWithdrawal.setStatus(withdrawl.getStatus());
           xWithdrawal.setType(withdrawl.getType());
           withdrawRepo.save(xWithdrawal);

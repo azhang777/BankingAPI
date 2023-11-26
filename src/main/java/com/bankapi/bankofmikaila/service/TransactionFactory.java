@@ -3,7 +3,7 @@ package com.bankapi.bankofmikaila.service;
 import com.bankapi.bankofmikaila.dto.TransactionMedium;
 import com.bankapi.bankofmikaila.dto.TransactionStatus;
 import com.bankapi.bankofmikaila.dto.TransactionType;
-import com.bankapi.bankofmikaila.exceptions.AccountsNotFoundException;
+
 import com.bankapi.bankofmikaila.model.*;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.TransactionRepository;
