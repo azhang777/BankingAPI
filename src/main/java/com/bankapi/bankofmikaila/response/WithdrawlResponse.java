@@ -38,7 +38,7 @@ public class WithdrawlResponse
 
 
     public ResponseEntity<?> createWithdrawal(Withdrawl withdrawl, Long accountId){
-        accountId = withdrawl.getAccount().getId();
+
         Detail detail = new Detail();
         detail.setData(withdrawlService.createWithdrawl(withdrawl, accountId ));
         detail.setCode(HttpStatus.OK.value());

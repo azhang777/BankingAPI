@@ -1,22 +1,13 @@
 package com.bankapi.bankofmikaila.controller;
 
-import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
-import com.bankapi.bankofmikaila.exceptions.WithdrawlsByAccountNotFound;
-import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Withdrawl;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.WithdrawRepo;
 import com.bankapi.bankofmikaila.response.WithdrawlResponse;
 import com.bankapi.bankofmikaila.service.WithdrawlService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.Optional;
 
 @RestController
 public class WithdrawalController {
