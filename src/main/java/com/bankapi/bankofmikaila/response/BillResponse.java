@@ -2,21 +2,15 @@ package com.bankapi.bankofmikaila.response;
 
 import com.bankapi.bankofmikaila.dto.Detail;
 import org.springframework.stereotype.Component;
-import com.bankapi.bankofmikaila.model.Account;
-import com.bankapi.bankofmikaila.model.Bill;
-import com.bankapi.bankofmikaila.repository.BillRepository;
-import com.bankapi.bankofmikaila.service.AccountService;
 import com.bankapi.bankofmikaila.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
- /**
+/**
      *
      * @Todo - create 6 methods that all return a response entity for each method in the bill service
      *

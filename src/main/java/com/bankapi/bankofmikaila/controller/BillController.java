@@ -1,6 +1,5 @@
 package com.bankapi.bankofmikaila.controller;
 
-import com.bankapi.bankofmikaila.model.Bill;
 import com.bankapi.bankofmikaila.response.BillResponse;
 import com.bankapi.bankofmikaila.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;

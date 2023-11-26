@@ -5,7 +5,6 @@ import com.bankapi.bankofmikaila.exception.BillsByAccountIdNotFoundException;
 import com.bankapi.bankofmikaila.exception.BillsByCustomerIdNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 
-import com.bankapi.bankofmikaila.model.Bill;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.BillRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
@@ -16,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
 @Service
 public class BillService {
