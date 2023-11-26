@@ -5,15 +5,9 @@ import com.bankapi.bankofmikaila.dto.TransactionStatus;
 import com.bankapi.bankofmikaila.dto.TransactionType;
 
 import com.bankapi.bankofmikaila.model.*;
-import com.bankapi.bankofmikaila.repository.AccountRepository;
-import com.bankapi.bankofmikaila.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Component
 public class TransactionFactory {
@@ -56,10 +50,10 @@ public class TransactionFactory {
         return deposit;
     }
 
-    private static Withdrawl createWithdrawalTransaction(Account account,
+    private static Withdrawal createWithdrawalTransaction(Account account,
                                                           TransactionStatus status, TransactionMedium medium,
                                                           Double amount, String description) {
-        Withdrawl withdrawal = new Withdrawl();
+        Withdrawal withdrawal = new Withdrawal();
         setCommonFields(withdrawal, account, TransactionType.WITHDRAWAL, status, medium, amount, description);
         return withdrawal;
     }

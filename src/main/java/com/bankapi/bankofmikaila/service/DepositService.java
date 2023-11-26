@@ -57,6 +57,7 @@ public class DepositService {
                 new DepositByAccountNotFound("Error creating deposit: account not found."));
         deposit.setAccount(account);
         //Save deposit once null check passes
+        //accountRepository.addBalance(accountId, deposit.getAmount()); //hi tanzir - andy & jordy
         depositRepository.save(deposit);
 
 //        if (accountRepository.findById(accountId).isPresent()) {

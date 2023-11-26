@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.persistence.EntityNotFoundException;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class WithdrawlsByAccountNotFound extends EntityNotFoundException {
+public class WithdrawalsByAccountNotFound extends EntityNotFoundException {
 
 
-    public WithdrawlsByAccountNotFound(){
+    public WithdrawalsByAccountNotFound(){
 
     }
 
-    public WithdrawlsByAccountNotFound(String message){
+    public WithdrawalsByAccountNotFound(String message){
         super(message);
     }
 

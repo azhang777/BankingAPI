@@ -1,9 +1,9 @@
 package com.bankapi.bankofmikaila.response;
 
 import com.bankapi.bankofmikaila.dto.Detail;
-import com.bankapi.bankofmikaila.exceptions.WithdrawalByIdNotFound;
-import com.bankapi.bankofmikaila.model.Withdrawl;
-import com.bankapi.bankofmikaila.service.WithdrawlService;
+import com.bankapi.bankofmikaila.exception.WithdrawalByIdNotFound;
+import com.bankapi.bankofmikaila.model.Withdrawal;
+import com.bankapi.bankofmikaila.service.WithdrawalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
-public class WithdrawlResponse
+public class WithdrawalResponse
 {
     @Autowired
-    private WithdrawlService withdrawlService;
+    private WithdrawalService withdrawalService;
 
 
 
 
     public ResponseEntity<?> getAllWithdrawlsResponse(Long accountId){
         Detail detail = new Detail();
-        detail.setData(withdrawlService.getAllWithdrawlsByAID(accountId));
+        detail.setData(withdrawalService.getAllWithdrawlsByAID(accountId));
         detail.setCode(HttpStatus.OK.value());
 
 
@@ -32,28 +32,28 @@ public class WithdrawlResponse
 
     public ResponseEntity<?> getWithdrawalByIdResponse(Long withdrawalId){
         Detail detail =new Detail();
-        detail.setData(withdrawlService.getWithdrawlById(withdrawalId));
+        detail.setData(withdrawalService.getWithdrawlById(withdrawalId));
         detail.setCode(HttpStatus.OK.value());
 
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 
 @Transactional
-    public ResponseEntity<?> createWithdrawal(Withdrawl withdrawl, Long accountId){
+    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawl, Long accountId){
 
         Detail detail = new Detail();
-        detail.setData(withdrawlService.createWithdrawal(withdrawl, accountId));
+        detail.setData(withdrawalService.createWithdrawl(withdrawl, accountId));
         detail.setCode(HttpStatus.OK.value());
         return  new ResponseEntity<>(detail, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> updateWithdrawal(Withdrawl withdrawl) {
-        Long withdrawalId = withdrawl.getId();  // Assuming Withdrawl has a getId() method
+    public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawl, Long withdrawalId ) {
+        withdrawalId = withdrawl.getId();  // Assuming Withdrawl has a getId() method
 
         Detail detail = new Detail();
 
         try {
-            withdrawlService.updateWithdrawal(withdrawl, withdrawalId);
+            withdrawalService.updateWithdrawl(withdrawl, withdrawalId);
             detail.setMessage("Accepted withdrawal modification");
             detail.setCode(HttpStatus.ACCEPTED.value());
             return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
@@ -65,18 +65,16 @@ public class WithdrawlResponse
     }
 
 
-//    public ResponseEntity<String> deleteWithdrawal(Long id) {
-//        try {
-//            withdrawlService.deleteWithdrawal(id);
-//            return ResponseEntity.ok("Withdrawal deleted successfully");
-//        } catch (WithdrawalByIdNotFound e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-//        }
-//    }
-
-
+    public ResponseEntity<String> deleteWithdrawal(Long id) {
+        try {
+            withdrawalService.deleteWithdrawal(id);
+            return ResponseEntity.ok("Withdrawal deleted successfully");
+        } catch (WithdrawalByIdNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
+    }
 
 
 
