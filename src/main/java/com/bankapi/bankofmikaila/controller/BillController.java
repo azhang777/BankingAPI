@@ -8,19 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/bills")
 public class BillController {
 
+    @Autowired
     private final BillService billService;
 
+
+    /**
+     *
+     * @Delete
+     */
     @Autowired
     public BillController(BillService billService) {
         this.billService = billService;
     }
 
+    //T
     @GetMapping
     public ResponseEntity<List<Bill>> getAllBills() {
         List<Bill> bills = billService.getAllBills();
@@ -29,12 +36,9 @@ public class BillController {
 
     @GetMapping("/{billId}")
     public ResponseEntity<Bill> getBillById(@PathVariable Long billId) {
-        Bill bill = billService.getBillById(billId);
-        if (bill != null) {
-            return new ResponseEntity<>(bill, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Optional<Bill> bill = billService.getBillById(billId);
+        return bill.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -45,22 +49,14 @@ public class BillController {
 
     @PutMapping("/{billId}")
     public ResponseEntity<Bill> updateBill(@PathVariable Long billId, @RequestBody Bill updatedBill) {
-        Bill bill = billService.updateBill(billId, updatedBill);
-        if (bill != null) {
-            return new ResponseEntity<>(bill, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Optional<Bill> updated = billService.updateBill(billId, updatedBill);
+        return updated.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{billId}")
     public ResponseEntity<Void> deleteBill(@PathVariable Long billId) {
         boolean deleted = billService.deleteBill(billId);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
-

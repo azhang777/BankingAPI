@@ -58,6 +58,7 @@ public class AccountService {
             throw new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching accounts");
         }
         logger.info("All accounts retrieved successfully.");
+        // logger.info("All accounts retrieved successfully.");
 
         return accountRepository.findAll();
     }
@@ -68,6 +69,7 @@ public class AccountService {
             return new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: error fetching customers accounts");
         });
         logger.info("All accounts for Customer:" + customerId + " retrieved successfully.");
+        //  logger.info("All accounts for Customer:" + customerId + " retrieved successfully.");
 
         return accountRepository.findByCustomer_Id(customerId);
     }
@@ -75,9 +77,13 @@ public class AccountService {
     public Account getAccountById(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> {
             logger.error("Customer with ID:" + accountId + " not found.");
+
+            //  logger.error("Customer with ID:" + accountId + " not found.");
+
             return new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account");
         });
         logger.info("Account retrieved successfully.");
+        //  logger.info("Account retrieved successfully.");
 
         return account;
     }
@@ -88,6 +94,7 @@ public class AccountService {
             existingAccount.setType(updatedAccount.getType());
         }
         if (updatedAccount.getNickname() != null) {
+
             logger.info("account nickname updated");
             existingAccount.setNickname(updatedAccount.getNickname());
         }
@@ -101,14 +108,14 @@ public class AccountService {
         }
         //do we need to update the id or keep it
         //what can we update?
+
         logger.info("Account updated successfully.");
         accountRepository.save(existingAccount);
-
         return existingAccount;
     }
 
-    public void deleteAccount(Long accountId) {
-        Account accountToDelete = getAccountById(accountId);
+    public void deleteAccount(Long accountId){
+        Account accountToDelete=getAccountById(accountId);
         accountRepository.delete(accountToDelete);
         logger.info("Account deleted successfully.");
     }

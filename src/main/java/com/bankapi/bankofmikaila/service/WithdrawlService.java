@@ -1,5 +1,6 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.exception.DepositByIdNotFound;
 import com.bankapi.bankofmikaila.exception.WithdrawalByIdNotFound;
 import com.bankapi.bankofmikaila.exception.WithdrawlsByAccountNotFound;
 import com.bankapi.bankofmikaila.model.Account;
@@ -55,24 +56,33 @@ public class WithdrawlService {
         if(account.isEmpty()){
             throw  new WithdrawlsByAccountNotFound("Error creating withdrawal: Account not found");
         }
+        withdrawl.setAccount(account.get());
     return withdrawRepo.save(withdrawl);
     }
 
   public void updateWithdrawl(Withdrawl withdrawl, Long withdrawlId){
-      if(withdrawlId == null){
-          throw new WithdrawalByIdNotFound("Withdrawal ID does not exist");
+
+      var xWithdrawalOp = withdrawRepo.findById(withdrawlId);
+
+
+      if(xWithdrawalOp.isPresent()){
+        var xWithdrawal = xWithdrawalOp.get();
+          xWithdrawal.setAmount(withdrawl.getAmount());
+          xWithdrawal.setMedium(withdrawl.getMedium());
+          xWithdrawal.setDescription(withdrawl.getDescription());
+          xWithdrawal.setAccount(withdrawl.getAccount());
+          xWithdrawal.setTransaction_date(withdrawl.getTransaction_date());
+          xWithdrawal.setStatus(withdrawl.getStatus());
+          xWithdrawal.setType(withdrawl.getType());
+          withdrawRepo.save(xWithdrawal);
+
+      }else {
+          throw new WithdrawalByIdNotFound("Withdrawal Id does not exist");
       }
-    var xWithdrawal = withdrawRepo.findById(withdrawlId).get();
-    xWithdrawal.setAmount(withdrawl.getAmount());
-    xWithdrawal.setMedium(withdrawl.getMedium());
-    xWithdrawal.setDescription(withdrawl.getDescription());
-    xWithdrawal.setAccount(withdrawl.getAccount());
-    xWithdrawal.setTransaction_date(withdrawl.getTransaction_date());
-    xWithdrawal.setStatus(withdrawl.getStatus());
-    xWithdrawal.setType(withdrawl.getType());
 
 
-    withdrawRepo.save(xWithdrawal);
+
+
 
 
   }
