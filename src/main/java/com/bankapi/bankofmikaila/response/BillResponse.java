@@ -2,15 +2,22 @@ package com.bankapi.bankofmikaila.response;
 
 import com.bankapi.bankofmikaila.dto.Detail;
 import org.springframework.stereotype.Component;
+import com.bankapi.bankofmikaila.model.Account;
+import com.bankapi.bankofmikaila.model.Bill;
+import com.bankapi.bankofmikaila.repository.BillRepository;
+import com.bankapi.bankofmikaila.service.AccountService;
 import com.bankapi.bankofmikaila.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
+ /**
      *
      * @Todo - create 6 methods that all return a response entity for each method in the bill service
      *
@@ -87,10 +94,10 @@ public class BillResponse {
 
 
      public ResponseEntity<?> getBillById(Long billId) {
-         Optional<Bill> bill = billService.getBillById(billId);
+         Bill bill = billService.getBillById(billId);
          Detail detail = new Detail();
-         if (bill.isPresent()) {
-             detail.setData(bill.get());
+         if (bill != null) {
+             detail.setData(bill);
              detail.setCode(HttpStatus.OK.value());
              return new ResponseEntity<>(detail, HttpStatus.OK);
          } else {
@@ -100,7 +107,7 @@ public class BillResponse {
      }
 
      public ResponseEntity<?> getBillsByCID(Long customerId) {
-         List<Bill> bills = billService.getBillsByCID(customerId);
+         Set<Bill> bills = billService.getBillsByCID(customerId);
          Detail detail = new Detail();
          detail.setData(bills);
          detail.setCode(HttpStatus.OK.value());
@@ -109,14 +116,14 @@ public class BillResponse {
 
      public ResponseEntity<?> createBill(Bill bill, Long accountId) {
          Detail detail = new Detail();
-         Bill createdBill = billService.createBillForAccount(accountId, bill);
+         Bill createdBill = billService.createBill(bill, accountId);
          detail.setData(createdBill);
          detail.setCode(HttpStatus.OK.value());
          detail.setMessage("Created bill and added it to the account");
          return new ResponseEntity<>(detail, HttpStatus.OK);
      }
 
-     public ResponseEntity<?> updateBill(Long billId, Bill bill ){
+     public ResponseEntity<?> updateBill(){
      Detail detail = new Detail();
      detail.setMessage("Accepted bill modification");
      return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
