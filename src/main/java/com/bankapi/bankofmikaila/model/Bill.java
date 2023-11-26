@@ -4,10 +4,14 @@ import javax.persistence.*;
 
 
 
+
+
+
 /* @CLASS - Bill
  *
  * @ManyToOne
  */
+
 
 @Entity
 @Table(name= "Bill")
@@ -43,11 +47,47 @@ public class Bill {
     @Column(name = "paymentAmount")
     private Double paymentAmount;
 
+
+    /**
+     *
+     *
+     * @Todo - add two more things in here and generate getters and setters for them
+     *
+     * @JoinColumn(name = "account_id")
+     * @ManyToOne
+     * private Account account;
+     *
+     *   @JoinColumn(name = "customer_id")
+     *     @ManyToOne
+     * private Customer customer
+     */
+
+    /**
+     * @Delete
+     */
+    @Column(name = "accountId")
+    private Long accountId;
+
+//@TODO - Make this a nullary constructor.
+    public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
+        this.id = id;
+        this.status = status;
+        this.payee = payee;
+        this.nickname = nickname;
+        this.creationDate = creationDate;
+        this.paymentDate = paymentDate;
+        this.recurringDate = recurringDate;
+        this.upcomingPaymentDate = upcomingPaymentDate;
+        this.paymentAmount = paymentAmount;
+        this.accountId = accountId;
+
+
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
     public Bill() {
+
     }
 
 
