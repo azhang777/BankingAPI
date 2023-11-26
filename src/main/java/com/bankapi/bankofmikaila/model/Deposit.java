@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="Deposit")
-public class Deposit {
+public class Deposit extends Transaction{
 
     @Id
     @GeneratedValue

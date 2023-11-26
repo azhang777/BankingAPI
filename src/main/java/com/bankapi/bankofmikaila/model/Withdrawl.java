@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "withdrawals")
-public class Withdrawl {
+public class Withdrawl extends Transaction{
 
     @Id
     @GeneratedValue

@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "transactions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Transaction {
+public class Transaction {
 
     @Id
     @GeneratedValue
