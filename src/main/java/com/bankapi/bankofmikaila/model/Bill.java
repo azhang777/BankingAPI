@@ -60,7 +60,7 @@ public class Bill {
      *     @ManyToOne
      * private Customer customer
      */
-
+//added customer object and account object so we there is a bill there's a customer and account associated with bill
 
 
 

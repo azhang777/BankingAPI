@@ -21,7 +21,6 @@ import java.util.Set;
 
 @Service
 public class BillService {
-    private static long nextBillId;
 
 @Autowired
 private BillRepository billRepository;
