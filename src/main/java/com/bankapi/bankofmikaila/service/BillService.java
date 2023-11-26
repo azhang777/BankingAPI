@@ -1,51 +1,60 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Bill;
 import com.bankapi.bankofmikaila.repository.BillRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class BillService {
 
-    private static final Map<Long, Bill> billRepository = new HashMap<>();
-    private static long nextBillId;
+    @Autowired
+    private BillRepository billRepository;
 
     public List<Bill> getAllBills() {
-        return new ArrayList<>(billRepository.values());
+        return (List<Bill>) billRepository.findAll();
     }
-    public Bill getBillById(Long id) {
-        return billRepository.get(id);
+
+    public Optional<Bill> getBillById(Long id) {
+        return billRepository.findById(id);
     }
 
     public Bill createBill(Bill bill) {
-        long newBillId = nextBillId++;
-        bill.setId(newBillId);
-        billRepository.put(newBillId, bill);
-        return bill;
+
+        return billRepository.save(bill);
     }
 
-    public Bill updateBill(Long id, Bill updatedBill) {
-        if (billRepository.containsKey(id)) {
-            updatedBill.setId(id);
-            billRepository.put(id, updatedBill);
-            return updatedBill;
+    public Optional<Bill> updateBill(Long id, Bill updatedBill) {
+        Optional<Bill> existingBill = billRepository.findById(id);
+
+        if (existingBill.isPresent()) {
+            updatedBill.setId(existingBill.get().getId());
+            return Optional.of(billRepository.save(updatedBill));
         } else {
-            return null;
+            // Handle not found case, maybe throw an exception
+            return Optional.empty();
         }
     }
 
     public boolean deleteBill(Long id) {
-        if (billRepository.containsKey(id)) {
-            billRepository.remove(id);
+        if (billRepository.existsById(id)) {
+            billRepository.deleteById(id);
             return true;
         } else {
             return false;
         }
     }
-}
 
+    // Custom method to associate a bill with an account
+    public Bill createBillForAccount(Account account, Bill bill) {
+
+        bill.setAccount(account);
+
+        return billRepository.save(bill);
+    }
+
+}

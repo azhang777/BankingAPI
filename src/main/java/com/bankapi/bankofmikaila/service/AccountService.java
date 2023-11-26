@@ -69,6 +69,10 @@ public class AccountService {
         return accountRepository.findByCustomer_Id(customerId);
     }
 
+
+    public static Account getAccountById(Long accountId) {
+        return accountRepository.findById(accountId).orElseThrow(() -> new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account"));
+
     public Account getAccountById(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() ->{
           //  logger.error("Customer with ID:" + accountId + " not found.");
@@ -77,6 +81,7 @@ public class AccountService {
 
       //  logger.info("Account retrieved successfully.");
         return account;
+
     }
 
     public Account updateAccount(Long accountId, Account updatedAccount) {
@@ -109,4 +114,6 @@ public class AccountService {
         accountRepository.delete(accountToDelete);
      //   logger.info("Account deleted successfully.");
     }
+
+
 }
