@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/bills")
 public class BillController {
 
+    @Autowired
     private final BillService billService;
 
 
