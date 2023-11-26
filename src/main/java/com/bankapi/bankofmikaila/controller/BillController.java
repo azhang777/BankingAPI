@@ -16,11 +16,17 @@ public class BillController {
 
     private final BillService billService;
 
+
+    /**
+     *
+     * @Delete
+     */
     @Autowired
     public BillController(BillService billService) {
         this.billService = billService;
     }
 
+    //T
     @GetMapping
     public ResponseEntity<List<Bill>> getAllBills() {
         List<Bill> bills = billService.getAllBills();

@@ -4,30 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 
-/* @CLASS - Bill
- *
- * @Review - You need the following annotations
- * for line 40 through 48
- *
- *     @Column(name = "bill_id")
- *     @Column(name = "status")
- *     @Column(name = "payee")
- *     @Column(name = "nickname")
- *     @Column(name = "creationDate")
- *     @Column(name = "paymentDate")
- *     @Column(name = "recurringDate")
- *     @Column(name = "upcomingPaymentDate")
- *     @Column(name = "paymentAmount")
- *     @Column(name = "paymentAmount")
- *
- *
- * @Review - You need two annotations above 52
- * that looks like this
- *
- * @JoinColumn(name = "account_id")
- *
- * @ManyToOne
- */
+
 
 @Entity
 @Table(name= "Bill")
@@ -53,10 +30,28 @@ public class Bill {
     private String upcomingPaymentDate;
     @Column(name = "paymentAmount")
     private Double paymentAmount;
+
+    /**
+     *
+     *
+     * @Todo - add two more things in here and generate getters and setters for them
+     *
+     * @JoinColumn(name = "account_id")
+     * @ManyToOne
+     * private Account account;
+     *
+     *   @JoinColumn(name = "customer_id")
+     *     @ManyToOne
+     * private Customer customer
+     */
+
+    /**
+     * @Delete
+     */
     @Column(name = "accountId")
     private Long accountId;
 
-
+//@TODO - Make this a nullary constructor.
     public Bill(Long id, String status, String payee, String nickname, String creationDate, String paymentDate, Integer recurringDate, String upcomingPaymentDate, Double paymentAmount, Long accountId) {
         this.id = id;
         this.status = status;
