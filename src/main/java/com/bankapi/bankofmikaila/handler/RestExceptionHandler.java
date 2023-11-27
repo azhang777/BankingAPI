@@ -4,7 +4,14 @@ import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
+
+import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
+import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exception.InvalidTypeException;
+import com.bankapi.bankofmikaila.exception.BillByIdNotFound;
+
 import com.bankapi.bankofmikaila.exception.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +34,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+
+    @ExceptionHandler(BillByIdNotFound.class)
+    public ResponseEntity<?> handleBillByIdNotFoundException(BillByIdNotFound bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+
     @ExceptionHandler(WithdrawalByIdNotFound.class)
     public ResponseEntity<?> handleWithdrawalByIdNotFound(WithdrawalByIdNotFound withdrawalByIdNotFound){
         ErrorDetail errorDetail = new ErrorDetail();
@@ -44,6 +62,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
+
 
 
     @ExceptionHandler(CustomersNotFoundException.class)
