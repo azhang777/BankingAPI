@@ -55,8 +55,9 @@ public class WithdrawalService {
         if(account.isEmpty()){
             throw  new WithdrawalsByAccountNotFound("Error creating withdrawal: Account not found");
         }
-        //accountRepository.deductBalance(accountId,withdrawl.getAmount());
+
         withdrawl.setAccount(account.get());
+        account.get().setBalance(account.get().getBalance() - withdrawl.getAmount());
         return withdrawRepo.save(withdrawl);
     }
 
