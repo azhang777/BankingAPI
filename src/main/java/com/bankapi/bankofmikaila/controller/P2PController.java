@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("p2p")
+@RequestMapping("/p2p")
 public class P2PController {
     @Autowired
     private P2PService p2pService;
