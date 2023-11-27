@@ -4,7 +4,17 @@ import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
+
 import com.bankapi.bankofmikaila.exception.*;
+
+
+import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
+import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exception.InvalidTypeException;
+import com.bankapi.bankofmikaila.exception.BillByIdNotFound;
+
+import com.bankapi.bankofmikaila.exception.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +36,37 @@ import java.util.List;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
+
+
+    @ExceptionHandler(BillByIdNotFound.class)
+    public ResponseEntity<?> handleBillByIdNotFoundException(BillByIdNotFound bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(WithdrawalByIdNotFound.class)
+    public ResponseEntity<?> handleWithdrawalByIdNotFound(WithdrawalByIdNotFound withdrawalByIdNotFound){
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(withdrawalByIdNotFound.getMessage());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WithdrawalsByAccountNotFound.class)
+    public ResponseEntity<?> handleWithdrawalByAidNotFound(WithdrawalsByAccountNotFound withdrawlsByAccountNotFound){
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(withdrawlsByAccountNotFound.getMessage());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+
 
     @ExceptionHandler(CustomersNotFoundException.class)
     public ResponseEntity<?> handleCustomerNotFoundException(CustomersNotFoundException cnfe) {
@@ -51,6 +92,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         detail.setMessage(ite.getMessage());
 
         return new ResponseEntity<>(detail, HttpStatus.NOT_ACCEPTABLE);
+    }
+    @ExceptionHandler(BillsByAccountIdNotFoundException.class)
+    public ResponseEntity<?> handleBillsByAccountIdNotFoundException(BillsByAccountIdNotFoundException bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(BillsByCustomerIdNotFoundException.class)
+    public ResponseEntity<?> handleBillsByCustomerIdNotFoundException(BillsByCustomerIdNotFoundException bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DepositByAccountNotFound.class)
@@ -111,4 +170,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
+
+
+
 }
+
