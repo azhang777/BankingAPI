@@ -10,13 +10,13 @@ import java.util.Set;
 @Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    public Long id;
+    private Long id;
     @Column(name = "First_name")
-    public String firstName;
+    private String firstName;
     @Column(name = "Last_name")
-    public String lastName;
+    private String lastName;
 
     /**
      * @OneToMany(mappedBy=customer) - This annotation is used to define a one-to-many relationship between entities.
@@ -29,7 +29,7 @@ public class Customer {
      */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
-    public Set <Address> address;
+    private Set <Address> address;
 
     @OneToMany(mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Account> accounts;
