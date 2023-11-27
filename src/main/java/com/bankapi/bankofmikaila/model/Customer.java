@@ -31,6 +31,7 @@ public class Customer {
     @JoinColumn(name = "customer_id")
     private Set <Address> address;
 
+    //to remove
     @OneToMany(mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Account> accounts;
     public Customer(){

@@ -8,6 +8,7 @@ import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.model.Deposit;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.DepositRepository;
+import com.bankapi.bankofmikaila.repository.TransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class DepositService {
     private DepositRepository depositRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
     private final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
     protected void verifyAccount(Long accountId) throws DepositByAccountNotFound {
@@ -46,13 +49,13 @@ public class DepositService {
 
         verifyAccount(accountId);
 
-        if(depositRepository.findDepositsByAccountId(accountId).isEmpty()){
+        if(transactionRepository.getAllDepositsByAID(accountId) == null){
             logger.error("Error fetching all deposits with account ID: " + accountId);
             throw new DepositByIdNotFound("Error fetching all deposits");
         }
 
         logger.info("All deposits retrieved successfully.");
-        return depositRepository.findDepositsByAccountId(accountId);
+        return transactionRepository.getAllDepositsByAID(accountId); //small changes, using transaction repo instead of deposit repo
 
     }
 
