@@ -4,14 +4,6 @@ import javax.persistence.*;
 
 
 
-
-/* @CLASS - Bill
- *
- * @ManyToOne
- */
-
-
-
 @Entity
 @Table(name= "Bill")
 public class Bill {
