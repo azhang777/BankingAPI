@@ -8,20 +8,21 @@ import javax.persistence.*;
 @Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "account_seq")
     @Column(name = "address_id")
     @JsonIgnore
-    public Long id;
+    private Long id;
     @Column(name = "street_number")
-    public String street_number;
+    private String street_number;
     @Column(name = "street_name")
-    public String street_name;
+    private String street_name;
     @Column(name = "city")
-    public String city;
+    private String city;
     @Column(name = "state")
-    public String state;
+    private String state;
     @Column(name = "zip")
-    public String zip;
+    private String zip;
 
     /**
      * @ManyToOne - This annotation is used to define a many-to-one relationship between entities.
