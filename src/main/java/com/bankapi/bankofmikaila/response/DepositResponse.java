@@ -73,7 +73,6 @@ public class DepositResponse {
     public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
         Detail detail = new Detail();
         depositService.updateDeposit(deposit, depositId);
-        detail.setData(depositService.getDeposit(deposit.getId()));
         detail.setCode(HttpStatus.ACCEPTED.value());
         detail.setMessage("Success - deposit successfully updated for deposit #: " + deposit.getId());
         return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
