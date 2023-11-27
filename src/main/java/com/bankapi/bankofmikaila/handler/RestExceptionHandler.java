@@ -130,4 +130,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
+    @ExceptionHandler(BillsByAccountIdNotFoundException.class)
+    public ResponseEntity<?> handleBillsByAccountIdNotFoundException(BillsByAccountIdNotFoundException bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(BillsByCustomerIdNotFoundException.class)
+    public ResponseEntity<?> handleBillsByCustomerIdNotFoundException(BillsByCustomerIdNotFoundException bnfe) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(bnfe.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
 }
