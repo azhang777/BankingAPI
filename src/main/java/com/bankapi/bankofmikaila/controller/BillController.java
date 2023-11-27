@@ -14,12 +14,12 @@ import java.util.Optional;
 @RestController
 public class BillController {
 
-    @Autowired
+    @Autowired // Auto wire the BillResponse bean, presumably defined elsewhere in the application.
     private BillResponse billResponse;
 
     @GetMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?> getAllBillsByAccountId(@PathVariable Long accountId) {
-        return billResponse.getAllBills(accountId);
+        return billResponse.getAllBills(accountId); //call to the BillResponse service to handle the request to get all bills by account.
     }
 
     @GetMapping("/bills/{billId}")
