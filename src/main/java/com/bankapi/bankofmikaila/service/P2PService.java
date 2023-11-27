@@ -59,12 +59,11 @@ public class P2PService {
         deposit.setMedium(TransactionMedium.BALANCE);
         deposit.setStatus(TransactionStatus.PENDING);
         deposit.setTransactionDate(p2p.getTransactionDate());
-
         p2p.setDeposit(deposit);
 
         withdrawalService.createWithdrawl(withdrawal, payer.getId());
         depositService.createDeposit(deposit, payee.getId());
-
+        
         return transactionRepository.save(p2p);
     }
 

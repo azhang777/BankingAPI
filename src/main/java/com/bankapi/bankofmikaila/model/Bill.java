@@ -20,7 +20,6 @@ public class Bill {
     @Column(name = "bill_id")
     private Long id;
 
-
     @Column(name = "status")
     private String status;
 
