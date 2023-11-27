@@ -10,7 +10,7 @@ import java.util.Set;
 @Repository
 public interface DepositRepository extends JpaRepository<Deposit, Long> {
 
-    @Query(value = "SELECT d.* FROM deposit d JOIN account a ON d.account_id WHERE a.account_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT t.* FROM transaction t JOIN account a ON t.transaction_account_id WHERE a.account_id = ?1", nativeQuery = true)
     Set<Deposit> findDepositsByAccountId(Long accountId);
 
 }

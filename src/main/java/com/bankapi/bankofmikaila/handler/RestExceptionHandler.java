@@ -5,6 +5,9 @@ import com.bankapi.bankofmikaila.dto.ErrorDetail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
 
+import com.bankapi.bankofmikaila.exception.*;
+
+
 import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.exception.InvalidTypeException;
@@ -107,6 +110,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         detail.setMessage(bnfe.getMessage());
 
         return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DepositByAccountNotFound.class)
+    public ResponseEntity<?> handleDepositByAccountNotFound(DepositByAccountNotFound depositByAccountNotFound){
+
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(depositByAccountNotFound.getMessage());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DepositByIdNotFound.class)
+    public ResponseEntity<?> handleDepositByIdNotFound(DepositByIdNotFound depositByIdNotFound){
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(depositByIdNotFound.getMessage());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
     @Override
