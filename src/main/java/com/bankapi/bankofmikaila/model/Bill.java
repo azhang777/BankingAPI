@@ -3,12 +3,10 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 
 
-
-@Entity //pojo
+    // Primary key for the Bill entity
+@Entity
 @Table(name= "Bill")
 public class Bill {
-
-    // Primary key for the Bill entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
@@ -31,22 +29,20 @@ public class Bill {
     private String upcomingPaymentDate;
 
     private Double paymentAmount;
-    
 
     // Many-to-One relationship with Account entity
-        @ManyToOne
-        @JoinColumn(name = "account_id")
-        private Account account;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     // Many-to-One relationship with Customer entity
    @JoinColumn(name = "customer_id")
-    @ManyToOne
-    private Customer customer;
+   @ManyToOne
+   private Customer customer;
 
         public Long getId () {
-            return id;
+        return id;
         }
-
         public void setId (Long id){
             this.id = id;
         }
@@ -123,11 +119,11 @@ public class Bill {
             this.account = account;
         }
 
-    public Customer getCustomer() {
+        public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+        public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 

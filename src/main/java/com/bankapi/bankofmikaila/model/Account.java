@@ -14,23 +14,19 @@ import java.util.List;
 @Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
-    @Column(name = "type")
     private AccountType type;
-    @Column(name = "nickname")
     private String nickname;
-    @Column(name = "rewards")
     @Value("0")
     private Integer rewards;
-    @Column(name = "balance")
     private Double balance;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "customer_id")// This is the join column in the Account table
+    @JoinColumn(name = "customer_id") //This is the join column in the Account table
     private Customer customer;
-    @Column(name = "customer_id", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Long customer_id;
 
 

@@ -5,6 +5,7 @@ import com.bankapi.bankofmikaila.exception.WithdrawalsByAccountNotFound;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Withdrawal;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
+import com.bankapi.bankofmikaila.repository.TransactionRepository;
 import com.bankapi.bankofmikaila.repository.WithdrawRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class WithdrawalService {
     @Autowired
     private AccountRepository accountRepository;
 
-
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     protected void verifyAccount(Long aid) throws WithdrawalsByAccountNotFound {
         Optional<Account> account = accountRepository.findById(aid);
@@ -38,7 +40,7 @@ public class WithdrawalService {
 
     public Iterable<Withdrawal> getAllWithdrawlsByAID(Long accountId){
         verifyAccount(accountId);
-      return   withdrawRepo.findWithdrawlsByAccountId(accountId);
+        return transactionRepository.getAllWithdrawalsByAID(accountId);
     }
 
 
@@ -55,8 +57,9 @@ public class WithdrawalService {
         if(account.isEmpty()){
             throw  new WithdrawalsByAccountNotFound("Error creating withdrawal: Account not found");
         }
-        //accountRepository.deductBalance(accountId,withdrawl.getAmount());
+
         withdrawl.setAccount(account.get());
+        account.get().setBalance(account.get().getBalance() - withdrawl.getAmount());
         return withdrawRepo.save(withdrawl);
     }
 
