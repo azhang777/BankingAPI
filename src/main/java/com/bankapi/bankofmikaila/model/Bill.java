@@ -3,6 +3,7 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 
 
+    // Primary key for the Bill entity
 @Entity
 @Table(name= "Bill")
 public class Bill {
@@ -10,27 +11,31 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long id;
-    @Column(name = "status")
+
+
+    // Various properties of a bill
     private String status;
-    @Column(name = "payee")
+
     private String payee;
-    @Column(name = "nickname")
+
     private String nickname;
-    @Column(name = "creationDate")
+
     private String creationDate;
-    @Column(name = "paymentDate")
+
     private String paymentDate;
-    @Column(name = "recurringDate")
+
     private Integer recurringDate;
-    @Column(name = "upcomingPaymentDate")
+
     private String upcomingPaymentDate;
-    @Column(name = "paymentAmount")
+
     private Double paymentAmount;
 
+    // Many-to-One relationship with Account entity
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
+    // Many-to-One relationship with Customer entity
    @JoinColumn(name = "customer_id")
    @ManyToOne
    private Customer customer;
@@ -122,6 +127,7 @@ public class Bill {
         this.customer = customer;
     }
 
+    // Enum representing possible status values for a bill
     public enum BillStatus {
             PENDING,
             CANCELLED,
