@@ -127,14 +127,6 @@ public class Bill {
         this.customer = customer;
     }
 
-    // Enum representing possible status values for a bill
-    public enum BillStatus {
-            PENDING,
-            CANCELLED,
-            COMPLETED,
-            RECURRING
-        }
-
     }
 
 
