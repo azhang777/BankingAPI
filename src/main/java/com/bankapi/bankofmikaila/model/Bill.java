@@ -36,52 +36,30 @@ public class Bill {
     private Account account;
 
     // Many-to-One relationship with Customer entity
-   @JoinColumn(name = "customer_id")
-   @ManyToOne
-   private Customer customer;
+    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    private Customer customer;
 
-        public Long getId () {
-        return id;
-        }
-        public void setId (Long id){
-            this.id = id;
-        }
+        public Long getId () {return id;}
+        public void setId (Long id){this.id = id;}
 
-        public String getStatus () {
-            return status;
-        }
+        public String getStatus () {return status;}
 
-        public void setStatus (String status){
-            this.status = status;
-        }
+        public void setStatus (String status){this.status = status;}
 
-        public String getPayee () {
-            return payee;
-        }
+        public String getPayee () {return payee;}
 
-        public void setPayee (String payee){
-            this.payee = payee;
-        }
+        public void setPayee (String payee){this.payee = payee;}
 
-        public String getNickname () {
-            return nickname;
-        }
+        public String getNickname () {return nickname;}
 
-        public void setNickname (String nickname){
-            this.nickname = nickname;
-        }
+        public void setNickname (String nickname){this.nickname = nickname;}
 
-        public String getCreationDate () {
-            return creationDate;
-        }
+        public String getCreationDate () {return creationDate;}
 
-        public void setCreationDate (String creationDate){
-            this.creationDate = creationDate;
-        }
+        public void setCreationDate (String creationDate){this.creationDate = creationDate;}
 
-        public String getPaymentDate () {
-            return paymentDate;
-        }
+        public String getPaymentDate () {return paymentDate;}
 
         public void setPaymentDate (String paymentDate){
             this.paymentDate = paymentDate;
