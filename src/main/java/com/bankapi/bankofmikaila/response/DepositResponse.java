@@ -1,3 +1,6 @@
+
+
+
 package com.bankapi.bankofmikaila.response;
 
 import com.bankapi.bankofmikaila.dto.Detail;
@@ -90,3 +93,4 @@ public class DepositResponse {
 
 
 }
+
