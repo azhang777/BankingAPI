@@ -42,6 +42,10 @@ public class TransactionService {
         });
     }
 
+    public Iterable<Transaction> getAllTransactions(){
+        return transactionRepository.findAll();
+    }
+
 
     public Iterable<Deposit> getAllDeposits(Long accountId){
 
@@ -91,20 +95,23 @@ public class TransactionService {
         });
 
         Double ogDepositAmount = ogDeposit.getAmount();
+        if(updatedDeposit.getStatus() == TransactionStatus.PENDING) {
+            ogDeposit.setAmount(updatedDeposit.getAmount());
+            ogDeposit.setMedium(updatedDeposit.getMedium());
+            ogDeposit.setDescription(updatedDeposit.getDescription());
+            ogDeposit.setTransactionDate(updatedDeposit.getTransactionDate());
+            ogDeposit.setStatus(updatedDeposit.getStatus());
+            ogDeposit.setType(updatedDeposit.getType());
 
-        ogDeposit.setAmount(updatedDeposit.getAmount());
-        ogDeposit.setMedium(updatedDeposit.getMedium());
-        ogDeposit.setDescription(updatedDeposit.getDescription());
-        ogDeposit.setAccount(updatedDeposit.getAccount());
-        ogDeposit.setTransactionDate(updatedDeposit.getTransactionDate());
-        ogDeposit.setStatus(updatedDeposit.getStatus());
-        ogDeposit.setType(updatedDeposit.getType());
+            Account account = ogDeposit.getAccount();
+            account.setBalance(account.getBalance() + (ogDeposit.getAmount() - ogDepositAmount));
 
-        Account account = updatedDeposit.getAccount();
-        account.setBalance(account.getBalance() + (ogDeposit.getAmount()-ogDepositAmount));
-
-        logger.info("Deposit updated successfully.");
-        transactionRepository.save(ogDeposit);
+            logger.info("Deposit updated successfully.");
+            transactionRepository.save(ogDeposit);
+        } else {
+            logger.error("Deposit status is invalid.");
+            throw new TransactionStatusNotValidException("Deposit status is invalid.");
+        }
 
     }
 

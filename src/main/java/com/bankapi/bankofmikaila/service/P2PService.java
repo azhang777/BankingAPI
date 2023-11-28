@@ -5,7 +5,7 @@ import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
 import com.bankapi.bankofmikaila.enumeration.TransactionType;
 import com.bankapi.bankofmikaila.model.*;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
-import com.bankapi.bankofmikaila.repository.DepositRepository;
+
 import com.bankapi.bankofmikaila.repository.TransactionRepository;
 import com.bankapi.bankofmikaila.repository.WithdrawRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ public class P2PService {
     @Autowired
     private WithdrawRepo withdrawRepo;
 
-    @Autowired
-    private DepositRepository depositRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
