@@ -4,6 +4,8 @@ import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,8 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository; // Injecting CustomerRepository using @Autowired
 
+    private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
     // Handles the GET requests to retrieve all customers
     //@GetMapping
 
@@ -42,33 +46,50 @@ public class CustomerService {
      * @Tested - PASSED!
      */
     public List<Customer> getAllCustomers() {
-        return customerRepository.findAll(); // Retrieve and return all customers from the repository
-    }
+        // Log an info message before retrieving customers
+        logger.info("Getting all customers");
 
-    // Handles GET requests to retrieve a customer by ID
-    //@GetMapping("/{id}")
+        // Retrieve all customers from the repository
+        List<Customer> customers = customerRepository.findAll();
+
+        // Check if the list of customers is empty
+        if (customers.isEmpty()) {
+            // Log an error message
+            logger.error("List of customers is empty.");
+
+            // Throw a custom exception (CustomersNotFoundException) if no customers are found
+            throw new CustomersNotFoundException("ERROR: No customers found");
+        }
+
+        // Log an info message for successful retrieval
+        logger.info("All customers retrieved successfully.");
+
+        // Return the list of customers
+        return customers;
+    }
 
     /**
      * @Method getCustomerById()
      * @Tested - PASSED!
      */
     public Customer getCustomerById(@PathVariable Long id) {
-        Optional<Customer> customerOptional = customerRepository.findById(id); // Find a customer by ID
+        // Find a customer by ID
+        Optional<Customer> customerOptional = customerRepository.findById(id);
 
         if (customerOptional.isPresent()) {
-            // If the customer is found, return it with a status of 200 (OK)
+            // If the customer is found, return it
             Customer customer = customerOptional.get();
-            return customerOptional.get();
+
+            // Log an info message for successful retrieval
+            logger.info("Customer with ID " + id + " retrieved successfully.");
+
+            return customer;
         } else {
-            // If the customer is not found, return a response with a status of 404 (Not Found)
+            // If the customer is not found, log an error and throw a custom exception
+            logger.error("Customer with ID " + id + " not found");
             throw new CustomersNotFoundException("Customer with ID " + id + " not found");
         }
-
-        }
-
-    // Handles HTTP POST requests to create a new customer
-    //@PostMapping
-
+    }
 
     /**
      * @Method createCustomer()
@@ -82,11 +103,14 @@ public class CustomerService {
     public Customer createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
-            // If the provided customer data is invalid, return a bad request response
+            // If the provided customer data is invalid, log an error and return a bad request response
+            logger.error("Invalid customer data provided. Unable to create customer.");
             return null;
         }
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
+        // Log success information
+        logger.info("Customer created successfully. Customer ID: {}", savedCustomer.getId());
         //savedCustomer.setAddress(newCustomer.getAddress());
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
@@ -107,16 +131,26 @@ public class CustomerService {
             Customer existingCustomer = existingCustomerOptional.get();
 
             // Update the existing customer's details with the provided data
-            existingCustomer.setFirstName(updatedCustomer.getFirstName());
-            existingCustomer.setLastName(updatedCustomer.getLastName());
+            if (updatedCustomer.getFirstName() != null) {
+                logger.info("Customer first name updated");
+                existingCustomer.setFirstName(updatedCustomer.getFirstName());
+            }
+            if (updatedCustomer.getLastName() != null) {
+                logger.info("Customer last name updated");
+                existingCustomer.setLastName(updatedCustomer.getLastName());
+            }
 
             // Save the updated customer to the repository
             customerRepository.save(existingCustomer);
 
-            // Return a success response with a status of 200 (OK) and a message
+            // Log success information
+            logger.info("Customer updated successfully. Customer ID: {}", existingCustomer.getId());
+
+            // Return a success response with a status of 200 (OK) and the updated customer
             return existingCustomer;
         } else {
-            // If the customer with the given ID is not found, return a not found response with a status of 404
+            // If the customer with the given ID is not found, log an error and return a not found response with a status of 404
+            logger.error("Customer with ID {} not found. Unable to update.", id);
             return null;
         }
     }
@@ -131,14 +165,19 @@ public class CustomerService {
             Account account = accountOptional.get();
 
             // Return the Customer associated with the found Account.
-            return account.getCustomer();
+            Customer customer = account.getCustomer();
+
+            // Log success information
+            logger.info("Customer retrieved successfully. Customer ID: {}", customer.getId());
+
+            return customer;
         } else {
-            // If the Optional is empty (account not found), return null.
+            // If the Optional is empty (account not found), log an error and return null.
+            logger.error("Account with ID: {} not found. Unable to retrieve customer.", accountId);
             return null;
         }
     }
 }
-
 
 
 

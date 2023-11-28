@@ -11,11 +11,9 @@ import java.util.Set;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+   @Column(name = "customer_id")
     private Long id;
-    @Column(name = "First_name")
     private String firstName;
-    @Column(name = "Last_name")
     private String lastName;
 
     /**
@@ -31,9 +29,11 @@ public class Customer {
     @JoinColumn(name = "customer_id")
     private Set <Address> address;
 
+
+
+
+
     //to remove
-    @OneToMany(mappedBy = "customer", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
-    private List<Account> accounts;
     public Customer(){
 
     }
@@ -43,14 +43,6 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 
     public Long getId() {
