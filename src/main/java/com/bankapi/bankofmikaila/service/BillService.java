@@ -1,5 +1,6 @@
 package com.bankapi.bankofmikaila.service;
 
+import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.exception.BillByIdNotFound;
 import com.bankapi.bankofmikaila.exception.BillsByAccountIdNotFoundException;
 import com.bankapi.bankofmikaila.exception.BillsByCustomerIdNotFoundException;
@@ -37,18 +38,12 @@ private BillRepository billRepository;
     public List<Bill> getAllBills(Long accountId) {
         try {
             Optional<Account> account = accountRepository.findById(accountId);
-            if (account.isPresent()) {
-                Set<Bill> billsSet = billRepository.findBillsByAccountId(accountId);
-                // Convert Set to List
-                List<Bill> billsList = new ArrayList<>(billsSet);
-                return billsList;
-            } else {
-                throw new BillsByAccountIdNotFoundException("Error fetching bills");
-            }
         } catch (Exception e) {
             logger.error("Error in getAllBills method", e);
             throw e;
         }
+
+        return null;
     }
 
 
@@ -60,7 +55,7 @@ private BillRepository billRepository;
                 throw new BillByIdNotFound("error fetching bill with id " + id);
             }
             return bill.get();
-        } catch (Exception e) {
+        } catch (BillByIdNotFound e) {
             logger.error("Error in getBillById method", e);
             throw e;
         }
@@ -75,7 +70,7 @@ private BillRepository billRepository;
                 throw new BillsByCustomerIdNotFoundException("error fetching bills");
             }
             return billRepository.findBillsByCustomertId(customerId);
-        } catch (Exception e) {
+        } catch (BillsByCustomerIdNotFoundException e) {
             logger.error("Error in getBillsByCID method", e);
             throw e;
         }
@@ -91,7 +86,7 @@ private BillRepository billRepository;
             }
             bill.setAccount(account.get());
             return billRepository.save(bill);
-        } catch (Exception e) {
+        } catch (BillsByAccountIdNotFoundException e) {
             logger.error("Error in createBill method", e);
             throw e;
         }
@@ -117,26 +112,23 @@ private BillRepository billRepository;
             billRepository.save(newBill);
         } else {
             throw new BillByIdNotFound("Bill ID does not exist");
-        } } catch (Exception e) {
+        } } catch (BillByIdNotFound e) {
             logger.error("Error in updateBill method", e);
             throw e;
         }
     }
-
-
-
-
-    public void deleteBill (Long id){
+    public void deleteBill(Long id) {
         try {
             if (id == null) {
-                throw new BillsByAccountIdNotFoundException("This does not exist in bills");
+                throw new BillByIdNotFound("This does not exist in bills");
             }
             billRepository.deleteById(id);
-        } catch (Exception e) {
+        } catch (BillByIdNotFound e) {
             logger.error("Error in deleteBill method", e);
             throw e;
         }
     }
+
 
 
 
@@ -145,7 +137,7 @@ private BillRepository billRepository;
         try {
             bill.setAccount(account);
             return billRepository.save(bill);
-        } catch (Exception e) {
+        } catch (AccountsNotFoundException e) {
             logger.error("Error in createBillForAccount method", e);
             throw e;
         }
