@@ -1,4 +1,6 @@
 package com.bankapi.bankofmikaila.service;
+import com.bankapi.bankofmikaila.exception.CustomerNotFoundByIdException;
+import com.bankapi.bankofmikaila.exception.CustomerNotUpdatedException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
@@ -96,23 +98,20 @@ public class CustomerService {
      * @Tested - PASSED!
      */
 
-
-    /*
-    Needs fixing
-     */
-    public Customer createCustomer(@RequestBody Customer newCustomer) {
+    public Customer createCustomer(@RequestBody Customer newCustomer) throws CustomersNotFoundException {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
-            // If the provided customer data is invalid, log an error and return a bad request response
-            logger.error("Invalid customer data provided. Unable to create customer.");
-            return null;
+            // If the provided customer data is invalid, throw a BadRequestException
+            throw new CustomersNotFoundException("Invalid customer data provided. Unable to create customer.");
         }
+
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
+
         // Log success information
         logger.info("Customer created successfully. Customer ID: {}", savedCustomer.getId());
-        //savedCustomer.setAddress(newCustomer.getAddress());
-        // Return a success response with the new customer's ID and a status of 201 (Created)
+
+        // Return the saved customer
         return savedCustomer;
     }
 
@@ -121,7 +120,7 @@ public class CustomerService {
      * @Tested - PASSED!
      */
 
-    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) throws CustomerNotUpdatedException {
         // Find the existing customer by ID in the repository
         Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
 
@@ -146,16 +145,15 @@ public class CustomerService {
             // Log success information
             logger.info("Customer updated successfully. Customer ID: {}", existingCustomer.getId());
 
-            // Return a success response with a status of 200 (OK) and the updated customer
+            // Return the updated customer
             return existingCustomer;
         } else {
-            // If the customer with the given ID is not found, log an error and return a not found response with a status of 404
-            logger.error("Customer with ID {} not found. Unable to update.", id);
-            return null;
+            // If the customer with the given ID is not found, throw a NotFoundException
+            throw new CustomerNotUpdatedException("Customer with ID " + id + " not found. Unable to update.");
         }
     }
 
-    public Customer getCustomerByAccountId(@PathVariable Long accountId) {
+    public Customer getCustomerByAccountId(@PathVariable Long accountId) throws CustomerNotFoundByIdException {
         // Attempt to find an Account using the account ID in the repository.
         Optional<Account> accountOptional = accountRepository.findById(accountId);
 
@@ -172,13 +170,11 @@ public class CustomerService {
 
             return customer;
         } else {
-            // If the Optional is empty (account not found), log an error and return null.
-            logger.error("Account with ID: {} not found. Unable to retrieve customer.", accountId);
-            return null;
+            // If the Optional is empty (account not found), throw a NotFoundException
+            throw new CustomerNotFoundByIdException("Account with ID: " + accountId + " not found. Unable to retrieve customer.");
         }
     }
 }
-
 
 
 
