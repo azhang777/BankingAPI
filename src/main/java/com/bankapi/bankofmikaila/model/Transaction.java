@@ -4,42 +4,31 @@ import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
 import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
 import com.bankapi.bankofmikaila.enumeration.TransactionType;
 
+import javax.naming.Name;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transaction")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.STRING)
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
     private Long id;
-
-
     @Enumerated(EnumType.STRING)
     private TransactionType type;  // P2P, DEPOSIT, WITHDRAWAL
-
-    @Column(name = "transaction_date")
     private String transactionDate;
-
-
     private TransactionStatus status;
-
-
     private TransactionMedium medium;
-
-
     private Double amount;
-
-
     private String description;
-
     @ManyToOne
-    @JoinColumn(name = "transaction_account_id")
+    @JoinColumn(name = "account1_id")
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name = "account2_id")
+    private Account account2;
 
     public Transaction(){
 
@@ -64,20 +53,13 @@ public class Transaction {
         }
         // You can set default values for other fields if needed
     }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public TransactionType getType() {
@@ -126,5 +108,21 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Account getAccount2() {
+        return account2;
+    }
+
+    public void setAccount2(Account account2) {
+        this.account2 = account2;
     }
 }
