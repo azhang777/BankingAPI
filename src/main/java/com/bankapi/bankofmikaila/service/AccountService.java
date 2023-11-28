@@ -77,9 +77,7 @@ public class AccountService {
     public Account getAccountById(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> {
             logger.error("Customer with ID:" + accountId + " not found.");
-
             //  logger.error("Customer with ID:" + accountId + " not found.");
-
             return new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account");
         });
         logger.info("Account retrieved successfully.");

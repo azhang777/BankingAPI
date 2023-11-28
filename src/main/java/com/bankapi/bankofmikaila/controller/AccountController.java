@@ -42,7 +42,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/{accountId}/customer")
     //@GetMapping("/{accountId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId (@PathVariable Long accountId){
+    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId) {
         return customerResponse.getCustomerByAccountId(accountId);
     }
 }

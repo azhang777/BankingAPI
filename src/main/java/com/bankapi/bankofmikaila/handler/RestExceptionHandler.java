@@ -4,17 +4,11 @@ import com.bankapi.bankofmikaila.dto.Detail;
 import com.bankapi.bankofmikaila.dto.ErrorDetail;
 import com.bankapi.bankofmikaila.dto.ErrorDetailAlt;
 import com.bankapi.bankofmikaila.dto.ValidationError;
-
 import com.bankapi.bankofmikaila.exception.*;
-
-
 import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.exception.InvalidTypeException;
 import com.bankapi.bankofmikaila.exception.BillByIdNotFound;
-
-import com.bankapi.bankofmikaila.exception.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +43,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(WithdrawalByIdNotFound.class)
-    public ResponseEntity<?> handleWithdrawalByIdNotFound(WithdrawalByIdNotFound withdrawalByIdNotFound){
+    public ResponseEntity<?> handleWithdrawalByIdNotFound(WithdrawalByIdNotFound withdrawalByIdNotFound) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
         errorDetail.setMessage(withdrawalByIdNotFound.getMessage());
@@ -58,14 +52,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(WithdrawalsByAccountNotFound.class)
-    public ResponseEntity<?> handleWithdrawalByAidNotFound(WithdrawalsByAccountNotFound withdrawlsByAccountNotFound){
+    public ResponseEntity<?> handleWithdrawalByAidNotFound(WithdrawalsByAccountNotFound withdrawlsByAccountNotFound) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
         errorDetail.setMessage(withdrawlsByAccountNotFound.getMessage());
 
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
-
 
 
     @ExceptionHandler(CustomersNotFoundException.class)
@@ -76,6 +69,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(AccountsNotFoundException.class)
     public ResponseEntity<?> handleAccountsNotFoundException(AccountsNotFoundException anfe) {
         Detail detail = new Detail();
@@ -93,6 +87,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(detail, HttpStatus.NOT_ACCEPTABLE);
     }
+
     @ExceptionHandler(BillsByAccountIdNotFoundException.class)
     public ResponseEntity<?> handleBillsByAccountIdNotFoundException(BillsByAccountIdNotFoundException bnfe) {
         Detail detail = new Detail();
@@ -113,7 +108,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DepositByAccountNotFound.class)
-    public ResponseEntity<?> handleDepositByAccountNotFound(DepositByAccountNotFound depositByAccountNotFound){
+    public ResponseEntity<?> handleDepositByAccountNotFound(DepositByAccountNotFound depositByAccountNotFound) {
 
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
@@ -123,7 +118,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DepositByIdNotFound.class)
-    public ResponseEntity<?> handleDepositByIdNotFound(DepositByIdNotFound depositByIdNotFound){
+    public ResponseEntity<?> handleDepositByIdNotFound(DepositByIdNotFound depositByIdNotFound) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
         errorDetail.setMessage(depositByIdNotFound.getMessage());
@@ -156,7 +151,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setTimeStamp(Calendar.getInstance().getTime());
         errorDetail.setDeveloperMessage(ex.getClass().getName());
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //retrieve information from suchException to use for our body (field errors include things such as notEmpty and size (2,6)
-        for (FieldError fe: fieldErrors) {
+        for (FieldError fe : fieldErrors) {
             List<ValidationError> validationErrorsList = errorDetail.getErrors().get(fe.getField()); //check if this error is within our collection
             if (validationErrorsList == null) { //if not there, create a new key value for it in the collection. String -> List<ValidationError)
                 validationErrorsList = new ArrayList<>();
@@ -170,7 +165,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
-
 
 
 }
