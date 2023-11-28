@@ -98,7 +98,6 @@ private BillRepository billRepository;
     }
 
 
-    //
     public void updateBill(Long id, Bill updatedBill) {
         try {
         Optional<Bill> existingBill = billRepository.findById(id);
