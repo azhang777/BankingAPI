@@ -106,9 +106,6 @@ public class TransactionResponse {
         return new ResponseEntity<>(detail, HttpStatus.NO_CONTENT);
     }
 
-    private TransactionService transactionService;
-
-
 
     public ResponseEntity<?> getAllWithdrawlsResponse(Long accountId){
         Detail detail = new Detail();

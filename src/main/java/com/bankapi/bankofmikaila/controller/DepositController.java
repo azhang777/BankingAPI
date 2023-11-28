@@ -5,8 +5,9 @@ package com.bankapi.bankofmikaila.controller;
 
 
 import com.bankapi.bankofmikaila.model.Deposit;
-import com.bankapi.bankofmikaila.response.DepositResponse;
 
+
+import com.bankapi.bankofmikaila.response.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,20 +21,20 @@ import java.net.URI;
 public class DepositController {
 
     @Autowired
-    DepositResponse depositResponse;
+    TransactionResponse transactionResponse;
 
 
     @GetMapping("accounts/{accountId}/deposits")
     public ResponseEntity<?> getAllDeposits(@PathVariable Long accountId){
 
-        return depositResponse.getAllDeposits(accountId);
+        return transactionResponse.getAllDeposits(accountId);
 
     }
 
     @GetMapping("/deposits/{depositId}")
     public ResponseEntity<?> getDeposit(@PathVariable Long depositId){
 
-        return depositResponse.getDeposit(depositId);
+        return transactionResponse.getDeposit(depositId);
 
     }
 
@@ -44,21 +45,21 @@ public class DepositController {
         URI newDepositURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{depositId}").buildAndExpand(deposit.getId()).toUri();
         responseHeaders.setLocation(newDepositURI);
 
-        return depositResponse.createDeposit(deposit, accountId);
+        return transactionResponse.createDeposit(deposit, accountId);
 
     }
 
     @PutMapping("/deposits/{depositId}")
     public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposit, @PathVariable Long depositId){
 
-        return depositResponse.updateDeposit(deposit, depositId);
+        return transactionResponse.updateDeposit(deposit, depositId);
 
     }
 
     @DeleteMapping("/deposits/{depositId}")
     public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId){
 
-        return depositResponse.deleteDeposit(depositId);
+        return transactionResponse.deleteDeposit(depositId);
 
     }
 
