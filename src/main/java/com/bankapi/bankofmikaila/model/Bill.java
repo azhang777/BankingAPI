@@ -3,6 +3,7 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 
 
+    // Primary key for the Bill entity
 @Entity
 @Table(name= "Bill")
 public class Bill {
@@ -10,73 +11,55 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long id;
-    @Column(name = "status")
+
+
+    // Various properties of a bill
     private String status;
-    @Column(name = "payee")
+
     private String payee;
-    @Column(name = "nickname")
+
     private String nickname;
-    @Column(name = "creationDate")
+
     private String creationDate;
-    @Column(name = "paymentDate")
+
     private String paymentDate;
-    @Column(name = "recurringDate")
+
     private Integer recurringDate;
-    @Column(name = "upcomingPaymentDate")
+
     private String upcomingPaymentDate;
-    @Column(name = "paymentAmount")
+
     private Double paymentAmount;
 
+    // Many-to-One relationship with Account entity
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
-   @JoinColumn(name = "customer_id")
-   @ManyToOne
-   private Customer customer;
+    // Many-to-One relationship with Customer entity
+    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    private Customer customer;
 
-        public Long getId () {
-        return id;
-        }
-        public void setId (Long id){
-            this.id = id;
-        }
+        public Long getId () {return id;}
+        public void setId (Long id){this.id = id;}
 
-        public String getStatus () {
-            return status;
-        }
+        public String getStatus () {return status;}
 
-        public void setStatus (String status){
-            this.status = status;
-        }
+        public void setStatus (String status){this.status = status;}
 
-        public String getPayee () {
-            return payee;
-        }
+        public String getPayee () {return payee;}
 
-        public void setPayee (String payee){
-            this.payee = payee;
-        }
+        public void setPayee (String payee){this.payee = payee;}
 
-        public String getNickname () {
-            return nickname;
-        }
+        public String getNickname () {return nickname;}
 
-        public void setNickname (String nickname){
-            this.nickname = nickname;
-        }
+        public void setNickname (String nickname){this.nickname = nickname;}
 
-        public String getCreationDate () {
-            return creationDate;
-        }
+        public String getCreationDate () {return creationDate;}
 
-        public void setCreationDate (String creationDate){
-            this.creationDate = creationDate;
-        }
+        public void setCreationDate (String creationDate){this.creationDate = creationDate;}
 
-        public String getPaymentDate () {
-            return paymentDate;
-        }
+        public String getPaymentDate () {return paymentDate;}
 
         public void setPaymentDate (String paymentDate){
             this.paymentDate = paymentDate;
@@ -121,13 +104,6 @@ public class Bill {
         public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    public enum BillStatus {
-            PENDING,
-            CANCELLED,
-            COMPLETED,
-            RECURRING
-        }
 
     }
 

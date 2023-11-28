@@ -28,8 +28,7 @@ public class P2PService {
 
     @Autowired
     private TransactionService transactionService;
-    @Autowired
-    private WithdrawalService withdrawalService;
+
     @Autowired
     private AccountService accountService;
 
@@ -59,7 +58,7 @@ public class P2PService {
         deposit.setTransactionDate(p2p.getTransactionDate());
         p2p.setDeposit(deposit);
 
-        withdrawalService.createWithdrawl(withdrawal, payer.getId());
+        transactionService.createWithdrawl(withdrawal, payer.getId());
         transactionService.createDeposit(deposit, payee.getId());
         
         return transactionRepository.save(p2p);

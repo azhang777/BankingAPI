@@ -56,6 +56,14 @@ public class Transaction {
         this.account = account;
     }
 
+    @PrePersist
+    public void prePersist() {
+        // Set default values before persisting the entity
+        if (status == null) {
+            status = TransactionStatus.PENDING;
+        }
+        // You can set default values for other fields if needed
+    }
     public Long getId() {
         return id;
     }
