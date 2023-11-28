@@ -3,7 +3,7 @@ package com.bankapi.bankofmikaila.controller;
 
 import com.bankapi.bankofmikaila.model.Deposit;
 import com.bankapi.bankofmikaila.response.DepositResponse;
-import com.bankapi.bankofmikaila.service.DepositService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,7 @@ public class DepositController {
 
     @Autowired
     DepositResponse depositResponse;
-    @Autowired
-    DepositService depositService;
+
 
     @GetMapping("accounts/{accountId}/deposits")
     public ResponseEntity<?> getAllDeposits(@PathVariable Long accountId){

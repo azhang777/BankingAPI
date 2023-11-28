@@ -17,10 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 3522acbd56893fb310fbfc1ac61b40c3338cbe75
 
 @Component
 public class BillResponse {
