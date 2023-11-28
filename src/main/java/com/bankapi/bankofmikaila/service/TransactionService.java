@@ -64,7 +64,7 @@ public class TransactionService {
     protected void verifyWithdrawal(Long wid) throws WithdrawalByIdNotFound {
         Optional<Transaction> withdrawal = transactionRepository.findById(wid);
 
-        if (withdrawal == null) {
+        if (withdrawal.isEmpty()) {
             logger.error("Withdrawal id not found");
             throw new WithdrawalByIdNotFound("error fetching withdrawal with id: " + wid);
         }
@@ -178,21 +178,37 @@ public class TransactionService {
 
     }
 
-    public void createDeposit(Transaction deposit, Long accountId) {
+    public Transaction createDeposit(Transaction deposit, Long accountId) {
 
-        //uses lambda expression to check if account exists (by id), if not throw exception
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> {
-            logger.error("Account with ID: " + accountId + " not found.");
-            return new DepositByAccountNotFound("Error creating deposit: account not found.");
-        });
-        deposit.setStatus(TransactionStatus.PENDING);
-        deposit.setAccount(account);
-        account.setBalance(account.getBalance() + deposit.getAmount());
-        //Save deposit once null check passes
-        //accountRepository.addBalance(accountId, deposit.getAmount()); //hi tanzir - andy & jordy
-        logger.info("Deposit created successfully.");
-        transactionRepository.save(deposit);
+        var accountOptional = accountRepository.findById(accountId);
 
+        if(accountOptional.isEmpty()){
+            logger.error("Account Id not found");
+            throw  new WithdrawalsByAccountNotFound("Error creating withdrawal: Account not found");
+        }
+
+        AtomicReference<Transaction> depositRef = new AtomicReference<>(deposit);
+        depositRef.get().setAccount(accountOptional.get());
+
+        scheduler.schedule(() -> {
+            Transaction scheduledDeposit = depositRef.get();
+            if (scheduledDeposit != null && scheduledDeposit.getStatus() == TransactionStatus.PENDING) {
+                // Perform the status update and other operations within a transaction
+                transactionRepository.findById(scheduledDeposit.getId()).ifPresent(existingDeposit -> {
+                    existingDeposit.setStatus(TransactionStatus.COMPLETED);
+
+                    var account = accountRepository.findById(accountId).get();
+                    account.setBalance(accountOptional.get().getBalance() + existingDeposit.getAmount());
+                    logger.info("Account balance updated");
+                    transactionRepository.save(existingDeposit);
+                    accountRepository.save(account);
+                });
+            } else {
+                logger.info("Deposit already deleted or status is already COMPLETED");
+            }
+        }, 10, TimeUnit.SECONDS);
+
+        return transactionRepository.save(depositRef.get());
     }
 
     public void updateDeposit(Transaction updatedDeposit, Long depositId) {
@@ -203,12 +219,12 @@ public class TransactionService {
         });
 
         Double ogDepositAmount = ogDeposit.getAmount();
-        if (updatedDeposit.getStatus() == TransactionStatus.PENDING) {
+        if(ogDeposit.getStatus() == TransactionStatus.PENDING) {
             ogDeposit.setAmount(updatedDeposit.getAmount());
             ogDeposit.setMedium(updatedDeposit.getMedium());
             ogDeposit.setDescription(updatedDeposit.getDescription());
             ogDeposit.setTransactionDate(updatedDeposit.getTransactionDate());
-            ogDeposit.setStatus(updatedDeposit.getStatus());
+            ogDeposit.setStatus(TransactionStatus.PENDING);
             ogDeposit.setType(updatedDeposit.getType());
 
             Account account = ogDeposit.getAccount();

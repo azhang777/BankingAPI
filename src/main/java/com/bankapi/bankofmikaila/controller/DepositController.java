@@ -12,7 +12,6 @@ import java.net.URI;
 @RestController
 public class DepositController {
 
-
     @Autowired
     TransactionResponse transactionResponse;
 
