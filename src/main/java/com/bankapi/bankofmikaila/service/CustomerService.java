@@ -34,7 +34,7 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository; // Injecting CustomerRepository using @Autowired
 
-   private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+    private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
     // Handles the GET requests to retrieve all customers
     //@GetMapping
@@ -103,11 +103,14 @@ public class CustomerService {
     public Customer createCustomer(@RequestBody Customer newCustomer) {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
-            // If the provided customer data is invalid, return a bad request response
+            // If the provided customer data is invalid, log an error and return a bad request response
+            logger.error("Invalid customer data provided. Unable to create customer.");
             return null;
         }
         // Save the new customer to the repository
         Customer savedCustomer = customerRepository.save(newCustomer);
+        // Log success information
+        logger.info("Customer created successfully. Customer ID: {}", savedCustomer.getId());
         //savedCustomer.setAddress(newCustomer.getAddress());
         // Return a success response with the new customer's ID and a status of 201 (Created)
         return savedCustomer;
@@ -128,16 +131,26 @@ public class CustomerService {
             Customer existingCustomer = existingCustomerOptional.get();
 
             // Update the existing customer's details with the provided data
-            existingCustomer.setFirstName(updatedCustomer.getFirstName());
-            existingCustomer.setLastName(updatedCustomer.getLastName());
+            if (updatedCustomer.getFirstName() != null) {
+                logger.info("Customer first name updated");
+                existingCustomer.setFirstName(updatedCustomer.getFirstName());
+            }
+            if (updatedCustomer.getLastName() != null) {
+                logger.info("Customer last name updated");
+                existingCustomer.setLastName(updatedCustomer.getLastName());
+            }
 
             // Save the updated customer to the repository
             customerRepository.save(existingCustomer);
 
-            // Return a success response with a status of 200 (OK) and a message
+            // Log success information
+            logger.info("Customer updated successfully. Customer ID: {}", existingCustomer.getId());
+
+            // Return a success response with a status of 200 (OK) and the updated customer
             return existingCustomer;
         } else {
-            // If the customer with the given ID is not found, return a not found response with a status of 404
+            // If the customer with the given ID is not found, log an error and return a not found response with a status of 404
+            logger.error("Customer with ID {} not found. Unable to update.", id);
             return null;
         }
     }
@@ -152,15 +165,19 @@ public class CustomerService {
             Account account = accountOptional.get();
 
             // Return the Customer associated with the found Account.
-            return account.getCustomer();
+            Customer customer = account.getCustomer();
+
+            // Log success information
+            logger.info("Customer retrieved successfully. Customer ID: {}", customer.getId());
+
+            return customer;
         } else {
-            // If the Optional is empty (account not found), return null.
+            // If the Optional is empty (account not found), log an error and return null.
+            logger.error("Account with ID: {} not found. Unable to retrieve customer.", accountId);
             return null;
         }
     }
 }
-
-
 
 
 

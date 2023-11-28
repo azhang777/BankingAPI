@@ -31,6 +31,9 @@ public class Customer {
 
 
 
+
+
+    //to remove
     public Customer(){
 
     }
@@ -41,14 +44,6 @@ public class Customer {
         this.lastName = lastName;
         this.address = address;
     }
-
-//    public List<Account> getAccounts() {
-//        return accounts;
-//    }
-//
-//    public void setAccounts(List<Account> accounts) {
-//        this.accounts = accounts;
-//    }
 
     public Long getId() {
         return id;

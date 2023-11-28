@@ -1,14 +1,10 @@
 package com.bankapi.bankofmikaila.model;
 
-import com.bankapi.bankofmikaila.dto.TransactionMedium;
-import com.bankapi.bankofmikaila.dto.TransactionStatus;
-import com.bankapi.bankofmikaila.dto.TransactionType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.beans.factory.annotation.Value;
+import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
+import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
+import com.bankapi.bankofmikaila.enumeration.TransactionType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @DiscriminatorValue("DEPOSIT")

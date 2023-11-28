@@ -3,15 +3,7 @@ package com.bankapi.bankofmikaila.model;
 import javax.persistence.*;
 
 
-
-
-/* @CLASS - Bill
- *
- * @ManyToOne
- */
-
-
-
+    // Primary key for the Bill entity
 @Entity
 @Table(name= "Bill")
 public class Bill {
@@ -21,60 +13,36 @@ public class Bill {
     private Long id;
 
 
-    @Column(name = "status")
+    // Various properties of a bill
     private String status;
 
-    @Column(name = "payee")
     private String payee;
 
-    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "creationDate")
     private String creationDate;
 
-    @Column(name = "paymentDate")
     private String paymentDate;
 
-    @Column(name = "recurringDate")
     private Integer recurringDate;
 
-    @Column(name = "upcomingPaymentDate")
     private String upcomingPaymentDate;
 
-    @Column(name = "paymentAmount")
     private Double paymentAmount;
 
-
-    /**
-     *
-     *
-     * @Todo - add two more things in here and generate getters and setters for them
-     *
-     * @JoinColumn(name = "account_id")
-     * @ManyToOne
-     * private Account account;
-     *
-     *   @JoinColumn(name = "customer_id")
-     *     @ManyToOne
-     * private Customer customer
-     */
-//added customer object and account object so we there is a bill there's a customer and account associated with bill
-
-
-
-        @ManyToOne
-        @JoinColumn(name = "account_id")
-        private Account account;
-
-   @JoinColumn(name = "customer_id")
+    // Many-to-One relationship with Account entity
     @ManyToOne
-    private Customer customer;
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    // Many-to-One relationship with Customer entity
+   @JoinColumn(name = "customer_id")
+   @ManyToOne
+   private Customer customer;
 
         public Long getId () {
-            return id;
+        return id;
         }
-
         public void setId (Long id){
             this.id = id;
         }
@@ -151,20 +119,13 @@ public class Bill {
             this.account = account;
         }
 
-    public Customer getCustomer() {
+        public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+        public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    public enum BillStatus {
-            PENDING,
-            CANCELLED,
-            COMPLETED,
-            RECURRING
-        }
 
     }
 

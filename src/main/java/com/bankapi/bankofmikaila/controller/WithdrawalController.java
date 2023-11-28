@@ -3,8 +3,7 @@ package com.bankapi.bankofmikaila.controller;
 import com.bankapi.bankofmikaila.model.Withdrawal;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.WithdrawRepo;
-import com.bankapi.bankofmikaila.response.WithdrawalResponse;
-import com.bankapi.bankofmikaila.service.WithdrawalService;
+import com.bankapi.bankofmikaila.response.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class WithdrawalController {
 
     @Autowired
-    private WithdrawalResponse withdrawlResponse;
+    private TransactionResponse withdrawlResponse;
 
-    @Autowired
-    private WithdrawalService withdrawalService;
+
+
+
 
     @Autowired
     private AccountRepository accountRepository;

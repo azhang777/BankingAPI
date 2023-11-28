@@ -1,13 +1,10 @@
 package com.bankapi.bankofmikaila.model;
 
-import com.bankapi.bankofmikaila.dto.AccountType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.bankapi.bankofmikaila.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -17,20 +14,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
-    @Column(name = "type")
     private AccountType type;
-    @Column(name = "nickname")
     private String nickname;
-    @Column(name = "rewards")
     @Value("0")
     private Integer rewards;
-    @Column(name = "balance")
     private Double balance;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "customer_id")// This is the join column in the Account table
+    @JoinColumn(name = "customer_id") //This is the join column in the Account table
     private Customer customer;
-    @Column(name = "customer_id", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Long customer_id;
 
 

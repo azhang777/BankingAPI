@@ -1,8 +1,8 @@
 package com.bankapi.bankofmikaila.model;
 
-import com.bankapi.bankofmikaila.dto.TransactionMedium;
-import com.bankapi.bankofmikaila.dto.TransactionStatus;
-import com.bankapi.bankofmikaila.dto.TransactionType;
+import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
+import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
+import com.bankapi.bankofmikaila.enumeration.TransactionType;
 
 import javax.persistence.*;
 
@@ -19,22 +19,21 @@ public class Transaction {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "transaction_type",  insertable = false, updatable = false)
     private TransactionType type;  // P2P, DEPOSIT, WITHDRAWAL
 
     @Column(name = "transaction_date")
     private String transactionDate;
 
-    @Column(name = "status")
+
     private TransactionStatus status;
 
-    @Column(name = "medium")
+
     private TransactionMedium medium;
 
-    @Column(name = "amount")
+
     private Double amount;
 
-    @Column(name = "description")
+
     private String description;
 
     @ManyToOne
@@ -57,6 +56,14 @@ public class Transaction {
         this.account = account;
     }
 
+    @PrePersist
+    public void prePersist() {
+        // Set default values before persisting the entity
+        if (status == null) {
+            status = TransactionStatus.PENDING;
+        }
+        // You can set default values for other fields if needed
+    }
     public Long getId() {
         return id;
     }

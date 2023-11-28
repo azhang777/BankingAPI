@@ -14,8 +14,8 @@ public class P2PController {
     @Autowired
     private P2PService p2pService;
 
-    @PostMapping("/accounts/{accountId}")
-    public ResponseEntity<?> createP2P(@PathVariable Long accountId, @RequestBody P2P p2p) {
-        return new ResponseEntity<>(p2pService.createP2P(accountId, p2p), HttpStatus.CREATED);
+    @PostMapping("/accounts/{payerId}/{payeeId}")
+    public ResponseEntity<?> createP2P(@PathVariable Long payerId, @PathVariable Long payeeId, @RequestBody P2P p2p) {
+        return new ResponseEntity<>(p2pService.createP2P(payerId, payeeId, p2p), HttpStatus.CREATED);
     }
 }
