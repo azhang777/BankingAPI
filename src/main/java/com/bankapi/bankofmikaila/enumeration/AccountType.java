@@ -1,4 +1,4 @@
-package com.bankapi.bankofmikaila.dto;
+package com.bankapi.bankofmikaila.enumeration;
 
 public enum AccountType {
     SAVINGS("SAVINGS"),CHECKING("CHECKING"),CREDIT("CREDIT");

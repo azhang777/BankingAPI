@@ -1,13 +1,10 @@
 package com.bankapi.bankofmikaila.model;
 
-import com.bankapi.bankofmikaila.dto.AccountType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.bankapi.bankofmikaila.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity

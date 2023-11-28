@@ -8,6 +8,7 @@ import com.bankapi.bankofmikaila.model.Deposit;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.DepositRepository;
 import com.bankapi.bankofmikaila.service.DepositService;
+import com.bankapi.bankofmikaila.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.Optional;
 public class DepositResponse {
 
     @Autowired
-    DepositService depositService;
+    TransactionService transactionService;
     @Autowired
     DepositRepository depositRepository;
     @Autowired
