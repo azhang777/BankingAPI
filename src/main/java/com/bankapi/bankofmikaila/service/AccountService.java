@@ -1,6 +1,6 @@
 package com.bankapi.bankofmikaila.service;
 
-import com.bankapi.bankofmikaila.dto.AccountType;
+import com.bankapi.bankofmikaila.enumeration.AccountType;
 import com.bankapi.bankofmikaila.exception.AccountsNotFoundException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
 import com.bankapi.bankofmikaila.exception.InvalidTypeException;

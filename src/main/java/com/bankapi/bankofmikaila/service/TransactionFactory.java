@@ -1,8 +1,8 @@
 package com.bankapi.bankofmikaila.service;
 
-import com.bankapi.bankofmikaila.dto.TransactionMedium;
-import com.bankapi.bankofmikaila.dto.TransactionStatus;
-import com.bankapi.bankofmikaila.dto.TransactionType;
+import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
+import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
+import com.bankapi.bankofmikaila.enumeration.TransactionType;
 
 import com.bankapi.bankofmikaila.model.*;
 import org.springframework.stereotype.Component;

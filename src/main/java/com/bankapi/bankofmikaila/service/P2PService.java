@@ -1,8 +1,8 @@
 package com.bankapi.bankofmikaila.service;
 
-import com.bankapi.bankofmikaila.dto.TransactionMedium;
-import com.bankapi.bankofmikaila.dto.TransactionStatus;
-import com.bankapi.bankofmikaila.dto.TransactionType;
+import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
+import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
+import com.bankapi.bankofmikaila.enumeration.TransactionType;
 import com.bankapi.bankofmikaila.model.*;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
 import com.bankapi.bankofmikaila.repository.DepositRepository;
@@ -29,9 +29,9 @@ public class P2PService {
     private TransactionFactory transactionFactory;
 
     @Autowired
-    private WithdrawalService withdrawalService;
+    private TransactionService transactionService;
     @Autowired
-    private DepositService depositService;
+    private WithdrawalService withdrawalService;
     @Autowired
     private AccountService accountService;
 
@@ -62,7 +62,7 @@ public class P2PService {
         p2p.setDeposit(deposit);
 
         withdrawalService.createWithdrawl(withdrawal, payer.getId());
-        depositService.createDeposit(deposit, payee.getId());
+        transactionService.createDeposit(deposit, payee.getId());
         
         return transactionRepository.save(p2p);
     }
