@@ -19,22 +19,21 @@ public class Transaction {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "transaction_type",  insertable = false, updatable = false)
     private TransactionType type;  // P2P, DEPOSIT, WITHDRAWAL
 
     @Column(name = "transaction_date")
     private String transactionDate;
 
-    @Column(name = "status")
+
     private TransactionStatus status;
 
-    @Column(name = "medium")
+
     private TransactionMedium medium;
 
-    @Column(name = "amount")
+
     private Double amount;
 
-    @Column(name = "description")
+
     private String description;
 
     @ManyToOne
