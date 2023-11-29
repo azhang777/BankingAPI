@@ -111,16 +111,19 @@ public class TransactionService {
             } else {
                 logger.info("Withdrawal already deleted or status is already COMPLETED");
             }
-        }, 30, TimeUnit.SECONDS);
+        }, 10, TimeUnit.SECONDS);
 
         return transactionRepository.save(withdrawalRef.get());
     }
 
 
     public void deleteWithdrawal(Long id) {
-        if (id == null) {
-            throw new WithdrawalByIdNotFound("This id does not exist in withdrawals");
-        } else if (transactionRepository.findById(id).get().getStatus() == TransactionStatus.PENDING) {
+
+        verifyWithdrawal(id);
+        var transaction = transactionRepository.findById(id).get();
+        if (transaction.getStatus() == TransactionStatus.PENDING) {
+            var account = transaction.getAccount();
+            account.setBalance(account.getBalance() + transaction.getAmount());
             transactionRepository.deleteById(id);
             logger.info("transaction deleted");
 
@@ -134,11 +137,11 @@ public class TransactionService {
 
 
     public void updateWithdrawal(Transaction withdrawal, Long withdrawalId) {
-
+        verifyWithdrawal(withdrawalId);
         var xWithdrawalOp = transactionRepository.findById(withdrawalId);
 
 
-        if (xWithdrawalOp.isPresent()) {
+        if (xWithdrawalOp.isPresent() && xWithdrawalOp.get().getStatus() == TransactionStatus.PENDING) {
             var xWithdrawal = xWithdrawalOp.get();
             xWithdrawal.setAmount(withdrawal.getAmount());
             xWithdrawal.setMedium(withdrawal.getMedium());
@@ -150,7 +153,7 @@ public class TransactionService {
             transactionRepository.save(xWithdrawal);
 
         } else {
-            throw new WithdrawalByIdNotFound("Withdrawal Id does not exist");
+            throw new TransactionStatusNotValidException("Status not valid ");
         }
     }
 

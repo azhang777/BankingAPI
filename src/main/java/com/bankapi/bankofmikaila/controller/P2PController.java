@@ -15,6 +15,6 @@ public class P2PController {
 
     @PostMapping("/accounts/{payerId}/{payeeId}")
     public ResponseEntity<?> createP2P(@PathVariable Long payerId, @PathVariable Long payeeId, @RequestBody Transaction p2p) {
-        return new ResponseEntity<>(p2pResponse.createP2P(payerId, payeeId, p2p), HttpStatus.CREATED);
+        return p2pResponse.createP2P(payerId, payeeId, p2p);
     }
 }
