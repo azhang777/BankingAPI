@@ -120,7 +120,7 @@ private BillRepository billRepository;
     }
     public void deleteBill(Long id) {
         try {
-            if (id == null) {
+            if (!billRepository.existsById(id)) {
                 throw new BillByIdNotFound("This does not exist in bills");
             }
             billRepository.deleteById(id);
