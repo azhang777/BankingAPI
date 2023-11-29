@@ -139,15 +139,13 @@ public class TransactionResponse {
     }
 
 
-    public ResponseEntity<String> deleteWithdrawal(Long id) {
-        try {
-            transactionService.deleteWithdrawal(id);
-            return ResponseEntity.ok("Withdrawal deleted successfully");
-        } catch (WithdrawalByIdNotFound e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
+    public ResponseEntity<?> deleteWithdrawal(Long id) {
+       Detail detail = new Detail();
+       transactionService.deleteWithdrawal(id);
+       detail.setCode(HttpStatus.NO_CONTENT.value());
+       detail.setMessage("Withdrawal has been deleted!");
+        return new ResponseEntity<>(detail, HttpStatus.NO_CONTENT);
+
     }
 
     public ResponseEntity<?> createP2P(Long payerId, Long payeeId, Transaction p2p) {

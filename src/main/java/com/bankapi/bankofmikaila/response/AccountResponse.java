@@ -46,7 +46,6 @@ public class AccountResponse {
         accountService.deleteAccount(accountId);
         detail.setCode(HttpStatus.NO_CONTENT.value());
         detail.setMessage("Success - Account " + accountId + " deleted.");
-
         return new ResponseEntity<>(detail, HttpStatus.NO_CONTENT);
     }
 }
