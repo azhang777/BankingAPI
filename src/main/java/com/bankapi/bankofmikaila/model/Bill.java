@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
     // Primary key for the Bill entity
 @Entity
-@Table(name= "Bill")
+@Table(name= "bills")
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -32,15 +32,14 @@ public class BillService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Bill> getAllBills(Long accountId) {
-        try {
-            Optional<Account> account = accountRepository.findById(accountId);
-        } catch (Exception e) {
-            logger.error("Error in getAllBills method", e);
-            throw e;
+    public Set<Bill> getBillsForAccountId(Long accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isEmpty()) {
+            logger.error("Error in getAllBills method");
+            throw new AccountsNotFoundException("Account not found");
         }
+        return billRepository.findBillsByAccountId(accountId);
 
-        return null;
     }
 
     public Bill getBillById(Long id) {
@@ -77,6 +76,7 @@ public class BillService {
                 throw new BillsByAccountIdNotFoundException("Error creating bill: Account not found");
             }
             bill.setAccount(account.get());
+            bill.setCustomer(account.get().getCustomer());
             return billRepository.save(bill);
         } catch (BillsByAccountIdNotFoundException e) {
             logger.error("Error in createBill method", e);
@@ -110,7 +110,7 @@ public class BillService {
     }
     public void deleteBill(Long id) {
         try {
-            if (id == null) {
+            if (!billRepository.existsById(id)) {
                 throw new BillByIdNotFound("This does not exist in bills");
             }
             billRepository.deleteById(id);
