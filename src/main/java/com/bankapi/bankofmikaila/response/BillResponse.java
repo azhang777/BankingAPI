@@ -26,7 +26,7 @@ public class BillResponse {
     private BillService billService;
 
     public ResponseEntity<?> getAllBills(Long accountId) {
-        List<Bill> bills = billService.getAllBills(accountId);
+        Set<Bill> bills = billService.getBillsForAccountId(accountId);
         Detail detail = new Detail();
         detail.setData(bills);
         detail.setCode(HttpStatus.OK.value());
