@@ -70,6 +70,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CustomerNotUpdatedException.class)
+    public ResponseEntity<?> handleCustomerNotUpdatedException(CustomerNotUpdatedException cnue) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(cnue.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(CustomerNotCreatedException.class)
+    public ResponseEntity<?> handleCustomerNotCreatedException(CustomerNotCreatedException cnce) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(cnce.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CustomerNotFoundByIdException.class)
+    public ResponseEntity<?> handleCustomerNotFoundByIdException(CustomerNotFoundByIdException cnfbie) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setMessage(cnfbie.getMessage());
+        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(AccountsNotFoundException.class)
     public ResponseEntity<?> handleAccountsNotFoundException(AccountsNotFoundException anfe) {
         Detail detail = new Detail();
