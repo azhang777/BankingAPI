@@ -1,11 +1,14 @@
 package com.bankapi.bankofmikaila.model;
 
+/*
+ * @IMPORTANT - Needs @Validation for everything @NotNull / @NotEmpty besides account2
+ */
+
 import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
 import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
 import com.bankapi.bankofmikaila.enumeration.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.naming.Name;
 import javax.persistence.*;
 
