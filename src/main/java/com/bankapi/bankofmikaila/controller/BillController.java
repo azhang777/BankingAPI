@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @RestController
 public class BillController {
-
     @Autowired // Auto wire the BillResponse bean, presumably defined elsewhere in the application.
     private BillResponse billResponse;
 

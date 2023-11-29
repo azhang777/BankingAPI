@@ -2,7 +2,9 @@ package com.bankapi.bankofmikaila.model;
 
 import javax.persistence.*;
 
-
+/*
+ * @IMPORTANT - Needs @Validation for everything @NotNull / @NotEmpty
+ */
     // Primary key for the Bill entity
 @Entity
 @Table(name= "Bill")
@@ -11,7 +13,6 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long id;
-
 
     // Various properties of a bill
     private String status;

@@ -25,7 +25,11 @@ import java.util.Optional;
  *
  *
  *
- * @IMPORTANT - Exceptions not done
+ * @IMPORTANT - SHOULD NOT BE THROWING EXCEPTIONS, THROWING EXCEPTIONS MEANS FOR ANOTHER METHOD TO HANDLE IT.
+ *              THE METHODS HERE SHOULD BE THE ONES HANDLING THE EXCEPTIONS THOUGH.
+ *
+ *              it seems that the exceptions work, but they are not handled properly. Need to create a method that handles
+ *              the custom exceptions within the RestExceptionHandler. Specifically the CustomerNotFoundById and CustomerNotUpdated
  */
 
 @Service

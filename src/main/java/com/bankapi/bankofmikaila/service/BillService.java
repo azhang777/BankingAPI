@@ -25,15 +25,12 @@ import java.util.Set;
 @Service
 public class BillService {
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
-@Autowired
-private BillRepository billRepository;
-
- @Autowired
- private AccountRepository accountRepository;
- @Autowired
- private CustomerRepository customerRepository;
-
-
+    @Autowired
+    private BillRepository billRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public List<Bill> getAllBills(Long accountId) {
         try {
@@ -45,8 +42,6 @@ private BillRepository billRepository;
 
         return null;
     }
-
-
 
     public Bill getBillById(Long id) {
         try {
@@ -61,8 +56,6 @@ private BillRepository billRepository;
         }
     }
 
-
-
     public Set<Bill> getBillsByCID(Long customerId) {
         try {
             var customer = customerRepository.findById(customerId);
@@ -75,7 +68,6 @@ private BillRepository billRepository;
             throw e;
         }
     }
-
 
     public Bill createBill(Bill bill, Long accountId) {
         try {
@@ -91,7 +83,6 @@ private BillRepository billRepository;
             throw e;
         }
     }
-
 
     public void updateBill(Long id, Bill updatedBill) {
         try {
@@ -129,11 +120,8 @@ private BillRepository billRepository;
         }
     }
 
-
-
-
     // Custom method to associate a bill with an account
-    public Bill createBillForAccount (Account account, Bill bill){
+    public Bill createBillForAccount (Account account, Bill bill) {
         try {
             bill.setAccount(account);
             return billRepository.save(bill);
@@ -142,7 +130,6 @@ private BillRepository billRepository;
             throw e;
         }
     }
-
 }
 
 

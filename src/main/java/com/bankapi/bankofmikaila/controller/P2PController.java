@@ -13,8 +13,28 @@ public class P2PController {
     @Autowired
     private TransactionResponse p2pResponse;
 
+//    @GetMapping("/accounts/{payerId}/") //use request param?
+//    public ResponseEntity<?> getAllP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+//        return null;
+//    }
+//
+//    @GetMapping("/accounts/{payerId}/") //use request param?
+//    public ResponseEntity<?> getP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+//        return null;
+//    }
+
     @PostMapping("/accounts/{payerId}/{payeeId}")
     public ResponseEntity<?> createP2P(@PathVariable Long payerId, @PathVariable Long payeeId, @RequestBody Transaction p2p) {
         return new ResponseEntity<>(p2pResponse.createP2P(payerId, payeeId, p2p), HttpStatus.CREATED);
     }
+
+//    @PutMapping("/accounts/{payerId}/")
+//    public ResponseEntity<?> updateP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+//        return null;
+//    }
+//
+//    @DeleteMapping("/accounts/{payerId}/")
+//    public ResponseEntity<?> deleteP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+//        return null;
+//    }
 }

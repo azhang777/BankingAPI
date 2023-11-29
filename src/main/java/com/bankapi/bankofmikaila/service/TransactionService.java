@@ -258,9 +258,12 @@ public class TransactionService {
 
     }
 
+    //schedule this
     public Transaction createP2P(Long payerId, Long payeeId, Transaction p2p) {
         Account payer = accountService.getAccountById(payerId);
         Account payee = accountService.getAccountById(payeeId);
+        p2p.setAccount(payer);
+        p2p.setAccount2(payee);
 
         payer.setBalance(payer.getBalance() - p2p.getAmount());
         payee.setBalance(payee.getBalance() + p2p.getAmount());
@@ -270,4 +273,13 @@ public class TransactionService {
 
         return transactionRepository.save(p2p);
     }
+
+
+    /*
+    get all transactions
+    get all p2p
+    get p2p by account (payee or payer maybe)
+    udpate p2p
+    no way to delete p2p right?
+     */
 }

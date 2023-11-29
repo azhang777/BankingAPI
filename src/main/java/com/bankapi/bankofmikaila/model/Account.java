@@ -1,12 +1,15 @@
 package com.bankapi.bankofmikaila.model;
 
+
+
+/*
+ * @IMPORTANT - Needs @Validation
+ */
 import com.bankapi.bankofmikaila.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-
-
 @Entity
 @Table(name = "account")
 public class Account {

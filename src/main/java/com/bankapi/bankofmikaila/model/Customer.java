@@ -1,9 +1,10 @@
 package com.bankapi.bankofmikaila.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/*
+ * @IMPORTANT - Needs @Validation for everything @NotNull / @NotEmpty
+ */
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
