@@ -111,7 +111,7 @@ public class TransactionService {
             } else {
                 logger.info("Withdrawal already deleted or status is already COMPLETED");
             }
-        }, 10, TimeUnit.SECONDS);
+        }, 30, TimeUnit.SECONDS);
 
         return transactionRepository.save(withdrawalRef.get());
     }
@@ -162,6 +162,9 @@ public class TransactionService {
         if (transactionRepository.getAllDepositsByAID(accountId) == null) {
             logger.error("Error fetching all deposits with account ID: " + accountId);
             throw new DepositByIdNotFound("Error fetching all deposits");
+        } else if(transactionRepository.getAllDepositsByAID(accountId).size()==0){
+            logger.error("No deposits have been made yet.");
+            throw new DepositByIdNotFound("No deposits have been made yet.");
         }
 
         logger.info("All deposits retrieved successfully.");
