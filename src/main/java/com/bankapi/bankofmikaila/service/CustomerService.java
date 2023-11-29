@@ -1,4 +1,5 @@
 package com.bankapi.bankofmikaila.service;
+import com.bankapi.bankofmikaila.exception.CustomerNotCreatedException;
 import com.bankapi.bankofmikaila.exception.CustomerNotFoundByIdException;
 import com.bankapi.bankofmikaila.exception.CustomerNotUpdatedException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
@@ -102,7 +103,7 @@ public class CustomerService {
         // Validate input data
         if (newCustomer == null || newCustomer.getFirstName() == null || newCustomer.getLastName() == null) {
             // If the provided customer data is invalid, throw a BadRequestException
-            throw new CustomersNotFoundException("Invalid customer data provided. Unable to create customer.");
+            throw new CustomerNotCreatedException("Invalid customer data provided. Unable to create customer.");
         }
 
         // Save the new customer to the repository
