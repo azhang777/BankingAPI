@@ -35,16 +35,16 @@ private BillRepository billRepository;
 
 
 
-    public List<Bill> getAllBills(Long accountId) {
-        try {
-            Optional<Account> account = accountRepository.findById(accountId);
-        } catch (Exception e) {
-            logger.error("Error in getAllBills method", e);
-            throw e;
+    public Set<Bill> getBillsForAccountId(Long accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isEmpty()) {
+            logger.error("Error in getAllBills method");
+            throw new AccountsNotFoundException("Account not found");
         }
+        return billRepository.findBillsByAccountId(accountId);
 
-        return null;
     }
+
 
 
 
@@ -85,6 +85,7 @@ private BillRepository billRepository;
                 throw new BillsByAccountIdNotFoundException("Error creating bill: Account not found");
             }
             bill.setAccount(account.get());
+            bill.setCustomer(account.get().getCustomer());
             return billRepository.save(bill);
         } catch (BillsByAccountIdNotFoundException e) {
             logger.error("Error in createBill method", e);

@@ -43,7 +43,7 @@ public class BillController {
     }
 
     @GetMapping("/customers/{customerId}/bills")
-    public ResponseEntity<?> getBillByCustomerId(@PathVariable Long billId) {
-        return billResponse.getBillsByCID(billId);
+    public ResponseEntity<?> getBillsByCustomerId(@PathVariable Long customerId) {
+        return billResponse.getBillsByCID(customerId);
     }
 }
