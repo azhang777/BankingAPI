@@ -7,10 +7,14 @@ package com.bankapi.bankofmikaila.model;
 import com.bankapi.bankofmikaila.enumeration.TransactionMedium;
 import com.bankapi.bankofmikaila.enumeration.TransactionStatus;
 import com.bankapi.bankofmikaila.enumeration.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import javax.naming.Name;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transaction")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transaction {
 
     @Id
@@ -30,6 +34,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "account2_id")
+
     private Account account2;
 
     public Transaction(){
