@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 import java.util.concurrent.Executors;
@@ -28,6 +30,10 @@ public class TransactionService {
     private AccountService accountService;
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -147,26 +153,38 @@ public class TransactionService {
 
     @Transactional
     public void updateWithdrawal(Transaction withdrawal, Long withdrawalId) {
-        var xWithdrawalOp = transactionRepository.findById(withdrawalId);
-
+        Optional<Transaction> xWithdrawalOp = Optional.ofNullable(entityManager.find(Transaction.class, withdrawalId));
 
         if (xWithdrawalOp.isPresent() && xWithdrawalOp.get().getStatus() == TransactionStatus.PENDING) {
-
             var xWithdrawal = xWithdrawalOp.get();
-            xWithdrawal.setAmount(withdrawal.getAmount());
-            xWithdrawal.setMedium(withdrawal.getMedium());
-            xWithdrawal.setDescription(withdrawal.getDescription());
-            xWithdrawal.setAccount(withdrawal.getAccount());
-            xWithdrawal.setTransactionDate(withdrawal.getTransactionDate());
-            xWithdrawal.setStatus(withdrawal.getStatus());
-            xWithdrawal.setType(withdrawal.getType());
-            transactionRepository.save(xWithdrawal);
-            transactionRepository.deleteById(withdrawalId);
 
+            // Update fields with non-null values
+            if (withdrawal.getAmount() != null) {
+                xWithdrawal.setAmount(withdrawal.getAmount());
+            }
+            if (withdrawal.getMedium() != null) {
+                xWithdrawal.setMedium(withdrawal.getMedium());
+            }
+            if (withdrawal.getDescription() != null) {
+                xWithdrawal.setDescription(withdrawal.getDescription());
+            }
+            if (withdrawal.getAccount() != null) {
+                xWithdrawal.setAccount(withdrawal.getAccount());
+            }
+            if (withdrawal.getTransactionDate() != null) {
+                xWithdrawal.setTransactionDate(withdrawal.getTransactionDate());
+            }
+            if (withdrawal.getStatus() != null) {
+                xWithdrawal.setStatus(withdrawal.getStatus());
+            }
+            if (withdrawal.getType() != null) {
+                xWithdrawal.setType(withdrawal.getType());
+            }
 
+            // No need to call transactionRepository.save(xWithdrawal) as EntityManager manages the entity state.
 
         } else {
-            throw new TransactionStatusNotValidException("Status not valid ");
+            throw new TransactionStatusNotValidException("Status not valid");
         }
     }
 
