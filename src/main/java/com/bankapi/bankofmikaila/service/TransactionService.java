@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import java.util.concurrent.Executors;
@@ -73,6 +74,14 @@ public class TransactionService {
 
     public Iterable<Transaction> getAllWithdrawalsByAID(Long accountId) {
         verifyAccount(accountId);
+
+        if (transactionRepository.getAllWithdrawalsByAID(accountId) == null) {
+            logger.error("Error fetching all withdrawals with account ID: " + accountId);
+            throw new WithdrawalByIdNotFound("Error fetching all withdrawals");
+        } else if(transactionRepository.getAllWithdrawalsByAID(accountId).size()==0){
+            logger.error("No withdrawals have been made yet.");
+            throw new WithdrawalByIdNotFound("No withdrawals have been made yet.");
+        }
         return transactionRepository.getAllWithdrawalsByAID(accountId);
     }
 
@@ -122,8 +131,8 @@ public class TransactionService {
         verifyWithdrawal(id);
         var transaction = transactionRepository.findById(id).get();
         if (transaction.getStatus() == TransactionStatus.PENDING) {
-            var account = transaction.getAccount();
-            account.setBalance(account.getBalance() + transaction.getAmount());
+
+
             transactionRepository.deleteById(id);
             logger.info("transaction deleted");
 
@@ -136,12 +145,13 @@ public class TransactionService {
     }
 
 
+    @Transactional
     public void updateWithdrawal(Transaction withdrawal, Long withdrawalId) {
-        verifyWithdrawal(withdrawalId);
         var xWithdrawalOp = transactionRepository.findById(withdrawalId);
 
 
         if (xWithdrawalOp.isPresent() && xWithdrawalOp.get().getStatus() == TransactionStatus.PENDING) {
+
             var xWithdrawal = xWithdrawalOp.get();
             xWithdrawal.setAmount(withdrawal.getAmount());
             xWithdrawal.setMedium(withdrawal.getMedium());
@@ -151,6 +161,9 @@ public class TransactionService {
             xWithdrawal.setStatus(withdrawal.getStatus());
             xWithdrawal.setType(withdrawal.getType());
             transactionRepository.save(xWithdrawal);
+            transactionRepository.deleteById(withdrawalId);
+
+
 
         } else {
             throw new TransactionStatusNotValidException("Status not valid ");
