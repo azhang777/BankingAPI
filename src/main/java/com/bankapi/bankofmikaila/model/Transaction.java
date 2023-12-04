@@ -28,11 +28,11 @@ public class Transaction {
     private TransactionMedium medium;
     private Double amount;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account1_id")
     private Account account;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account2_id")
 
     private Account account2;
@@ -52,14 +52,7 @@ public class Transaction {
         this.account = account;
     }
 
-    @PrePersist
-    public void prePersist() {
-        // Set default values before persisting the entity
-        if (status == null) {
-            status = TransactionStatus.PENDING;
-        }
-        // You can set default values for other fields if needed
-    }
+
 
     public Long getId() {
         return id;
