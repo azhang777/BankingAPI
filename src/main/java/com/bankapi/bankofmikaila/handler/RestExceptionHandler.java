@@ -34,8 +34,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TransactionStatusNotValidException.class)
     public ResponseEntity<?> handleInvalidStatus(TransactionStatusNotValidException tsnv){
-       ErrorDetail detail = new ErrorDetail(HttpStatus.FORBIDDEN.value(), tsnv.getMessage());
-        return new ResponseEntity<>(detail, HttpStatus.FORBIDDEN);
+       ErrorDetail detail = new ErrorDetail(HttpStatus.CONFLICT.value(), tsnv.getMessage());
+        return new ResponseEntity<>(detail, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(BillByIdNotFound.class)

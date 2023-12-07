@@ -137,9 +137,10 @@ public class TransactionService {
         verifyWithdrawal(id);
         var transaction = transactionRepository.findById(id).get();
         if (transaction.getStatus() == TransactionStatus.PENDING) {
+            transaction.setStatus(TransactionStatus.CANCELLED);
 
+            transactionRepository.save(transaction);
 
-            transactionRepository.deleteById(id);
             logger.info("transaction deleted");
 
         } else {

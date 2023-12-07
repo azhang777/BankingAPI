@@ -29,11 +29,11 @@ public class Transaction {
     private TransactionMedium medium;
     private Double amount;
     private String description;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account1_id")
     private Account account;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account2_id")
     private Account account2;
 
