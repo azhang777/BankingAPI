@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 import java.util.concurrent.Executors;
@@ -27,6 +30,10 @@ public class TransactionService {
     private AccountService accountService;
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -73,6 +80,14 @@ public class TransactionService {
 
     public Iterable<Transaction> getAllWithdrawalsByAID(Long accountId) {
         verifyAccount(accountId);
+
+        if (transactionRepository.getAllWithdrawalsByAID(accountId) == null) {
+            logger.error("Error fetching all withdrawals with account ID: " + accountId);
+            throw new WithdrawalByIdNotFound("Error fetching all withdrawals");
+        } else if(transactionRepository.getAllWithdrawalsByAID(accountId).size()==0){
+            logger.error("No withdrawals have been made yet.");
+            throw new WithdrawalByIdNotFound("No withdrawals have been made yet.");
+        }
         return transactionRepository.getAllWithdrawalsByAID(accountId);
     }
 
@@ -111,17 +126,21 @@ public class TransactionService {
             } else {
                 logger.info("Withdrawal already deleted or status is already COMPLETED");
             }
-        }, 30, TimeUnit.SECONDS);
+        }, 10, TimeUnit.SECONDS);
 
         return transactionRepository.save(withdrawalRef.get());
     }
 
 
     public void deleteWithdrawal(Long id) {
-        if (id == null) {
-            throw new WithdrawalByIdNotFound("This id does not exist in withdrawals");
-        } else if (transactionRepository.findById(id).get().getStatus() == TransactionStatus.PENDING) {
-            transactionRepository.deleteById(id);
+
+        verifyWithdrawal(id);
+        var transaction = transactionRepository.findById(id).get();
+        if (transaction.getStatus() == TransactionStatus.PENDING) {
+            transaction.setStatus(TransactionStatus.CANCELLED);
+
+            transactionRepository.save(transaction);
+
             logger.info("transaction deleted");
 
         } else {
@@ -133,24 +152,40 @@ public class TransactionService {
     }
 
 
+    @Transactional
     public void updateWithdrawal(Transaction withdrawal, Long withdrawalId) {
+        Optional<Transaction> xWithdrawalOp = Optional.ofNullable(entityManager.find(Transaction.class, withdrawalId));
 
-        var xWithdrawalOp = transactionRepository.findById(withdrawalId);
-
-
-        if (xWithdrawalOp.isPresent()) {
+        if (xWithdrawalOp.isPresent() && xWithdrawalOp.get().getStatus() == TransactionStatus.PENDING) {
             var xWithdrawal = xWithdrawalOp.get();
-            xWithdrawal.setAmount(withdrawal.getAmount());
-            xWithdrawal.setMedium(withdrawal.getMedium());
-            xWithdrawal.setDescription(withdrawal.getDescription());
-            xWithdrawal.setAccount(withdrawal.getAccount());
-            xWithdrawal.setTransactionDate(withdrawal.getTransactionDate());
-            xWithdrawal.setStatus(withdrawal.getStatus());
-            xWithdrawal.setType(withdrawal.getType());
-            transactionRepository.save(xWithdrawal);
+
+            // Update fields with non-null values
+            if (withdrawal.getAmount() != null) {
+                xWithdrawal.setAmount(withdrawal.getAmount());
+            }
+            if (withdrawal.getMedium() != null) {
+                xWithdrawal.setMedium(withdrawal.getMedium());
+            }
+            if (withdrawal.getDescription() != null) {
+                xWithdrawal.setDescription(withdrawal.getDescription());
+            }
+            if (withdrawal.getAccount() != null) {
+                xWithdrawal.setAccount(withdrawal.getAccount());
+            }
+            if (withdrawal.getTransactionDate() != null) {
+                xWithdrawal.setTransactionDate(withdrawal.getTransactionDate());
+            }
+            if (withdrawal.getStatus() != null) {
+                xWithdrawal.setStatus(withdrawal.getStatus());
+            }
+            if (withdrawal.getType() != null) {
+                xWithdrawal.setType(withdrawal.getType());
+            }
+
+            // No need to call transactionRepository.save(xWithdrawal) as EntityManager manages the entity state.
 
         } else {
-            throw new WithdrawalByIdNotFound("Withdrawal Id does not exist");
+            throw new TransactionStatusNotValidException("Status not valid");
         }
     }
 
@@ -261,9 +296,12 @@ public class TransactionService {
 
     }
 
+    //schedule this
     public Transaction createP2P(Long payerId, Long payeeId, Transaction p2p) {
         Account payer = accountService.getAccountById(payerId);
         Account payee = accountService.getAccountById(payeeId);
+        p2p.setAccount(payer);
+        p2p.setAccount2(payee);
 
         payer.setBalance(payer.getBalance() - p2p.getAmount());
         payee.setBalance(payee.getBalance() + p2p.getAmount());
@@ -273,4 +311,13 @@ public class TransactionService {
 
         return transactionRepository.save(p2p);
     }
+
+
+    /*
+    get all transactions
+    get all p2p
+    get p2p by account (payee or payer maybe)
+    udpate p2p
+    no way to delete p2p right?
+     */
 }

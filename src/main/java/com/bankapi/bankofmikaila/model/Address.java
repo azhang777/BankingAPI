@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+/*
+ * @IMPORTANT - Needs @Validation for everything @NotNull / @NotEmpty
+ */
 @Entity
 @Table(name = "address")
 public class Address {

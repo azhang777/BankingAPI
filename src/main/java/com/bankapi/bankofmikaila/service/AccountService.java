@@ -36,13 +36,13 @@ public class AccountService {
     public Account createAccount(Long customerId, Account newAccount) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> {
             logger.error("Customer with ID:" + customerId + " not found.");
-            return new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: Customer not found");
+            return new CustomersNotFoundException("ERROR: Customer not found");
         });
         //could call getCustomerById from customer service to keep DRY, but more method calls
         //this is already checked by http not readable. I do not know how to get this exception prioritized over it.
         if (newAccount.getType() != AccountType.CHECKING && newAccount.getType() != AccountType.CREDIT && newAccount.getType() != AccountType.SAVINGS) {
             logger.error("Error with creating account.");
-            throw new InvalidTypeException("ERROR ಠ_ಠ ERROR: must be SAVINGS, CHECKING, CREDIT");
+            throw new InvalidTypeException("ERROR: must be SAVINGS, CHECKING, CREDIT");
         }
 
         newAccount.setCustomer(customer);
@@ -55,7 +55,7 @@ public class AccountService {
         List<Account> accounts = accountRepository.findAll();
         if (accounts.isEmpty()) {
             logger.error("List of accounts empty.");
-            throw new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching accounts");
+            throw new AccountsNotFoundException("ERROR: error fetching accounts");
         }
         logger.info("All accounts retrieved successfully.");
         // logger.info("All accounts retrieved successfully.");
@@ -66,7 +66,7 @@ public class AccountService {
     public Iterable<Account> getAllCustomerAccounts(Long customerId) {
         customerRepository.findById(customerId).orElseThrow(() -> {
             logger.error("Customer with ID:" + customerId + " not found.");
-            return new CustomersNotFoundException("ERROR ಠ_ಠ ERROR: error fetching customers accounts");
+            return new CustomersNotFoundException("ERROR: error fetching customers accounts");
         });
         logger.info("All accounts for Customer:" + customerId + " retrieved successfully.");
         //  logger.info("All accounts for Customer:" + customerId + " retrieved successfully.");
@@ -78,7 +78,7 @@ public class AccountService {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> {
             logger.error("Customer with ID:" + accountId + " not found.");
             //  logger.error("Customer with ID:" + accountId + " not found.");
-            return new AccountsNotFoundException("ERROR ಠ_ಠ ERROR: error fetching account");
+            return new AccountsNotFoundException("ERROR: error fetching account");
         });
         logger.info("Account retrieved successfully.");
         //  logger.info("Account retrieved successfully.");

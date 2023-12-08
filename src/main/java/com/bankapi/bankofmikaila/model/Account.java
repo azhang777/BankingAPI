@@ -1,11 +1,16 @@
 package com.bankapi.bankofmikaila.model;
 
+
+
+/*
+ * @IMPORTANT - Needs @Validation
+ */
 import com.bankapi.bankofmikaila.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "account")
@@ -18,12 +23,15 @@ public class Account {
     private String nickname;
     @Value("0")
     private Integer rewards;
+    @Value("0")
     private Double balance;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "customer_id") //This is the join column in the Account table
+    @NotNull
     private Customer customer;
     @Column(insertable = false, updatable = false)
+    @NotNull
     private Long customer_id;
 
 

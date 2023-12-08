@@ -67,6 +67,7 @@ public class BillResponse {
     public ResponseEntity<?> updateBill(Long id, Bill bill) {
         Detail detail = new Detail();
         billService.updateBill(id, bill);
+        detail.setCode(HttpStatus.ACCEPTED.value());
         detail.setMessage("Accepted bill modification");
         return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
     }
@@ -74,6 +75,7 @@ public class BillResponse {
 
     public ResponseEntity<?> deleteBill(Long billId) {
         Detail detail = new Detail();
+        billService.deleteBill(billId);
         detail.setMessage("Bill deleted successfully");
         detail.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(detail, HttpStatus.NO_CONTENT);
