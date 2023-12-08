@@ -82,13 +82,13 @@ public class CustomerResponse {
         detail.setData(customerService.updateCustomer(customerId, customer));
 
         // Set the HTTP status code in Detail to CREATED (201).
-        detail.setCode(HttpStatus.CREATED.value());
+        detail.setCode(HttpStatus.ACCEPTED.value());
 
         // Set the message in Detail to indicate the successful update of the customer account.
         detail.setMessage("Customer Account Updated " + customerId + customer);
 
         // Return a ResponseEntity containing the Detail object and HTTP status CREATED.
-        return new ResponseEntity<>(detail, HttpStatus.CREATED);
+        return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
     }
 
 

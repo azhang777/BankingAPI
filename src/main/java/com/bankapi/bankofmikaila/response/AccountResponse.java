@@ -35,10 +35,10 @@ public class AccountResponse {
     public ResponseEntity<?> updateAccount(Long accountId, Account updatedAccount) {
         Detail detail = new Detail();
         accountService.updateAccount(accountId,updatedAccount);
-        detail.setCode(HttpStatus.OK.value());
+        detail.setCode(HttpStatus.ACCEPTED.value());
         detail.setMessage("Success - Account " + accountId + " updated.");
 
-        return new ResponseEntity<>(detail, HttpStatus.OK);
+        return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId) {
