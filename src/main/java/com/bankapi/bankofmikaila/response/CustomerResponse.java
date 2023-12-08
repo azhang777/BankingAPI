@@ -62,7 +62,7 @@ public class CustomerResponse {
         detail.setCode(HttpStatus.CREATED.value());
 
         // Set the message in Detail to indicate the successful creation of the customer account.
-        detail.setMessage("Customer Account Created " + newCustomer);
+        detail.setMessage("Customer Account Created ");
 
         // Return a ResponseEntity containing the Detail object and HTTP status CREATED.
         return new ResponseEntity<>(detail, HttpStatus.CREATED);
@@ -85,7 +85,7 @@ public class CustomerResponse {
         detail.setCode(HttpStatus.ACCEPTED.value());
 
         // Set the message in Detail to indicate the successful update of the customer account.
-        detail.setMessage("Customer Account Updated " + customerId + customer);
+        detail.setMessage("Customer Account Updated ");
 
         // Return a ResponseEntity containing the Detail object and HTTP status CREATED.
         return new ResponseEntity<>(detail, HttpStatus.ACCEPTED);
@@ -123,16 +123,7 @@ public class CustomerResponse {
         // Create a new Detail object to structure the response.
         Detail detail = new Detail();
 
-
-        // Set the data field in Detail to the result of getting all customers.
-
-        // Set the HTTP status code in Detail to OK (200).
-        /*
-        lines 134 - 136 may not be needed - andy
-         */
-        List<Customer> customerSet = customerService.getAllCustomers();
-        customerSet.forEach(customer -> customer.getAddress().size());
-        detail.setData(customerSet);
+        detail.setData(customerService.getAllCustomers());
         detail.setCode(HttpStatus.OK.value());
 
         // Set the message in Detail to indicate the successful retrieval of all customers.
