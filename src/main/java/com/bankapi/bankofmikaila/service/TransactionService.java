@@ -313,11 +313,5 @@ public class TransactionService {
     }
 
 
-    /*
-    get all transactions
-    get all p2p
-    get p2p by account (payee or payer maybe)
-    udpate p2p
-    no way to delete p2p right?
-     */
+
 }

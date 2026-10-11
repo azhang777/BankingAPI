@@ -69,7 +69,6 @@ public class CustomerController {
 
     /**
      * @Method getCustomerById()
-     * I renamed parameter from customerId to id to avoid error
      * @Tested - PASSED!
      */
     @GetMapping("/{id}")
@@ -84,7 +83,6 @@ public class CustomerController {
      */
     @GetMapping("")
     public ResponseEntity<?> getAllCustomers() {
-        //returning a response entity witthin another response entity. just return the customerReponse.getAllCustomers
         return customerResponse.getAllCustomers();
     }
 }

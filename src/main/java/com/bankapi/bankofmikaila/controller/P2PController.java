@@ -15,12 +15,12 @@ public class P2PController {
 
 //    @GetMapping("/accounts/{payerId}/") //use request param?
 //    public ResponseEntity<?> getAllP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
-//        return null;
+//        return p2pResponse.getAllP2P(payerId, payeeId);
 //    }
-//
+
 //    @GetMapping("/accounts/{payerId}/") //use request param?
 //    public ResponseEntity<?> getP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
-//        return null;
+//        return p2pResponse.getP2P(payerId, payeeId);
 //    }
 
     @PostMapping("/accounts/{payerId}/{payeeId}")
@@ -28,13 +28,13 @@ public class P2PController {
         return p2pResponse.createP2P(payerId, payeeId, p2p);
     }
 
-//    @PutMapping("/accounts/{payerId}/")
-//    public ResponseEntity<?> updateP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
-//        return null;
-//    }
-//
-//    @DeleteMapping("/accounts/{payerId}/")
-//    public ResponseEntity<?> deleteP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
-//        return null;
-//    }
+   @PutMapping("/accounts/{payerId}/")
+   public ResponseEntity<?> updateP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+       return null;
+   }
+
+   @DeleteMapping("/accounts/{payerId}/")
+   public ResponseEntity<?> deleteP2P(@PathVariable Long payerId, @PathVariable Long payeeId) {
+       return null;
+   }
 }
