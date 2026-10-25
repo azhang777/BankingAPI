@@ -1,5 +1,4 @@
 HELP.md
-.gitignore
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -32,6 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Python ###
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
 
 ### Resources ###
 
