@@ -1,4 +1,4 @@
-package com.bankapi.bankofmikaila.config;
+package com.bankapi.bankofmikaila.service;
 
 import com.bankapi.bankofmikaila.model.AppUser;
 import com.bankapi.bankofmikaila.repository.UserRepository;

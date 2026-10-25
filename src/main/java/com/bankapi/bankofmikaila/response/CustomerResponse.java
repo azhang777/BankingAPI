@@ -140,4 +140,12 @@ public class CustomerResponse {
         detail.setMessage("Success");
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
+
+    public ResponseEntity<?> deleteCustomer(Long customerId) {
+        Detail detail = new Detail();
+        customerService.deleteCustomerById(customerId);
+        detail.setCode(HttpStatus.OK.value());
+        detail.setMessage("Customer with ID " + customerId + " deleted successfully.");
+        return new ResponseEntity<>(detail, HttpStatus.OK);
+    }
 }

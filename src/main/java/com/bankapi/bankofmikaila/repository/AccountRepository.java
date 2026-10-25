@@ -11,6 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Iterable<Account> findByCustomer_Id(Long customerId);
-
+    boolean existsByCustomerId(Long customerId);
 
 }

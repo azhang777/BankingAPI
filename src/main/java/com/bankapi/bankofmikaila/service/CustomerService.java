@@ -3,6 +3,7 @@ import com.bankapi.bankofmikaila.exception.CustomerNotCreatedException;
 import com.bankapi.bankofmikaila.exception.CustomerNotFoundByIdException;
 import com.bankapi.bankofmikaila.exception.CustomerNotUpdatedException;
 import com.bankapi.bankofmikaila.exception.CustomersNotFoundException;
+import com.bankapi.bankofmikaila.exception.CustomerHasAccountException;
 import com.bankapi.bankofmikaila.model.Account;
 import com.bankapi.bankofmikaila.model.Customer;
 import com.bankapi.bankofmikaila.repository.AccountRepository;
@@ -178,6 +179,18 @@ public class CustomerService {
             // If the Optional is empty (account not found), throw a NotFoundException
             throw new CustomerNotFoundByIdException("Account with ID: " + accountId + " not found. Unable to retrieve customer.");
         }
+    }
+
+    public void deleteCustomerById(@PathVariable Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> {
+            logger.error("Customer with ID:" + id + " not found.");
+            return new CustomersNotFoundException("ERROR: error deleting customer");
+        });
+        if (accountRepository.existsByCustomerId(id)) {
+            logger.error("Customer with ID:" + id + " has associated accounts. Cannot delete.");
+            throw new CustomerHasAccountException("ERROR: cannot delete customer with associated accounts");
+        }
+        customerRepository.delete(customer);
     }
 }
 

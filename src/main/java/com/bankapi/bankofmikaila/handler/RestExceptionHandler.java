@@ -156,6 +156,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CustomerHasAccountException.class)
+    public ResponseEntity<?> handleCustomerHasAccountException(CustomerHasAccountException chae) {
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.CONFLICT.value());
+        detail.setMessage(chae.getMessage());
+
+        return new ResponseEntity<>(detail, HttpStatus.CONFLICT);
+    }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorDetailAlt errorDetail = new ErrorDetailAlt();

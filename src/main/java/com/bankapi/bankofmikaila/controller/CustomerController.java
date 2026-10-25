@@ -85,6 +85,11 @@ public class CustomerController {
     public ResponseEntity<?> getAllCustomers() {
         return customerResponse.getAllCustomers();
     }
+
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+        return customerResponse.deleteCustomer(id);
+    }
 }
 
 
