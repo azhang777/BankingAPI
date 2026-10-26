@@ -66,3 +66,19 @@ def make_customer(api):
         assert r.status_code == 201, r.text
         return r.json()["data"]["id"]
     return _make
+
+@pytest.fixture
+def make_account(api, make_customer):
+    """Returns a function that creates an account (as admin) and gives back (customer_id, account_id)."""
+    def _make(account_type="CHECKING", balance=1000.0):
+        cid = make_customer()
+        payload = {
+            "type": account_type,
+            "nickname": f"acct-{uuid.uuid4().hex[:6]}",
+            "rewards": 0,
+            "balance": balance,
+        }
+        r = api.post(Customers.accounts(cid), json=payload)
+        assert r.status_code == 201, r.text
+        return cid, r.json()["data"]["id"]
+    return _make
