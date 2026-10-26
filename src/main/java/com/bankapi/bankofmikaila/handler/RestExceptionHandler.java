@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,6 +31,16 @@ import java.util.List;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
+
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex){
+        Detail detail = new Detail();
+        detail.setCode(HttpStatus.FORBIDDEN.value());
+        detail.setMessage("Access Denied");
+        return new ResponseEntity<>(detail, HttpStatus.FORBIDDEN);
+    }
+
 
 
     @ExceptionHandler(TransactionStatusNotValidException.class)
@@ -87,10 +98,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CustomerNotCreatedException.class)
     public ResponseEntity<?> handleCustomerNotCreatedException(CustomerNotCreatedException cnce) {
         Detail detail = new Detail();
-        detail.setCode(HttpStatus.NOT_FOUND.value());
+        detail.setCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
         detail.setMessage(cnce.getMessage());
 
-        return new ResponseEntity<>(detail, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(detail, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(CustomerNotFoundByIdException.class)
@@ -164,6 +175,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(detail, HttpStatus.CONFLICT);
     }
+
+
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

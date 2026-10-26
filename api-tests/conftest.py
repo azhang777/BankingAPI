@@ -52,3 +52,17 @@ def customer_id(api):
     response = api.post(Customers.CREATE_CUSTOMER, json=payload)
     assert response.status_code == 201
     return response.json()["data"]["id"]
+
+@pytest.fixture
+def make_customer(api):
+    """Returns a function that creates a fresh customer (as admin) and gives back its ID."""
+    def _make():
+        payload = {
+            "firstName": f"Test{uuid.uuid4().hex[:6]}",
+            "lastName": "User",
+            "address": [],
+        }
+        r = api.post(Customers.CREATE_CUSTOMER, json=payload)
+        assert r.status_code == 201, r.text
+        return r.json()["data"]["id"]
+    return _make

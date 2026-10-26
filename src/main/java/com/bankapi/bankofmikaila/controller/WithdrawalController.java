@@ -20,6 +20,7 @@ public class WithdrawalController {
 
         return withdrawalResponse.getAllWithdrawalsResponse(accountId);
     }
+
     @GetMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) {
 

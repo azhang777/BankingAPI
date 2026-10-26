@@ -8,6 +8,7 @@ import com.bankapi.bankofmikaila.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class CustomerController {
      * @Tested - NOT YET TESTED
      */
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{customerId}/accounts")
     public ResponseEntity<?> getAllCustomerAccounts(@PathVariable Long customerId) {
         return customerResponse.getAllCustomerAccounts(customerId);
@@ -71,6 +73,7 @@ public class CustomerController {
      * @Method getCustomerById()
      * @Tested - PASSED!
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long id) {
         return customerResponse.getCustomerById(id);
@@ -81,11 +84,13 @@ public class CustomerController {
      * I removed unnecessary parameters
      * @Tested - PASSED!
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public ResponseEntity<?> getAllCustomers() {
         return customerResponse.getAllCustomers();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping ("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         return customerResponse.deleteCustomer(id);
